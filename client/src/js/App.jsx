@@ -1,12 +1,11 @@
-import React from "react";
-import image from '../../public/favicon.svg'
+import React from 'react'
+import Form from './components/Form/Form'
 
 const App = () => {
-
    return (
       <>
-      <h1 className="text-blue-400 text-lg">Hello World</h1>
-      <img src={image}/>
+         <h1 className='text-blue-400 text-lg'>MongoDB Express Trial 1</h1>
+         <Form />
       </>
    )
 }
