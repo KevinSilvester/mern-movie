@@ -5,16 +5,18 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "nodemon index.js localhost 8080"
+    "start": "nodemon server.js localhost 4000"
   },
   "keywords": [],
   "author": "Kevin Silvester",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.24.0",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "got": "^11.8.3",
     "mongoose": "^6.0.12"
   },
   "devDependencies": {

@@ -4,11 +4,12 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
 
-import postRoutes from './routes/posts.js'
+import postRoutes from './routes/posts-route.js'
+import externalRoute from './routes/external-route.js'
 
 dotenv.config({ path: './.env.local' })
 
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 4000
 const CORS_OPT = {
    origin: process.env.CLIENT_DEV
 }
@@ -27,6 +28,8 @@ mongoose
 const app = express()
 
 app.use('/posts', postRoutes)
+
+app.use('/external', externalRoute)
 
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
