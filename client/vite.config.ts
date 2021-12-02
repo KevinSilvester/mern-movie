@@ -5,7 +5,7 @@ import path from 'path'
 export default defineConfig({
    plugins: [react()],
    build: {
-      target: 'es2015',
+      target: 'es6',
       sourcemap: 'hidden',
       manifest: true
    },
@@ -14,7 +14,7 @@ export default defineConfig({
          '@': path.resolve(__dirname, './src'),
          '@api': path.resolve(__dirname, './src/api'),
          '@assets': path.resolve(__dirname, './src/assets'),
-         '@components': path.resolve(__dirname, './src/components'),
+         '@comp': path.resolve(__dirname, './src/components'),
          '@css': path.resolve(__dirname, './src/css'),
          '@pages': path.resolve(__dirname, './src/pages'),
          '@routes': path.resolve(__dirname, './src/routes'),
