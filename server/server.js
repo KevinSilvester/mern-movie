@@ -4,33 +4,28 @@ import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
 import cors from 'cors'
 
-import postRoutes from './routes/posts-route.js'
+import movieRoute from './routes/movie-route.js'
 import externalRoute from './routes/external-route.js'
 
 dotenv.config({ path: './.env.local' })
 
 const PORT = process.env.PORT || 4000
-const CORS_OPT = {
-   origin: process.env.CLIENT_DEV
-}
-
-mongoose
-   .connect(process.env.MDB_CONNECTION, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-   })
-   .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
-   .catch(err => console.log('Error: ' + err))
-
-// deprecated
-// mongoose.set('useFindAndModify', false)
-
+const CORS_OPT = { origin: process.env.CLIENT_DEV }
 const app = express()
 
-app.use('/posts', postRoutes)
-
-app.use('/external', externalRoute)
-
-app.use(bodyParser.json({ limit: '30mb', extended: true }))
-app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
-app.use(cors(CORS_OPT))
+/**
+ * useNewUrlParser, useUnifiedTopology, useFindAndModify, and useCreateIndex are no longer supported options.
+ * Mongoose 6 always behaves as if useNewUrlParser, useUnifiedTopology, and useCreateIndex are true,
+ * and useFindAndModify is false. Please remove these options from your code.
+ * 
+ * source: https://mongoosejs.com/docs/migrating_to_6.html#no-more-deprecation-warning-options
+ */
+mongoose
+   .connect(process.env.MDB_CONNECTION)
+   .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
+   .catch(err => console.log('Error: ' + err))
+   
+   app.use(bodyParser.json({ limit: '30mb', extended: true }))
+   app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
+   app.use(cors(CORS_OPT))
+   app.use('/movies', movieRoute)

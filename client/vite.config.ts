@@ -1,11 +1,16 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import legacy from '@vitejs/plugin-legacy'
 import path from 'path'
 
 export default defineConfig({
-   plugins: [react()],
+   plugins: [
+      react(),
+      legacy({
+         polyfills: true,
+      })
+   ],
    build: {
-      target: 'es6',
       sourcemap: 'hidden',
       manifest: true
    },
@@ -16,6 +21,7 @@ export default defineConfig({
          '@assets': path.resolve(__dirname, './src/assets'),
          '@comp': path.resolve(__dirname, './src/components'),
          '@css': path.resolve(__dirname, './src/css'),
+         '@interface': path.resolve(__dirname, './src/interface'),
          '@pages': path.resolve(__dirname, './src/pages'),
          '@routes': path.resolve(__dirname, './src/routes'),
          '~': path.resolve(__dirname, './public'),

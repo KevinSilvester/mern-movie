@@ -1,26 +1,39 @@
 {
-  "name": "client",
-  "version": "0.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build --emptyOutDir",
-    "serve": "vite preview"
-  },
-  "dependencies": {
-    "axios": "^0.24.0",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0"
-  },
-  "devDependencies": {
-    "@rollup/plugin-alias": "^3.1.8",
-    "@types/react": "^17.0.37",
-    "@types/react-dom": "^17.0.11",
-    "@vitejs/plugin-react": "^1.0.0",
-    "autoprefixer": "^10.4.0",
-    "cssnano": "^5.0.12",
-    "postcss": "^8.4.4",
-    "tailwindcss": "^2.2.19",
-    "typescript": "^4.5.2",
-    "vite": "^2.6.14"
-  }
+   "name": "client",
+   "version": "0.0.0",
+   "browserslist": {
+      "production": [
+         "last 2 version",
+         "> 1%",
+         "dead"
+      ],
+      "development": [
+         "last 1 version",
+         "not dead"
+      ]
+   },
+   "scripts": {
+      "dev": "vite",
+      "build": "tsc && vite build --emptyOutDir",
+      "serve": "vite preview"
+   },
+   "dependencies": {
+      "axios": "^0.24.0",
+      "postcss": "^8.4.4",
+      "react": "^17.0.0",
+      "react-dom": "^17.0.0",
+      "react-router-dom": "^6.0.2",
+      "zustand": "^3.6.6"
+   },
+   "devDependencies": {
+      "@types/react": "^17.0.37",
+      "@types/react-dom": "^17.0.11",
+      "@vitejs/plugin-legacy": "^1.6.3",
+      "@vitejs/plugin-react": "^1.0.0",
+      "autoprefixer": "^10.4.0",
+      "cssnano": "^5.0.12",
+      "tailwindcss": "^2.2.19",
+      "typescript": "^4.5.2",
+      "vite": "^2.6.14"
+   }
 }

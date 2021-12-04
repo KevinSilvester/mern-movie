@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
-const postSchema = mongoose.Schema({
-   id: Number,
+const MOVIE_SCHEMA = mongoose.Schema({
+   // _id: String,
    title: String,
    year: String,
    runtime: String,
@@ -10,8 +10,8 @@ const postSchema = mongoose.Schema({
    actors: String,
    plot: String,
    posterUrl: String
-})
+}, { collection: 'movies' })
 
-const PostMessage = mongoose.model('PostMessage', postSchema)
+const MovieModel = mongoose.model('MovieModel', MOVIE_SCHEMA)
 
-export default PostMessage
+export default MovieModel
