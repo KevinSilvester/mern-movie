@@ -11,9 +11,7 @@ const App = () => {
    useEffect(() => {
       axios
          .get('https://raw.githubusercontent.com/erik-sytnyk/movies-list/master/db.json')
-         .then(res =>
-            res.data.movies.map(({ id, ...rest }: { id: number; rest: Movie }) => rest)
-         )
+         .then(res => res.data.movies.map(({ id, ...rest }: { id: number; rest: Movie }) => rest))
          .then(data => {
             axios.post('http://localhost:4000/movies/all-movies', data).then(res => {
                if (res.data) {

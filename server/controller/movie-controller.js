@@ -21,11 +21,21 @@ export const createMovie = async (req, res) => {
 }
 
 export const addAllMovies = async (req, res) => {
+   const body = req.body
    try {
-      const allMovies = await MovieModel.insertMany(req.body)
-      console.log(req.body)
+      await MovieModel.deleteMany({})
+      const allMovies = await MovieModel.insertMany(body)
       res.status(201).json(allMovies)
    } catch (err) {
       res.status(409).json({ message: err.message })
+   }
+}
+
+export const getAllMovies = async (req, res) => {
+   try {
+      const allMovies = await MovieModel.find({})
+      res.status(200).json(allMovies)
+   } catch (err) {
+      res.status(404).json({ message: err.message })
    }
 }

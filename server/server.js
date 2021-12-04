@@ -5,7 +5,6 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 import movieRoute from './routes/movie-route.js'
-import externalRoute from './routes/external-route.js'
 
 dotenv.config({ path: './.env.local' })
 
