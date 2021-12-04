@@ -17,6 +17,7 @@
          "@interface/*": ["interface/*"],
          "@pages/*": ["pages/*"],
          "@routes/*": ["routes/*"],
+         "@store/*": ["store/*"]
       },
       "allowJs": false,
       "skipLibCheck": false,
