@@ -27,4 +27,4 @@ mongoose
    app.use(bodyParser.json({ limit: '30mb', extended: true }))
    app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
    app.use(cors(CORS_OPT))
-   app.use('/movies', movieRoute)
+   app.use('/api/movies', movieRoute)

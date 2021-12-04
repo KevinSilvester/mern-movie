@@ -1,5 +1,5 @@
 export interface Movie {
-   _id?: string | number
+   _id?: string
    actors: string
    director: string
    genres: string[]
@@ -8,4 +8,5 @@ export interface Movie {
    title: string
    runtime: string
    year: string
+   _v: number
 }

@@ -7,24 +7,18 @@ import useMovies from './store/useMovie'
 
 const App = () => {
    const { movies, addAllMovies } = useMovies(state => state)
+   const [error, setError] = useState<string>('')
 
    useEffect(() => {
       axios
          .get('https://raw.githubusercontent.com/erik-sytnyk/movies-list/master/db.json')
          .then(res => res.data.movies.map(({ id, ...rest }: { id: number; rest: Movie }) => rest))
          .then(data => {
-            axios.post('http://localhost:4000/movies/all-movies', data).then(res => {
-               if (res.data) {
-                  if (res.data.errorMessage) {
-                     console.log(res.data.errorMessage)
-                  } else {
-                     console.log('Record added')
-                  }
-               } else {
-                  console.log('Record not added')
-               }
-            })
+            axios.post('http://localhost:4000/api/movies/all-movies', data)
+            .then(res => res.data.error ? console.log('Post Failed') : console.log('Post Success'))
+            .catch(err => setError(err))
          })
+         .catch(err => setError(err))
    }, [])
 
    return (

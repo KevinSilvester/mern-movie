@@ -3,9 +3,10 @@ import { getMovie, createMovie, addAllMovies, getAllMovies } from '../controller
 
 const router = express.Router()
 
-router.get('/', getMovie)
-router.post('/', createMovie)
 router.post('/all-movies', addAllMovies)
 router.get('/all-movies', getAllMovies)
+router.get('/:id', getMovie)
+router.post('/', createMovie)
+
 
 export default router
