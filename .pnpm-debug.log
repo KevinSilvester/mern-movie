@@ -1,0 +1,14 @@
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 error pnpm": {
+    "code": "ERR_PNPM_NO_IMPORTER_MANIFEST_FOUND",
+    "err": {
+      "name": "pnpm",
+      "message": "No package.json (or package.yaml, or package.json5) was found in \"/home/wsl1/year-2/semester-1/fullstack/mern-1\".",
+      "code": "ERR_PNPM_NO_IMPORTER_MANIFEST_FOUND",
+      "stack": "pnpm: No package.json (or package.yaml, or package.json5) was found in \"/home/wsl1/year-2/semester-1/fullstack/mern-1\".\n    at readProjectManifest (/home/wsl1/.nvm/versions/node/v16.4.2/pnpm-global/5/node_modules/.pnpm/pnpm@6.23.6/node_modules/pnpm/dist/pnpm.cjs:19775:13)\n    at async Object.readProjectManifestOnly (/home/wsl1/.nvm/versions/node/v16.4.2/pnpm-global/5/node_modules/.pnpm/pnpm@6.23.6/node_modules/pnpm/dist/pnpm.cjs:19779:28)\n    at async readProjectManifestOnly (/home/wsl1/.nvm/versions/node/v16.4.2/pnpm-global/5/node_modules/.pnpm/pnpm@6.23.6/node_modules/pnpm/dist/pnpm.cjs:43289:24)\n    at async Object.handler (/home/wsl1/.nvm/versions/node/v16.4.2/pnpm-global/5/node_modules/.pnpm/pnpm@6.23.6/node_modules/pnpm/dist/pnpm.cjs:178475:24)\n    at async /home/wsl1/.nvm/versions/node/v16.4.2/pnpm-global/5/node_modules/.pnpm/pnpm@6.23.6/node_modules/pnpm/dist/pnpm.cjs:182688:21\n    at async run (/home/wsl1/.nvm/versions/node/v16.4.2/pnpm-global/5/node_modules/.pnpm/pnpm@6.23.6/node_modules/pnpm/dist/pnpm.cjs:182662:34)\n    at async runPnpm (/home/wsl1/.nvm/versions/node/v16.4.2/pnpm-global/5/node_modules/.pnpm/pnpm@6.23.6/node_modules/pnpm/dist/pnpm.cjs:182874:5)\n    at async /home/wsl1/.nvm/versions/node/v16.4.2/pnpm-global/5/node_modules/.pnpm/pnpm@6.23.6/node_modules/pnpm/dist/pnpm.cjs:182866:7"
+    }
+  }
+}

@@ -5,6 +5,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 import movieRoute from './routes/movie-route.js'
+// import userRoute from './routes/user-route.js'
 
 dotenv.config({ path: './.env.local' })
 
@@ -28,3 +29,4 @@ mongoose
    app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
    app.use(cors(CORS_OPT))
    app.use('/api/movies', movieRoute)
+   // app.use('/api/users', userRoute)

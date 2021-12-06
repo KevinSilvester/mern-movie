@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
-const MOVIE_SCHEMA = mongoose.Schema({
-   // _id: String,
+const MOVIE_SCHEMA = new mongoose.Schema({
+   _id: Number,
    title: String,
    year: String,
    runtime: String,

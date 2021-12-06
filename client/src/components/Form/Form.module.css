@@ -1,0 +1,3 @@
+.form {
+   @apply m-2 h-[30rem] max-h-[30rem] w-1/3 rounded-md grid place-items-center shadow-lg bg-blue-300;
+}

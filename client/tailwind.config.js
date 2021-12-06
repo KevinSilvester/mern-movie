@@ -6,7 +6,12 @@ module.exports = {
    purge: ['./src/**/*.{html,js,jsx,ts,tsx}'],
    darkMode: false, // or 'media' or 'class'
    theme: {
-      extend: {}
+      extend: {
+         colors: {
+            ['dark-grey-1']: '#29292e',
+            ['dark-grey-2']: '#36363c',
+         }
+      }
    },
    variants: {
       extend: {}

@@ -1,10 +1,21 @@
 import MovieModel from '../models/movie-model.js'
 
 export const getMovie = async (req, res) => { 
-   const id = req.param.id
+   const id = req.params.id
    try {
       const movie = await MovieModel.findById(id)
       res.status(200).json(movie)
+   } catch (err) {
+      res.status(404).json({ error: err.message })
+   }
+}
+
+export const getMovieValue = async (req, res) => { 
+   const id = req.params.id
+   const key = req.params.key
+   try {
+      const movie = await MovieModel.findById(id)
+      movie[key] ? res.status(200).json(movie[key]) : res.status(404).json({ error: 'Value not found' })
    } catch (err) {
       res.status(404).json({ error: err.message })
    }
