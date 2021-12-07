@@ -1,17 +1,18 @@
-import Navbar from '@comp/Navbar/Navbar'
-import Search from '@comp/Search/Search'
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import useStore from '@store/useStore'
+import Header from './Header/Header'
+import Navbar from './Navbar/Navbar'
 
 const Layout: React.FC = ({ children }) => {
+   const { actions } = useStore(state => state)
+
    return (
-      <>
-         <div className="relative mt-6 mb-14 h-5 w-screen flex flex-col">
-            <h1 className=''>MoiveDB</h1>
-            <Search />
-         </div>
+      <div>
+         <Header />
          {children}
          <Navbar />
-      </>
+      </div>
    )
 }
 

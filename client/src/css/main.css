@@ -3,6 +3,6 @@
 @tailwind utilities;
 
 body {
-   background: #1b1b20;
+   /* @apply bg-dark-grey-3; */
 }
 

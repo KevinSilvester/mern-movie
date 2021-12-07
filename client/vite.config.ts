@@ -6,9 +6,6 @@ import path from 'path'
 export default defineConfig({
    plugins: [
       react(),
-      legacy({
-         polyfills: true,
-      })
    ],
    build: {
       sourcemap: 'hidden',
@@ -22,6 +19,7 @@ export default defineConfig({
          '@comp': path.resolve(__dirname, './src/components'),
          '@css': path.resolve(__dirname, './src/css'),
          '@interface': path.resolve(__dirname, './src/interface'),
+         '@layout': path.resolve(__dirname, './src/layout'),
          '@pages': path.resolve(__dirname, './src/pages'),
          '@routes': path.resolve(__dirname, './src/routes'),
          '@store': path.resolve(__dirname, './src/store'),

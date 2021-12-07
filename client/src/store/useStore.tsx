@@ -7,19 +7,19 @@ const useStore = create<Store>(set => ({
    error: false,
    movies: [],
    actions: {
-      fetchSuccess: (data: Movie[]) =>
-      set(state => ({
-         ...state,
-         loaded: true,
-         movies: [...data]
-      })),
+      fetchSuccess: data =>
+         set(state => ({
+            ...state,
+            loaded: true,
+            movies: [...data]
+         })),
       fetchFail: () =>
-      set(state => ({
-         ...state,
-         loaded: true,
-         error: true
-      }))
-   },
+         set(state => ({
+            ...state,
+            loaded: true,
+            error: true
+         })),
+   }
 }))
 
 export default useStore

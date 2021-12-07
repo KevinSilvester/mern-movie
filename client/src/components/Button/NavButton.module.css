@@ -1,0 +1,11 @@
+.inactive {
+   @apply bg-gray-900;
+}
+
+.inactive:hover, .inactive:focus, .inactive:active {
+   @apply bg-gray-800;
+}
+
+.active {
+   @apply bg-gradient-to-tr from-indigo-600 to-blue-400
+}

@@ -15,6 +15,7 @@
          "@comp/*": ["components/*"],
          "@css/*": ["css/*"],
          "@interface/*": ["interface/*"],
+         "@layout/*": ["layout/*"],
          "@pages/*": ["pages/*"],
          "@routes/*": ["routes/*"],
          "@store/*": ["store/*"]
