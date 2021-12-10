@@ -13,22 +13,8 @@ const App = () => {
    const { loaded, error, movies, actions } = useStore(state => state)
 
    useEffect(() => {
-      // axios.get('https://raw.githubusercontent.com/erik-sytnyk/movies-list/master/db.json')
-      //    .then(res => res.data.movies.map(({ id, ...rest }: { id: number; rest: Movie }, index: number) => ({...rest, _id: index})))
-      //    .then(data => {
-      //       axios.post('http://localhost:4000/api/movies/all-movies', data)
-      //          .then(res => {
-      //             res.data.error
-      //                ? (actions.fetchFail(), console.log('Post Failed'))
-      //                : (actions.fetchSuccess(res.data), console.log('Post Success'))
-      //          })
-      //          .catch(() => actions.fetchFail())
-      //    })
-      //    .catch(() => actions.fetchFail())
-      axios
-         .get('http://localhost:4000/api/movies/all-movies')
-         .then(res => (actions.fetchSuccess(res.data), console.log('Fetch Success')))
-         .catch(() => (actions.fetchFail(), console.log('Fetch Failed')))
+      api.postAll(actions)
+      // api.fetchAll(actions)
    }, [])
 
    return (

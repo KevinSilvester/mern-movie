@@ -1,10 +1,10 @@
 export interface Movie {
-   _id?: string
+   _id?: number
    actors: string
    director: string
    genres: string[]
    plot: string
-   poster: string
+   posterUrl: string
    title: string
    runtime: string
    year: string

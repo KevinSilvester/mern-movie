@@ -1,24 +1,37 @@
-const mode = process.env.NODE_ENV
-const dev = mode === 'development'
-
 module.exports = {
    mode: 'jit',
-   purge: ['./src/**/*.{html,js,jsx,ts,tsx}'],
-   darkMode: false, // or 'media' or 'class'
+   content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
+   darkMode: 'media',
    theme: {
-      extend: {
-         colors: {
-            ['dark-grey-1']: '#29292e',
-            ['dark-grey-2']: '#36363c',
-            ['dark-grey-3']: '#1b1b20',
-            ['grey-1']: '#3a3a3e',
-            ['dark-blue-1']: '#123175',
+      colors: {
+         nav: {
+            txt: 'var(--nav-txt)',
+            'txt-lg': 'var(--nav-txt-lg)',
+            'bg-lg': 'var(--nav-bg-lg)',
+            'logo-bg': 'var(--nav-logo-bg)'
          },
+         comp: {
+            txt: 'var(--comp-txt)',
+            'txt-active': 'var(--comp-txt-active)',
+            bg: 'var(--comp-bg)',
+            'bg-lg': 'var(--comp-bg-lg)'
+         }
+      },
+      extend: {
          boxShadow: {
-            nav: '1px 2px 7px 2px hsl(0deg 0% 0% / 40%)'
+            active: '0 0 3px 1px #6fc8ff80',
+            'active-hov': '0 0 6px 3px #6fc8ff80',
          },
          fontFamily: {
-            cursive: ['Knewave', 'cursive'],
+            'body': ['Nunito', 'sans-serif'],
+            'title': ['Oleo Script', 'cursive'],
+         },
+         gridTemplateColumns: {
+            'auto-1': 'var(--grid-auto-1)',
+            'auto-2': 'var(--grid-auto-2)'
+         },
+         boxShadow: {
+            'center': 'var(--shadow-center)'
          }
       }
    },

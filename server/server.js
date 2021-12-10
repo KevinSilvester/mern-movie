@@ -7,10 +7,9 @@ import cors from 'cors'
 import movieRoute from './routes/movie-route.js'
 // import userRoute from './routes/user-route.js'
 
-dotenv.config({ path: './.env.local' })
+dotenv.config({ path: './.env' })
 
 const PORT = process.env.PORT || 4000
-const CORS_OPT = { origin: process.env.CLIENT_DEV }
 const app = express()
 
 /**
@@ -21,12 +20,11 @@ const app = express()
  * source: https://mongoosejs.com/docs/migrating_to_6.html#no-more-deprecation-warning-options
  */
 mongoose
-   .connect(process.env.MDB_CONNECTION)
+   .connect(process.env.MONGO)
    .then(() => app.listen(PORT, () => console.log(`Server running on port ${PORT}`)))
    .catch(err => console.log('Error: ' + err))
    
    app.use(bodyParser.json({ limit: '30mb', extended: true }))
    app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
-   app.use(cors(CORS_OPT))
-   app.use('/api/movies', movieRoute)
-   // app.use('/api/users', userRoute)
+   app.use(cors())
+   app.use('/api', movieRoute)

@@ -1,7 +1,0 @@
-.active {
-   @apply text-blue-500;
-}
-
-.inactive {
-   @apply text-blue-500 opacity-60;
-}

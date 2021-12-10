@@ -1,28 +1,27 @@
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import useStore from '@store/useStore'
+import Image from '@comp/Image'
+
 const Home: React.FC = () => {
+   const { movies, loaded, error } = useStore(state => state)
+   const [selectedId, setSelectedId] = useState<string | null>(null)
+
    return (
       <>
          <div>Home</div>
-         <div>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-            incididunt ut labore et dolore magna aliqua. Aenean sed adipiscing diam donec adipiscing
-            tristique risus nec feugiat. Diam maecenas ultricies mi eget mauris pharetra et ultrices
-            neque. Proin libero nunc consequat interdum varius. Eu consequat ac felis donec et odio
-            pellentesque diam. Ut pharetra sit amet aliquam id diam maecenas. Nullam ac tortor vitae
-            purus. Neque egestas congue quisque egestas. Morbi quis commodo odio aenean sed
-            adipiscing diam donec. Mauris in aliquam sem fringilla ut. Tortor at auctor urna nunc id
-            cursus. Nulla facilisi nullam vehicula ipsum a arcu cursus. In fermentum posuere urna
-            nec tincidunt. At urna condimentum mattis pellentesque id. Lorem mollis aliquam ut
-            porttitor. Interdum velit euismod in pellentesque massa. Diam quis enim lobortis
-            scelerisque. Id faucibus nisl tincidunt eget nullam non nisi. Sed felis eget velit
-            aliquet sagittis id consectetur purus. Maecenas ultricies mi eget mauris pharetra et. Ut
-            eu sem integer vitae justo eget. Arcu bibendum at varius vel pharetra. In hac habitasse
-            platea dictumst quisque sagittis purus sit. Sit amet consectetur adipiscing elit ut.
-            Pretium lectus quam id leo in vitae. Eget egestas purus viverra accumsan. Gravida arcu
-            ac tortor dignissim. Adipiscing bibendum est ultricies integer quis. Malesuada fames ac
-            turpis egestas sed tempus. Fermentum leo vel orci porta non pulvinar. Vivamus at augue
-            eget arcu. Consectetur adipiscing elit pellentesque habitant morbi tristique senectus
-            et. Egestas sed sed risus pretium quam vulputate dignissim. Est ante in nibh mauris
-            cursus mattis molestie a. Dui faucibus in ornare quam viverra orci.
+         <div className='grid grid-cols-[var(--col-3)] row-span-1 w-full gap-x-2 gap-y-5 justify-center mx-auto md:px-4 md:grid-cols-[var(--col-4)] md:gap-x-4 lg:grid-cols-[var(--col-5)] lg:gap-x-7 max-w-[1152px]'>
+            {error || loaded &&
+               movies.map(movie => {
+                  return (
+                     <motion.div className="grid grid-rows-[var(--col-1)]" layoutId={`${movie._id}`} onClick={() => setSelectedId(`${movie._id}`)}>
+                        <Image key={movie._id} movie={movie} />
+                        <motion.span className="text-left text-[0.7rem]">{movie.title}</motion.span>
+                     </motion.div>
+                  )
+               })}
+
+               
          </div>
       </>
    )
