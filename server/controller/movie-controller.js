@@ -63,7 +63,6 @@ export const getFallbackImage = async (req, res) => {
       const imagePath = await movie.data.results[0].poster_path
       res.status(200).json({ image: `https://image.tmdb.org/t/p/w500${imagePath}` })
    } catch (err) {
-      console.log(title, err)
       res.status(404).json({ error: err.message })
    }
 }

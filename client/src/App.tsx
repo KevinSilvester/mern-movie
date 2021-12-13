@@ -6,8 +6,8 @@ import useStore from '@store/useStore'
 import * as api from '@api/api'
 import Layout from '@layout/Layout'
 import Home from '@pages/Home'
-import AllMovies from '@pages/AllMovies'
 import _404Page from '@pages/_404Page'
+import AddMovie from '@pages/AddMovie'
 
 const App = () => {
    const { loaded, error, movies, actions } = useStore(state => state)
@@ -22,7 +22,7 @@ const App = () => {
          <Layout>
             <Routes>
                <Route path='/' element={<Home />} />
-               <Route path='all-movies' element={<AllMovies />} />
+               <Route path='add-movie' element={<AddMovie />} />
                <Route path='*' element={<_404Page />} />
             </Routes>
          </Layout>

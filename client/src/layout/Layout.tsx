@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import SvgSearch from './SvgSearch'
-import SvgAdd from './SvgAdd'
+import useStore from '@store/useStore'
+import SvgSearch from '@comp/Svg/SvgSearch'
+import SvgAdd from '@comp/Svg/SvgAdd'
 
 const Layout: React.FC = ({ children }) => {
+   const { actions } = useStore(state => state)
    const location = useLocation()
    const [searchFocus, setSearchFocus] = useState<boolean>(false)
 
@@ -19,7 +21,7 @@ const Layout: React.FC = ({ children }) => {
 
    return (
       <>
-         <nav className='h-[9.5rem] w-screen absolute top-0 left-1/2 -translate-x-1/2 grid grid-rows-2 lg:h-[4.5rem] lg:fixed lg:bg-nav-bg-lg lg:flex lg:items-center lg:justify-between lg:max-w-5xl lg:rounded-xl lg:shadow-lg 2xl:max-w-7xl 2xl:h-[5rem]'>
+         <nav className='h-[9.5rem] w-screen absolute top-0 left-1/2 -translate-x-1/2 grid grid-rows-2 z-10 lg:h-[4.5rem] lg:fixed lg:bg-nav-bg-lg lg:flex lg:items-center lg:justify-between lg:max-w-5xl lg:rounded-xl lg:shadow-lg 2xl:max-w-7xl 2xl:h-[5rem]'>
             <div className='h-full w-full grid place-items-center lg:flex lg:items-center'>
                <Link
                   to='/'
@@ -40,11 +42,12 @@ const Layout: React.FC = ({ children }) => {
                      className='bg-comp-bg outline-none lg:bg-comp-bg-lg'
                      onFocus={() => setSearchFocus(true)}
                      onBlur={() => setSearchFocus(false)}
+                     onChange={e => actions.updateSearchQuery(e.target.value)}
                   />
                </div>
                <Link
                   aria-label='Add Movie'
-                  to='add'
+                  to='add-movie'
                   className='h-11 w-11 rounded-lg bg-comp-bg text-comp-txt hover:text-nav-txt active:text-comp-txt-active grid place-items-center shadow-center transition-all duration-150 lg:bg-comp-bg-lg'
                >
                   <SvgAdd className='h-1/2' />

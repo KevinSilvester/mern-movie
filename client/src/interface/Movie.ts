@@ -1,6 +1,6 @@
 export interface Movie {
    _id?: number
-   actors: string
+   actors: string[]
    director: string
    genres: string[]
    plot: string

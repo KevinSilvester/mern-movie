@@ -18,7 +18,8 @@
          "@layout/*": ["layout/*"],
          "@pages/*": ["pages/*"],
          "@routes/*": ["routes/*"],
-         "@store/*": ["store/*"]
+         "@store/*": ["store/*"],
+         "@utils/*": ["utils/*"]
       },
       "allowJs": false,
       "skipLibCheck": false,
