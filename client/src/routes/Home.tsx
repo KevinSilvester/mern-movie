@@ -15,8 +15,8 @@ const Home: React.FC = () => {
    }, [searchQuery, loaded])
 
    return (
-      <div className='relative grid grid-cols-[var(--col-3)] row-span-1 w-full gap-x-2 gap-y-5 justify-center mx-auto md:px-4 md:grid-cols-[var(--col-4)] md:gap-x-4 lg:grid-cols-[var(--col-5)] lg:gap-x-7 max-w-[1152px]'>
-         {error || loaded && temp?.map(movie => <Card movie={movie} />)}
+      <div className='relative grid grid-cols-[repeat(auto-fill,minmax(100px,1fr))] row-span-1 w-full gap-x-2 gap-y-5 justify-center mx-auto md:px-4 md:grid-cols-[var(--col-4)] md:gap-x-4 lg:grid-cols-[var(--col-5)] lg:gap-x-7 max-w-[1152px]'>
+         {error || loaded && temp?.map(movie => <Card key={movie._id} movie={movie} />)}
       </div>
    )
 }

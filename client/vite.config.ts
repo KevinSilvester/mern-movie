@@ -1,30 +1,31 @@
 import { defineConfig } from 'vite'
+import { resolve } from 'path'
 import react from '@vitejs/plugin-react'
 import legacy from '@vitejs/plugin-legacy'
-import path from 'path'
 
 export default defineConfig({
    plugins: [
       react(),
+      legacy(),
    ],
    build: {
-      sourcemap: 'hidden',
-      manifest: true
+	   emptyOutDir: true,
+	   target: 'es2016',
+      sourcemap: 'inline',
+      manifest: true,
    },
    resolve: {
       alias: {
-         '@': path.resolve(__dirname, './src'),
-         '@api': path.resolve(__dirname, './src/api'),
-         '@assets': path.resolve(__dirname, './src/assets'),
-         '@comp': path.resolve(__dirname, './src/components'),
-         '@css': path.resolve(__dirname, './src/css'),
-         '@interface': path.resolve(__dirname, './src/interface'),
-         '@layout': path.resolve(__dirname, './src/layout'),
-         '@pages': path.resolve(__dirname, './src/pages'),
-         '@routes': path.resolve(__dirname, './src/routes'),
-         '@store': path.resolve(__dirname, './src/store'),
-         '@utils': path.resolve(__dirname, './src/utils'),
-         '~': path.resolve(__dirname, './public'),
+         '@api': resolve(__dirname, './src/api'),
+         '@assets': resolve(__dirname, './src/assets'),
+         '@comp': resolve(__dirname, './src/components'),
+         '@css': resolve(__dirname, './src/css'),
+         '@interface': resolve(__dirname, './src/interface'),
+         '@layout': resolve(__dirname, './src/layout'),
+         '@pages': resolve(__dirname, './src/pages'),
+         '@routes': resolve(__dirname, './src/routes'),
+         '@store': resolve(__dirname, './src/store'),
+         '@utils': resolve(__dirname, './src/utils'),
       }
-   }
+   },
 })

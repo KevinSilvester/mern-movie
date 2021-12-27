@@ -1,15 +1,14 @@
 {
    "compilerOptions": {
-      "target": "es6",
+      "target": "es2016",
       "useDefineForClassFields": true,
       "lib": [
          "DOM",
          "DOM.Iterable",
-         "ES6"
+         "es5"
       ],
       "baseUrl": "src",
       "paths": {
-         "@/*": ["/*"],
          "@api/*": ["api/*"],
          "@assets/*": ["assets/*"],
          "@comp/*": ["components/*"],

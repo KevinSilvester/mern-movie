@@ -1,6 +1,6 @@
 {
    "name": "client",
-   "version": "0.0.0",
+   "version": "0.1.1",
    "browserslist": {
       "production": [
          "last 2 version",
@@ -14,24 +14,33 @@
    },
    "scripts": {
       "dev": "vite",
-      "build": "tsc && vite build --emptyOutDir",
-      "serve": "vite preview"
+      "dev:server": "concurrently \"(cd ../server && pnpm start)\" \"vite\"",
+      "prod": "serve dist -s -p 5000",
+      "prod:server": "concurrently \"(cd ../server && pnpm start)\" \"serve dist -s -p 5000\"",
+      "build": "tsc && vite build",
+      "serve": "preview"
    },
    "dependencies": {
+      "@emotion/react": "^11.7.1",
       "axios": "^0.24.0",
+      "glamor": "^2.20.40",
+      "query-string": "^7.0.1",
       "react": "^17.0.0",
       "react-content-loader": "^6.1.0",
       "react-dom": "^17.0.0",
+      "react-loader-spinner": "^4.0.0",
       "react-router-dom": "^6.0.2",
       "zustand": "^3.6.6"
    },
    "devDependencies": {
+      "@babel/core": "^7.16.5",
       "@types/node": "^16.11.11",
       "@types/react": "^17.0.37",
       "@types/react-dom": "^17.0.11",
       "@vitejs/plugin-legacy": "^1.6.3",
       "@vitejs/plugin-react": "^1.0.0",
       "autoprefixer": "^10.4.0",
+      "concurrently": "^6.5.1",
       "cssnano": "^5.0.12",
       "postcss": "^8.4.4",
       "tailwindcss": "^3.0.0",

@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import axios from 'axios'
-import { Movie } from '@interface/Movie'
 import useStore from '@store/useStore'
 import * as api from '@api/api'
 import Layout from '@layout/Layout'
-import Home from '@pages/Home'
-import _404Page from '@pages/_404Page'
-import AddMovie from '@pages/AddMovie'
+import LoadBar from '@comp/Loader'
+
+const Home = lazy(() => import('@routes/Home'))
+const AddMovie = lazy(() => import('@routes/AddMovie'))
+const _404Page = lazy(() => import('@routes/_404Page'))
 
 const App = () => {
    const { loaded, error, movies, actions } = useStore(state => state)
@@ -20,11 +20,13 @@ const App = () => {
    return (
       <BrowserRouter>
          <Layout>
-            <Routes>
-               <Route path='/' element={<Home />} />
-               <Route path='add-movie' element={<AddMovie />} />
-               <Route path='*' element={<_404Page />} />
-            </Routes>
+            <Suspense fallback={<LoadBar />}>
+               <Routes>
+                  <Route path='/' element={<Home />} />
+                  <Route path='add-movie' element={<AddMovie />} />
+                  <Route path='*' element={<_404Page />} />
+               </Routes>
+            </Suspense>
          </Layout>
       </BrowserRouter>
    )

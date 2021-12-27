@@ -29,10 +29,10 @@ const Image: React.FC<{ movie: Movie; className?: string }> = ({ movie, classNam
          />
          {!loaded && (
             <ContentLoader
-               backgroundColor={'var(--nav-bg-lg)'}
-               foregroundColor={'var(--comp-bg-lg)'}
+               backgroundColor={'var(--skeleton-bg)'}
+               foregroundColor={'var(--skeleton-fg)'}
                speed={2}
-               className='absolute h-[80%] w-full rounded-md top-0 left-0 md:h-[85%] lg:h-[90%]'
+               className='absolute h-full w-full rounded-md top-0 left-0 aspect-[9/16]'
             >
                <rect x='0' y='0' rx='0' ry='0' width='200' height='300' />
             </ContentLoader>

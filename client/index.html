@@ -3,15 +3,31 @@
 
 <head>
    <meta charset="UTF-8" />
-   <link rel="icon" type="image/svg+xml" href="./src/assets/favicon.svg" />
+   <title>MovieDB</title>
+   <meta name="title" content="MovieDB">
+   <meta name="author" content="Kevin Silvester">
+   <meta name="description" content="A small database with some movies.">
    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <meta property="og:type" content="website">
+   <meta property="og:url" content="https://metatags.io/">
+   <meta property="og:title" content="MovieDB">
+   <meta property="og:description" content="A small database with some movies.">
+   <meta property="og:image" content="./src/assets/og-image.png">
+   <meta property="twitter:card" content="summary_large_image">
+   <meta property="twitter:url" content="https://metatags.io/">
+   <meta property="twitter:title" content="MovieDB">
+   <meta property="twitter:description" content="A small database with some movies.">
+   <meta property="twitter:image" content="./src/assets/og-image.png">
+   <link rel="icon" type="image/svg+xml" href="icon.svg" />
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Knewave&family=Nunito:wght@600&family=Oleo+Script:wght@700&display=swap" rel="stylesheet">
-   <title>MovieDB</title>
+   <link
+      href="https://fonts.googleapis.com/css2?family=Knewave&family=Nunito:wght@600&family=Oleo+Script:wght@700&display=swap"
+      rel="stylesheet">
 </head>
 
 <body>
+   <noscript>Please enable javascript to run this website</noscript>
    <div id="root"></div>
    <div id="modal"></div>
    <script type="module" src="./src/main.tsx"></script>
