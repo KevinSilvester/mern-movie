@@ -9,7 +9,10 @@ const MOVIE_SCHEMA = new mongoose.Schema({
    director: String,
    actors: [String],
    plot: String,
-   posterUrl: String
+   poster: {
+      url: String,
+      fallback: String,
+   }
 }, { collection: 'movies' })
 
 const MovieModel = mongoose.model('MovieModel', MOVIE_SCHEMA)

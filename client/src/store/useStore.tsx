@@ -1,6 +1,5 @@
 import create from 'zustand'
-import { Movie } from '@interface/Movie'
-import { Store } from '@interface/Store'
+import { Movie, Store } from '@lib/interface'
 
 const useStore = create<Store>(set => ({
    loaded: false,
@@ -22,13 +21,13 @@ const useStore = create<Store>(set => ({
             loaded: true,
             error: true
          })),
-      modalOpen: movie => 
+      modalOpen: movie =>
          set(state => ({
             ...state,
             modalOpen: true,
             movie: movie
          })),
-      modalClose: () => 
+      modalClose: () =>
          set(state => ({
             ...state,
             modalOpen: false,

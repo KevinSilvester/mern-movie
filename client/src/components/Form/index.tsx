@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Movie } from '@interface/Movie'
+import { Movie } from '@lib/interface'
 
 const Form: React.FC<{ movie?: Movie }> = ({ movie }) => {
    const [title, setTitle] = useState<string>(movie?.title || '')
@@ -9,8 +9,8 @@ const Form: React.FC<{ movie?: Movie }> = ({ movie }) => {
    const [genres, setGenres] = useState<string[]>(movie?.genres || [])
    const [director, setDirector] = useState<string>(movie?.director || '')
    const [actors, setActors] = useState<string[]>(movie?.actors || [])
-   const [plot, setPlot] = useState<string>(movie?.posterUrl || '')
-   const [posterUrl, setPosterUrl] = useState<string>(movie?.posterUrl || '')
+   const [plot, setPlot] = useState<string>(movie?.plot || '')
+   const [posterUrl, setPosterUrl] = useState<string>(movie?.poster.url || '')
    
    return (
       <form>

@@ -38,6 +38,7 @@ export const createMovie = async (req, res) => {
 
 export const addAllMovies = async (req, res) => {
    const body = req.body
+   // console.log(body)
    try {
       await MovieModel.deleteMany({})
       const allMovies = await MovieModel.insertMany(body)
@@ -63,8 +64,6 @@ export const getFromExternal = async (req, res) => {
       const movie = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${process.env.MDB_KEY}&query=${title}&page=1`)  
          const imagePath = await movie.data.results[0].poster_path
          res.status(200).json({ image: `https://image.tmdb.org/t/p/w500${imagePath}` })
-      
-      // if ()
    } catch (err) {
       res.status(404).json({ error: err.message })
    }

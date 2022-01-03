@@ -9,16 +9,15 @@
       ],
       "baseUrl": "src",
       "paths": {
-         "@api/*": ["api/*"],
          "@assets/*": ["assets/*"],
          "@comp/*": ["components/*"],
          "@css/*": ["css/*"],
          "@interface/*": ["interface/*"],
          "@layout/*": ["layout/*"],
+         "@lib/*": ["lib/*"],
          "@pages/*": ["pages/*"],
          "@routes/*": ["routes/*"],
          "@store/*": ["store/*"],
-         "@utils/*": ["utils/*"]
       },
       "allowJs": false,
       "skipLibCheck": false,
@@ -31,7 +30,8 @@
       "resolveJsonModule": true,
       "isolatedModules": true,
       "noEmit": true,
-      "jsx": "react-jsx"
+      "jsx": "react-jsx",
+      "jsxImportSource": "@emotion/react"
    },
    "include": [
       "src"

@@ -10,8 +10,8 @@
    --comp-bg-lg: hsl(216, 37%, 22%);
    --comp-txt: hsl(208, 12%, 45%);
    --comp-txt-active: hsla(203, 100%, 72%);
-   --skeleton-bg: hsl(213, 41%, 18%);
-   --skeleton-fg: hsl(216, 37%, 25%);
+   --skeleton-bg: hsl(213, 42%, 17%);
+   --skeleton-fg: hsla(205, 92%, 42%, 0.1);
    --shadow-center: 0px 8px 15px -3px rgb(0, 0, 0, 0.1), 0px 0px 7px 5px rgba(143, 95, 95, 0.05);
    --col-1: auto 2.6rem;
    --col-2: 0.76rem auto;

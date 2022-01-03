@@ -1,13 +1,25 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { useQuery } from 'react-query'
 import useStore from '@store/useStore'
 import SvgSearch from '@comp/Svg/SvgSearch'
 import SvgAdd from '@comp/Svg/SvgAdd'
+import { Movie } from '@lib/interface'
+import * as api from '@lib/api'
+import Loader from '@comp/Loader'
 
 const Layout: React.FC = ({ children }) => {
-   const { actions } = useStore(state => state)
+   const { actions, movies } = useStore(state => state)
    const location = useLocation()
    const [searchFocus, setSearchFocus] = useState<boolean>(false)
+
+   const { isFetching, isError, data, error } = useQuery<Movie[]>('movies', api.postMovies, { initialData: [] })
+
+   useEffect(() => {
+      if (!isError && !isFetching && data)
+         actions.fetchSuccess(data)
+   }
+   , [data])
 
    if (location.pathname.includes('add') || location.pathname.includes('add')) {
       return (
@@ -16,6 +28,12 @@ const Layout: React.FC = ({ children }) => {
                {children}
             </main>
          </>
+      )
+   }
+
+   if (isFetching) {
+      return (
+         <Loader />
       )
    }
 
@@ -31,7 +49,7 @@ const Layout: React.FC = ({ children }) => {
                </Link>
             </div>
             <div className='w-full h-full grid items-center gap-4 grid-cols-[var(--col-1)] px-5 py-0 my-5'>
-               <div className='h-11 group w-full grid items-center gap-5 grid-cols-[var(--col-2)] rounded-lg bg-comp-bg shadow-center text-comp-txt lg:bg-comp-bg-lg'>
+               <div className='h-11 group w-full grid items-center gap-5 grid-cols-[var(--col-2)] rounded-lg bg-comp-bg  text-comp-txt lg:bg-comp-bg-lg'>
                   <SvgSearch
                      className={`h-1/3 ml-2 transition-all duration-150 group-hover:text-nav-txt ${
                         searchFocus ? '!text-comp-txt-active' : 'text-comp-txt'
@@ -48,7 +66,7 @@ const Layout: React.FC = ({ children }) => {
                <Link
                   aria-label='Add Movie'
                   to='add-movie'
-                  className='h-11 w-11 rounded-lg bg-comp-bg text-comp-txt hover:text-nav-txt active:text-comp-txt-active grid place-items-center shadow-center transition-all duration-150 lg:bg-comp-bg-lg'
+                  className='h-11 w-11 rounded-lg bg-comp-bg text-comp-txt hover:text-nav-txt active:text-comp-txt-active grid place-items-center transition-all duration-150 lg:bg-comp-bg-lg'
                >
                   <SvgAdd className='h-1/2' />
                </Link>
