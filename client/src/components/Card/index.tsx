@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { css, jsx, keyframes } from '@emotion/react'
 import { Movie } from '@lib/interface'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-location'
 import { useFloating, shift } from '@floating-ui/react-dom'
 
 const Card: React.FC<{ movie: Movie }> = ({ movie }) => {
@@ -50,7 +50,7 @@ const Card: React.FC<{ movie: Movie }> = ({ movie }) => {
 
    return (
       <Link to={`movie/${movie._id}`} className='grid grid-rows-[min-content_auto] relative w-full'>
-         <div className={`transition-all rounded-md inline-block relative w-full z-10 overflow-hidden aspect-[10/16] ${loaded && 'border-2 border-white'}`}>
+         <div className={`transition-all rounded-md inline-block relative w-full z-10 overflow-hidden aspect-[10/16] ${loaded && ''}`}>
             <img
                src={movie.poster.url}
                alt={movie.title}

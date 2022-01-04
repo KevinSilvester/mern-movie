@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link } from 'react-location'
 
 const _404Page: React.FC = () => {
    return (

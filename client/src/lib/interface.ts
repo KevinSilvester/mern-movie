@@ -1,3 +1,5 @@
+import { MakeGenerics } from "react-location"
+
 export interface Movie {
    _id?: number
    actors: string[]
@@ -35,6 +37,13 @@ interface Iterator<M, MReturn = any, MNext = undefined> {
 interface IterableMovie<Movie> {
    [Symbol.iterator]() : Iterator<Movie>
 }
+
+export type LocationGeneric = MakeGenerics<{
+   LoaderData: {
+      movies: Movie[],
+      movie: Movie
+   }
+}>
 
 export interface Store {
    loaded: boolean;

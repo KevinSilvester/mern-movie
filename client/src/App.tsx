@@ -1,42 +1,63 @@
 import { useEffect, useState, lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import axios from 'axios'
+import { Router, Outlet, useRouter } from 'react-location'
+import { ReactLocationDevtools } from 'react-location-devtools'
+import { routes, location, queryClient } from './router'
+
 import useStore from '@store/useStore'
 import * as api from '@lib/api'
 import { Movie } from '@lib/interface'
 import Layout from '@layout/Layout'
 import Loader from '@comp/Loader'
-import Home from '@routes/Home'
 
-const AddMovie = lazy(() => import('@routes/AddMovie'))
-const _404Page = lazy(() => import('@routes/_404Page'))
+// import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-const queryClient = new QueryClient()
+
+
+// const Home = lazy(() => import('@routes/Home'))
+// const SingleMovie = lazy(() => import('@routes/SingleMovie'))
+// const AddMovie = lazy(() => import('@routes/AddMovie'))
+// const _404Page = lazy(() => import('@routes/_404Page'))
+
+
+
 
 const App = () => {
-   const { loaded, error, movies, actions } = useStore(state => state)
-
+   // const { loaded, error, movies, actions } = useStore(state => state)
 
    // useEffect(() => {
    //    const res = await api.postAllMovies()
    // }, [])
 
+   // return (
+   //    <QueryClientProvider client={queryClient}>
+   //       <BrowserRouter>
+   //          <Layout>
+   //             <ReactQueryDevtools />
+   //             <Suspense fallback={<Loader />}>
+   //                <Routes>
+   //                   <Route path='/' element={<Home />} />
+   //                   <Route path='movie/:id' element={<SingleMovie />} />
+   //                   <Route path='add-movie' element={<AddMovie />} />
+   //                   <Route path='*' element={<_404Page />} />
+   //                </Routes>
+   //             </Suspense>
+   //          </Layout>
+   //       </BrowserRouter>
+   //    </QueryClientProvider>
+   // )
+
    return (
       <QueryClientProvider client={queryClient}>
-         <BrowserRouter>
+         <Router routes={routes} location={location} defaultPendingElement={<Loader />} defaultPendingMs={1}>
             <Layout>
-               <ReactQueryDevtools />
-               <Suspense fallback={<Loader />}>
-                  <Routes>
-                     <Route path='/' element={<Home />} />
-                     <Route path='add-movie' element={<AddMovie />} />
-                     <Route path='*' element={<_404Page />} />
-                  </Routes>
-               </Suspense>
+               <Outlet />
             </Layout>
-         </BrowserRouter>
+            <ReactLocationDevtools position='bottom-right' />
+         </Router>
+         <ReactQueryDevtools />
       </QueryClientProvider>
    )
 }
