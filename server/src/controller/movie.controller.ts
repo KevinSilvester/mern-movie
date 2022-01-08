@@ -1,19 +1,7 @@
-import { Request, Response } from 'express'
-import { ParamsDictionary, Params, Query } from 'express-serve-static-core'
-import { Types } from 'mongoose'
-import {
-   createMovieSchema,
-   CreateMovieInput,
-   UpdateMovieInput,
-   updateMovieSchema
-} from '../schema/movie.schema'
-import {
-   createAllMovies,
-   createMovie,
-   findAndUpdateMovie,
-   findMovie
-} from '../services/movie.service'
-import { validateCreateMovie, validateUpdateMovie } from '../middleware/validate.middleware'
+import { RequestHandler, Request, Response } from 'express'
+import { createMovieSchema, CreateMovieInput } from '../schema/movie.schema'
+import { createAllMovies, createMovie } from '../services/movie.service'
+import { validateCreateMovie } from '../middleware/validate.middleware'
 import logger from '../utils/logger'
 import zError from '../utils/zError'
 
@@ -24,16 +12,16 @@ import zError from '../utils/zError'
  * @param req @type Request Server request
  * @param res @type Response Server response
  */
-export const createAllMoviesHandler = async (
+export const createAllMoviesHandler: RequestHandler = async (
    req: Request<{}, {}, CreateMovieInput['body'][]>,
    res: Response
 ) => {
    try {
       const movies = await createAllMovies(req.body)
-      res.sendStatus(201).json({ success: true, movies})
+      res.status(201).json(movies)
    } catch (err: any) {
       logger.error(err)
-      res.sendStatus(409).json({ error: err.message })
+      res.status(409).json({ error: err.message })
    }
 }
 
@@ -42,72 +30,25 @@ export const createAllMoviesHandler = async (
  * @param req @type Request Server request
  * @param res @type Response Server response
  */
-export const createMovieHandler = async (
+export const createMovieHandler: RequestHandler = async (
    req: Request<{}, {}, CreateMovieInput['body']>,
    res: Response
 ) => {
    try {
       const { body } = await validateCreateMovie(createMovieSchema, req.body)
       const movie = await createMovie(body)
-      res.sendStatus(201).json({ success: true, message: 'Movie Added ヾ(≧▽≦*)o', movie })
+      res.status(201).json({ success: 'Movie Added ヾ(≧▽≦*)o', movie })
    } catch (err: any) {
-      // const errorMsg = zError(err)
-      logger.error(err)
-      res.sendStatus(409).json({ success: false, error: err })
+      const errorMsg = zError(err)
+      logger.error({ error: errorMsg })
+      res.status(409).json({ error: errorMsg })
    }
 }
 
-// export interface Query extends core.Query { }
+export const updateMovieHandler: RequestHandler = async (req, res) => {}
 
-// export interface Params extends core.ParamsDictionary { }
+export const getAllMoviesHandler: RequestHandler = async (req: Request, res: Response) => {}
 
-// interface RequestParams<T extends ParamsDictionary> extends Request {
-//    params: T;
-//  }
+export const getMovieHandler: RequestHandler = async (req, res) => {}
 
-//  export interface Query extends Query { }
-
-// export interface Params extends ParamsDictionary { }
-
-//  export interface RequestWithParam<
-//     ReqBody = any,
-//     ReqQuery = Query,
-//     URLParams extends Params = ParamsDictionary
-//  > extends Request<URLParams, any, ReqBody, ReqQuery> {
-//     params: UpdateMovieInput['params']
-//  }
-
-export const updateMovieHandler = async (
-   req: Request<UpdateMovieInput['params']>,
-   res: Response
-) => {
-   req
-   try {
-      const id = new Types.ObjectId(req.params.id)
-      const { body, params } = await validateUpdateMovie(updateMovieSchema, req.body, { id: id })
-      const movie = await findAndUpdateMovie(params, body)
-      res.sendStatus(200).json({ success: true, message: 'Movie Updated (/≧▽≦)/', movie })
-   } catch (err: any) {
-      logger.error(err)
-      res.sendStatus(404).json({ success: false, error: err })
-   }
-}
-
-export const getMovieHandler = async (
-   req: Request<UpdateMovieInput['params']>,
-   res: Response
-) => {
-   try {
-      console.log(req)
-      const id = new Types.ObjectId(req.params.id)
-      const movie = await findMovie(id)
-      res.send(200).json({ success: true, message: 'Found the Movie (oﾟvﾟ)ノ', movie })
-   } catch (err: any) {
-      logger.error(err)
-      res.sendStatus(404).json({ success: false, error: err })
-   }
-}
-
-// export const getMovieHandler = async (req, res) => {}
-
-// export const deleteMovieHandler = async (req, res) => {}
+export const deleteMovieHandler: RequestHandler = async (req, res) => {}
