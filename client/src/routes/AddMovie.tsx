@@ -5,7 +5,7 @@ import { Link } from 'react-location'
 const AddMovie = () => {
    return (
       <>
-         <Link to='/'>
+         <Link to='/' preload={5000}>
             <SvgLeft className='h-4' />
          </Link>
          <h1>Add Movie</h1>

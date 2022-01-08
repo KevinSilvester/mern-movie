@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Movie, Store } from '@lib/interface'
+import { Movie, Store } from '@lib/types'
 
 const API_URL = 'http://localhost:4000/api'
 const DATA_URL = 'https://raw.githubusercontent.com/erik-sytnyk/movies-list/master/db.json'

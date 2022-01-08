@@ -1,4 +1,13 @@
-const SvgSearch: React.FC<{ className: string }> = ({ className }) => {
+/** @jsxRuntime classic */
+/** @jsx jsx */
+import { css, jsx, SerializedStyles } from "@emotion/react"
+
+interface Props {
+   className: string;
+   css?: SerializedStyles;
+}
+
+const SvgSearch = ({ className, css }: Props) => {
    return (
       <svg
          aria-hidden='true'
@@ -6,6 +15,7 @@ const SvgSearch: React.FC<{ className: string }> = ({ className }) => {
          data-prefix='fas'
          data-icon='search'
          className={className}
+         css={css}
          role='img'
          xmlns='http://www.w3.org/2000/svg'
          viewBox='0 0 512 512'

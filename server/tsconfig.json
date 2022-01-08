@@ -1,0 +1,13 @@
+{
+   "compilerOptions": {
+      "target": "ES2021",
+      "outDir": "dist",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "lib": ["ES2021"],
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+   }
+}

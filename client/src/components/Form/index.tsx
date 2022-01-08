@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { Movie } from '@lib/interface'
+import { Movie } from '@lib/types'
 
 const Form: React.FC<{ movie?: Movie }> = ({ movie }) => {
    const [title, setTitle] = useState<string>(movie?.title || '')

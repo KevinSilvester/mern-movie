@@ -1,0 +1,75 @@
+:root {
+   --slate-100: 212 24% 70%;
+   --slate-200: 212 19% 68%;
+   --slate-300: 208 20% 62%;
+   --slate-400: 208 12% 45%;
+
+   --blue-100: 205 92% 42%;
+   --blue-200: 203 100% 72%;
+
+   --navy-100: 216 37% 22%;
+   --navy-200: 213 42% 17%;
+   --navy-300: 212 30% 17%;
+   --navy-400: 213 41% 14%;
+   --navy-500: 216 37% 14%;
+   --navy-600: 211 51% 9%;
+
+   // --txt: hsl(var(--slate-300));
+   // --bg: hsl(var(--navy-600));
+
+   // --nav-txt: hsl(var(--slate-200));
+   // --nav-txt-lg: hsl(var(--slate-100));
+   // --nav-bg-lg: hsl(var(--navy-400));
+   // --nav-logo-bg: hsl(var(--navy-300));
+   // --nav-logo-bg-lg: hsl(var(--navy-300));
+
+   // --comp-bg: hsl(var(--navy-500));
+   // --comp-bg-lg: hsl(var(--navy-100));
+   // --comp-txt: hsl(var(--slate-400));
+   // --comp-txt-active: hsla(var(--blue-200));
+
+   // --skeleton-bg: hsl(var(--navy-200));
+   // --skeleton-fg: hsl(var(--blue-200), 0.1);
+
+   --col-1: auto 2.6rem;
+   --col-2: 0.76rem auto 0.76rem;
+   --col-3: repeat(auto-fill, minmax(105px, 1fr));
+   --col-4: repeat(auto-fill, minmax(150px, 1fr));
+   --col-5: repeat(auto-fill, minmax(200px, 1fr));
+   --row-1: min-content auto;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+   body {
+      @apply font-body bg-custom-navy-600 text-custom-slate-300;
+   }
+
+   #no-script {
+      position: relative;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      background: hsl(var(--navy-600));
+
+      span {
+         font-family: Arial, Helvetica, sans-serif;
+         font-size: 1.25rem;
+         line-height: 1.75rem;
+         color: hsl(var(--blue-200));
+         position: absolute;
+         top: 50%;
+         left: 50%;
+         transform: translate(-50%, -50%);
+
+         @screen lg {
+            font-size: 1.5rem;
+            line-height: 2rem;
+         }
+      }
+   }
+}

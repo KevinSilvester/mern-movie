@@ -6,7 +6,9 @@ import legacy from '@vitejs/plugin-legacy'
 export default defineConfig({
    plugins: [
       react(),
-      legacy(),
+      legacy({
+         targets: ['ie >= 11']
+      }),
    ],
    build: {
 	   emptyOutDir: true,
@@ -18,12 +20,12 @@ export default defineConfig({
       alias: {
          '@assets': resolve(__dirname, './src/assets'),
          '@comp': resolve(__dirname, './src/components'),
-         '@css': resolve(__dirname, './src/css'),
          '@interface': resolve(__dirname, './src/interface'),
          '@layout': resolve(__dirname, './src/layout'),
          '@lib': resolve(__dirname, './src/lib'),
          '@pages': resolve(__dirname, './src/pages'),
          '@routes': resolve(__dirname, './src/routes'),
+         '@scss': resolve(__dirname, './src/scss'),
          '@store': resolve(__dirname, './src/store'),
       }
    },

@@ -1,4 +1,4 @@
-const Svg: React.FC<{className: string}> = ({ className }) => {
+const Svg: React.FC<{className: any}> = ({ className }) => {
    return (
       <svg
          aria-hidden='true'

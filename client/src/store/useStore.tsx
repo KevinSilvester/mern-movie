@@ -1,5 +1,5 @@
 import create from 'zustand'
-import { Movie, Store } from '@lib/interface'
+import { Movie, Store } from '@lib/types'
 
 const useStore = create<Store>(set => ({
    loaded: false,

@@ -11,12 +11,12 @@
       "paths": {
          "@assets/*": ["assets/*"],
          "@comp/*": ["components/*"],
-         "@css/*": ["css/*"],
          "@interface/*": ["interface/*"],
          "@layout/*": ["layout/*"],
          "@lib/*": ["lib/*"],
          "@pages/*": ["pages/*"],
          "@routes/*": ["routes/*"],
+         "@scss/*": ["scss/*"],
          "@store/*": ["store/*"],
       },
       "allowJs": false,
