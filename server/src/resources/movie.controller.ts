@@ -1,24 +1,22 @@
 import type { Request, Response } from 'express'
 import type { FilterQuery } from 'mongoose'
 import type { CreateMovieInput, GetAndDeleteMovieInput, UpdateMovieInput, MovieDoc } from '../types'
-import { createMovieSchema, updateMovieSchema, getMovieSchema } from './movie.schema'
-import { resetDb, createMovie, findAndUpdateMovie, getMovie, getAllMovies, deleteMovie } from './movie.service'
-import { validateCreateMovie, validateGetAndDeleteMovie, validateUpdateMovie } from './movie.validation'
+import { createMovieSchema, updateMovieSchema, getAndDeleteMovieSchema } from './movie.schema'
+import {
+   resetDb,
+   createMovie,
+   findAndUpdateMovie,
+   getMovie,
+   getAllMovies,
+   deleteMovie
+} from './movie.service'
+import {
+   validateCreateMovie,
+   validateGetAndDeleteMovie,
+   validateUpdateMovie
+} from './movie.validation'
 import logger from '../utils/logger'
 
-/**
- * Handles request for adding all the movies to DB
- * @param req @type Request Server request
- * @param res @type Response Server response
- */
-
-/**
- * Handles request for adding a single movie to DB
- * @param req @type Request Server request
- * @param res @type Response Server response
- */
-
-//
 export const resetDbHandler = async (
    req: Request<{}, {}, CreateMovieInput['body'][]>,
    res: Response
@@ -32,21 +30,16 @@ export const resetDbHandler = async (
    }
 }
 
-//
-export const getAllMoviesHandler = async (
-   req: Request,
-   res: Response
-) => {
+export const getAllMoviesHandler = async (req: Request, res: Response) => {
    try {
       const movies = await getAllMovies()
-      res.status(200).json({ success: true, message: 'Here\'s all the Movies ( ﾉ ﾟｰﾟ)ﾉ ', movies})
+      res.status(200).json({ success: true, message: "Here's all the Movies ( ﾉ ﾟｰﾟ)ﾉ ", movies })
    } catch (err: any) {
       logger.error({ error: err })
       res.status(409).json({ success: false, error: err.message })
    }
 }
 
-//
 export const createMovieHandler = async (
    req: Request<{}, {}, CreateMovieInput['body']>,
    res: Response
@@ -61,13 +54,12 @@ export const createMovieHandler = async (
    }
 }
 
-//
 export const getMovieHandler = async (
    req: Request<GetAndDeleteMovieInput['params'], {}, {}>,
    res: Response
 ) => {
    try {
-      const { params } = await validateGetAndDeleteMovie(getMovieSchema, req.params)
+      const { params } = await validateGetAndDeleteMovie(getAndDeleteMovieSchema, req.params)
       const movie = await getMovie(params.id as FilterQuery<MovieDoc['_id']>)
       res.status(200).json({ success: true, message: 'Movie Found o(*^▽^*)┛', movie })
    } catch (err: any) {
@@ -76,7 +68,6 @@ export const getMovieHandler = async (
    }
 }
 
-//
 export const updateMovieHandler = async (
    req: Request<UpdateMovieInput['params'], {}, UpdateMovieInput['body']>,
    res: Response
@@ -93,13 +84,14 @@ export const updateMovieHandler = async (
 
 export const deleteMovieHandler = async (
    req: Request<GetAndDeleteMovieInput['params'], {}, {}>,
-   res: Response) => {
-      try {
-         const { params } = await validateGetAndDeleteMovie(getMovieSchema, req.params)
-         const movie = await deleteMovie(params.id as FilterQuery<MovieDoc['_id']>)
-         res.status(200).json({ success: true, message: 'Movie Deleted ( •̀ ω •́ )✧', movie })
-      } catch (err: any) {
-         logger.error({ error: err })
-         res.status(404).json({ success: false, error: err })
-      }
+   res: Response
+) => {
+   try {
+      const { params } = await validateGetAndDeleteMovie(getAndDeleteMovieSchema, req.params)
+      const movie = await deleteMovie(params.id as FilterQuery<MovieDoc['_id']>)
+      res.status(200).json({ success: true, message: 'Movie Deleted ( •̀ ω •́ )✧', movie })
+   } catch (err: any) {
+      logger.error({ error: err })
+      res.status(404).json({ success: false, error: err })
    }
+}

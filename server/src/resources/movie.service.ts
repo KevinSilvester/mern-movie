@@ -1,13 +1,7 @@
-import { DocumentDefinition, FilterQuery, QueryOptions, UpdateQuery } from 'mongoose'
+import type { DocumentDefinition, FilterQuery, QueryOptions, UpdateQuery } from 'mongoose'
+import type { MovieDoc } from '../types'
 import MovieModel from './movie.model'
-import { MovieDoc } from '../types'
-import logger from '../utils/logger'
 
-/**
- * Deletes all the movies that were in the database and replaces with a new set of movies.
- * @param movies The parsed list of movies
- * @returns The array of inserted movies
- */
 export const resetDb = async (movies: DocumentDefinition<Omit<MovieDoc, '_id'>>[]) => {
    try {
       await MovieModel.deleteMany({})

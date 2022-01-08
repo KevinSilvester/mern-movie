@@ -50,23 +50,10 @@ const paramsSchema = z.object({
 })
 
 export const createMovieSchema = z.object({ body: bodySchema })
-// export type CreateMovieInput = TypeOf<typeof createMovieSchema>
 
 export const updateMovieSchema = z.object({
    body: bodySchema,
    params: paramsSchema
 })
-// export type UpdateMovieInput = TypeOf<typeof updateMovieSchema>
 
-export const getMovieSchema = z.object({ params: paramsSchema })
-// export type GetMovieInput = TypeOf<typeof getMovieSchema>
-
-// export const updateMovieSchema =
-
-// export const deleteMovieSchema = object({
-//    ...params
-// })
-
-// export const getMovieSchema = object({
-//    ...params
-// })
+export const getAndDeleteMovieSchema = z.object({ params: paramsSchema })

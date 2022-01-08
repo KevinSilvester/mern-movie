@@ -1,4 +1,5 @@
-import { Router, Request, Response } from 'express'
+import type { Request, Response } from 'express'
+import { Router } from 'express'
 import {
    resetDbHandler,
    createMovieHandler,
@@ -6,7 +7,7 @@ import {
    getMovieHandler,
    getAllMoviesHandler,
    deleteMovieHandler
-} from '../resources/movie.controller'
+} from './resources/movie.controller'
 
 const router = Router()
 

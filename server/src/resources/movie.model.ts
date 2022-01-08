@@ -1,9 +1,10 @@
-import { Schema, Model, model } from 'mongoose'
-import { MovieDoc } from '../types'
+import type { Model } from 'mongoose'
+import type { MovieDoc } from '../types'
+import { Schema, model } from 'mongoose'
 
 const MovieSchema = new Schema<MovieDoc, Model<MovieDoc>, MovieDoc>(
    {
-      _id: { type: Number, required: true},
+      _id: { type: Number, required: true },
       title: { type: String, required: true },
       year: { type: Number, required: true },
       genres: { type: [String], required: true },

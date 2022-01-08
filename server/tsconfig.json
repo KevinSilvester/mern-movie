@@ -5,7 +5,6 @@
       "module": "commonjs",
       "moduleResolution": "node",
       "lib": ["ES2021"],
-      "inlineSourceMap": true,
       "strict": true,
       "esModuleInterop": true,
       "skipLibCheck": true,
