@@ -39,8 +39,6 @@
    },
    "devDependencies": {
       "@babel/core": "^7.16.5",
-      "@swc/cli": "^0.1.55",
-      "@swc/core": "^1.2.126",
       "@types/node": "^16.11.11",
       "@types/react": "^17.0.37",
       "@types/react-dom": "^17.0.11",
@@ -50,7 +48,6 @@
       "concurrently": "^6.5.1",
       "cssnano": "^5.0.12",
       "postcss": "^8.4.4",
-      "react-html-comment": "^2.0.11",
       "react-location-devtools": "^3.3.0",
       "react-query-devtools": "^2.6.3",
       "sass": "^1.45.2",

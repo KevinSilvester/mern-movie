@@ -1,6 +1,6 @@
 {
    "name": "server",
-   "version": "0.2.1",
+   "version": "0.2.2",
    "description": "",
    "main": "dist/server.js",
    "scripts": {
@@ -8,15 +8,10 @@
       "build": "tsc",
       "start": "node ."
    },
-   "browserslist": [
-      "current node"
-   ],
    "keywords": [],
    "author": "Kevin Silvester",
    "license": "MIT",
    "dependencies": {
-      "@hapi/boom": "^9.1.4",
-      "axios": "^0.24.0",
       "config": "^3.3.6",
       "cors": "^2.8.5",
       "dotenv": "^10.0.0",
