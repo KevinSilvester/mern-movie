@@ -3,6 +3,7 @@ import { MovieDoc } from '../types'
 
 const MovieSchema = new Schema<MovieDoc, Model<MovieDoc>, MovieDoc>(
    {
+      _id: { type: Number, required: true},
       title: { type: String, required: true },
       year: { type: Number, required: true },
       genres: { type: [String], required: true },

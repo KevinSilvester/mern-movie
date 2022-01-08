@@ -1,8 +1,6 @@
-import type { Request, Response, NextFunction } from 'express'
 import { AnyZodObject, ZodError, z } from 'zod'
 import logger from '../utils/logger'
-import { badRequest } from '@hapi/boom'
-import { CreateMovieInput, UpdateMovieInput } from '../schema/movie.schema'
+import type { CreateMovieInput, UpdateMovieInput, GetAndDeleteMovieInput } from '../types'
 
 // export async function zParse<T extends AnyZodObject>(schema: T, req: Request): Promise<z.infer<T>> {
 //    try {
@@ -49,7 +47,18 @@ export const validateUpdateMovie = async <T extends AnyZodObject>(
    reqParams: UpdateMovieInput['params']
 ): Promise<z.infer<T>> => {
    try {
-      return schema.parseAsync({ body: reqBody , params: reqParams })
+      return schema.parseAsync({ body: reqBody, params: reqParams })
+   } catch (err: any) {
+      throw new Error(err)
+   }
+}
+
+export const validateGetAndDeleteMovie = async <T extends AnyZodObject>(
+   schema: T,
+   reqParams: GetAndDeleteMovieInput['params']
+): Promise<z.infer<T>> => {
+   try {
+      return schema.parseAsync({ params: reqParams })
    } catch (err: any) {
       throw new Error(err)
    }
@@ -65,5 +74,3 @@ export const validateUpdateMovie = async <T extends AnyZodObject>(
 //       throw new Error(err)
 //    }
 // }
-
-

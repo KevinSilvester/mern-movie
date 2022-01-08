@@ -1,16 +1,25 @@
 import { Router, Request, Response } from 'express'
-import { createAllMoviesHandler, createMovieHandler, updateMovieHandler, getMovieHandler } from '../controller/movie.controller'
+import {
+   resetDbHandler,
+   createMovieHandler,
+   updateMovieHandler,
+   getMovieHandler,
+   getAllMoviesHandler,
+   deleteMovieHandler
+} from '../resources/movie.controller'
 
 const router = Router()
 
-router.get('/_health-check', (req: Request, res: Response) => {
+router.get('/__healthcheck', (req: Request, res: Response) => {
    res.status(200).send({ message: 'Server Working ヾ(≧▽≦*)o' })
 })
 
-router.post('/movies', createAllMoviesHandler)
-router.post('/movies/create', createMovieHandler)
-router.get('/movie/:id', getMovieHandler)
+router.post('/movie/reset', resetDbHandler)
+router.post('/movie', createMovieHandler)
+router.get('/movie', getAllMoviesHandler)
+
 router.put('/movie/:id', updateMovieHandler)
-// router.get('/movies', getAllMovies)
+router.get('/movie/:id', getMovieHandler)
+router.delete('/movie/:id', deleteMovieHandler)
 
 export default router

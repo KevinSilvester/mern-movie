@@ -1,4 +1,6 @@
 import { Types } from 'mongoose'
+import { TypeOf } from 'zod'
+import { createMovieSchema, getMoveSchema, updateMovieSchema } from './resources/movie.schema'
 
 export interface MovieType {
    title: string
@@ -15,5 +17,9 @@ export interface MovieType {
 }
 
 export interface MovieDoc extends MovieType {
-   _id: Types.ObjectId
+   _id: number
 }
+
+export type CreateMovieInput = TypeOf<typeof createMovieSchema>
+export type GetAndDeleteMovieInput = TypeOf<typeof getMovieSchema>
+export type UpdateMovieInput = TypeOf<typeof updateMovieSchema>
