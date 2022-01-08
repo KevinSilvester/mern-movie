@@ -1,13 +1,10 @@
 import type { Request, Response } from 'express'
+import type { FilterQuery } from 'mongoose'
+import type { CreateMovieInput, GetAndDeleteMovieInput, UpdateMovieInput, MovieDoc } from '../types'
 import { createMovieSchema, updateMovieSchema, getMovieSchema } from './movie.schema'
-import type { CreateMovieInput, GetAndDeleteMovieInput, UpdateMovieInput } from '../types'
 import { resetDb, createMovie, findAndUpdateMovie, getMovie, getAllMovies, deleteMovie } from './movie.service'
 import { validateCreateMovie, validateGetAndDeleteMovie, validateUpdateMovie } from './movie.validation'
 import logger from '../utils/logger'
-import { MovieDoc } from '../types'
-import { FilterQuery } from 'mongoose'
-
-// zod schema 43:00
 
 /**
  * Handles request for adding all the movies to DB
