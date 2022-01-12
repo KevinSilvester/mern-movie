@@ -7,12 +7,13 @@ const hsl = variable => ({ opacityValue }) => {
 module.exports = {
    mode: 'jit',
    content: ['./src/**/*.{html,js,jsx,ts,tsx}'],
-   darkMode: 'media',
+   darkMode: 'class',
    theme: {
       extend: {
          colors: {
             custom: {
                slate: {
+                  50: hsl('--slate-50'),
                   100: hsl('--slate-100'),
                   200: hsl('--slate-200'),
                   300: hsl('--slate-300'),
@@ -29,6 +30,15 @@ module.exports = {
                   400: hsl('--navy-400'),
                   500: hsl('--navy-500'),
                   600: hsl('--navy-600'),
+                  700: hsl('--navy-700'),
+               },
+               white: {
+                  100: hsl('--white-100'),
+                  200: hsl('--white-200')
+               },
+               grey: {
+                  100: hsl('--grey-100'),
+                  200: hsl('--grey-200')
                }
             },
          },
@@ -41,7 +51,7 @@ module.exports = {
             'auto-2': 'var(--grid-auto-2)'
          },
          boxShadow: {
-            center: 'var(--shadow-center)'
+            'sm-blue': '0px 1px 2px 1px hsl(var(--navy-600) / 0.05)'
          }
       }
    },

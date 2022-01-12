@@ -1,6 +1,13 @@
 import type { Request, Response } from 'express'
 import type { FilterQuery } from 'mongoose'
-import type { CreateMovieInput, GetAndDeleteMovieInput, UpdateMovieInput, MovieDoc } from '../types'
+import queryString from 'query-string'
+import {
+   CreateMovieInput,
+   GetAndDeleteMovieInput,
+   UpdateMovieInput,
+   MovieDoc,
+   MovieSource
+} from '../types'
 import { createMovieSchema, updateMovieSchema, getAndDeleteMovieSchema } from './movie.schema'
 import {
    resetDb,
@@ -9,6 +16,7 @@ import {
    getMovie,
    getAllMovies,
    deleteMovie
+   // getMovieFromExternal
 } from './movie.service'
 import {
    validateCreateMovie,
@@ -17,10 +25,7 @@ import {
 } from './movie.validation'
 import logger from '../utils/logger'
 
-export const resetDbHandler = async (
-   req: Request<{}, {}, CreateMovieInput['body'][]>,
-   res: Response
-) => {
+export const resetDbHandler = async (req: Request<{}, {}, MovieSource[]>, res: Response) => {
    try {
       const movies = await resetDb(req.body)
       res.status(201).json({ success: true, message: 'Database reset ＜（＾－＾）＞', movies })
@@ -95,3 +100,24 @@ export const deleteMovieHandler = async (
       res.status(404).json({ success: false, error: err })
    }
 }
+
+// /**
+//  * Search: https://api.themoviedb.org/3/search/movie?api_key=${mdbKey}&query=${movie?.title}&page=1
+//  * Movie: https://api.themoviedb.org/3/movie/${movieSearchRes.data.results[0].id}?api_key=${mdbKey}
+//  * Video: https://api.themoviedb.org/3/movie/${movieRes.data.id}/videos?api_key=${mdbKey}&language=en
+//  */
+
+// export const getMovieFromExternalHandler = async (
+//    req: Request<GetAndDeleteMovieInput['params'], {}, {}>,
+//    res: Response
+// ) => {
+
+//    try {
+//       const { params } = await validateGetAndDeleteMovie(getAndDeleteMovieSchema, req.params)
+//       const movie = await getMovieFromExternal(params.id as FilterQuery<MovieDoc['_id']>)
+
+//    } catch (err: any) {
+//       logger.error({ error: err })
+//       res.status(404).json({ success: false, error: err })
+//    }
+// }

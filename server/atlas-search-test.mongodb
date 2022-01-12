@@ -1,0 +1,13 @@
+use('data')
+
+db.movies.aggregate([
+   {
+      $search: {
+        index: 'movie-index',
+        text: {
+          query: 'the lord',
+          path: 'title'
+        }
+      }
+   }
+])

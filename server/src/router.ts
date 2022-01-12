@@ -23,4 +23,6 @@ router.put('/movie/:id', updateMovieHandler)
 router.get('/movie/:id', getMovieHandler)
 router.delete('/movie/:id', deleteMovieHandler)
 
+router.get('/movie/:id/external')
+
 export default router

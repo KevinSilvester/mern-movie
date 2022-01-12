@@ -1,40 +1,52 @@
-import {  Route, ReactLocation, Navigate } from 'react-location'
-import Loader from '@comp/Loader'
-import { QueryClient } from 'react-query'
+// import { lazy } from 'react'
+// import {  Route, ReactLocation, Navigate } from 'react-location'
+// import Loader from '@comp/Loader'
+// import { QueryClient } from 'react-query'
+// import { getMovie } from '@lib/api'
+// import { ApiResponse } from '@lib/types'
 
 
-export const queryClient = new QueryClient()
-export const location = new ReactLocation()
+// export 
+// export const location = new ReactLocation()
 
+// const HomePage = lazy(() => import('@routes/HomePage'))
+// const MoviePage = lazy(() => import('@routes/MoviePage'))
+// const FormPage = lazy(() => import('@routes/FormPage'))
+// const _404Page = lazy(() => import('@routes/_404Page'))
 
-export const routes: Route[] = [
-   {
-      path: '/',
-      element: () => import('@routes/Home').then(module => <module.default />),
-   },
-   {
-      path: 'movie',
-      children: [
-         {
-            path: ':id',
-            element: () => import('@routes/SingleMovie').then(module => <module.default />),
-            pendingElement: <Loader />
-         },
-         {
-            path: '/',
-            element: <Navigate to='/' />,
-            pendingElement: <Loader />
-         }
-      ]
-   },
-   {
-      path: 'add-movie',
-      element: () => import('@routes/AddMovie').then(module => <module.default />),
-      pendingElement: <Loader />
-   },
-   {
-      element: () => import('@routes/_404Page').then(module => <module.default />),
-   }
-]
+// export const routes: Route[] = [
+//    {
+//       path: '/',
+//       element: <HomePage />,
+//    },
+//    {
+//       path: 'movie',
+//       children: [
+//          {
+//             path: ':id',
+//             element: <MoviePage />,
+//             pendingElement: <Loader />,
+//             loader: async ({ params: { id }}) => ({
+//                movie: queryClient.fetchQuery<ApiResponse['movie']>(['movie', id], () => getMovie(id))
+//             })
+//          },
+//          {
+//             path: '/',
+//             element: <Navigate to='/' />,
+//             pendingElement: <Loader />
+//          }
+//       ]
+//    },
+//    {
+//       path: 'add',
+//       element: <FormPage />,
+//       pendingElement: <Loader />
+//    },
+//    {
+//       element: <_404Page />,
+//    }
+// ]
 
-// export const history = createBrowserHistory()
+// // export const history = createBrowserHistory()
+
+export default {}

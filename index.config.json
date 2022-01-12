@@ -1,0 +1,16 @@
+{
+   "mappings": {
+      "dynamic": false,
+      "fields": {
+         "title": {
+            "type": "string"
+         },
+         "director": {
+            "type": "string"
+         },
+         "genres": {
+            "type": "string"
+         }
+      }
+   }
+}

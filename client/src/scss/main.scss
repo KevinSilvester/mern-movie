@@ -1,4 +1,5 @@
 :root {
+   --slate-50: 209 29% 75%;
    --slate-100: 212 24% 70%;
    --slate-200: 212 19% 68%;
    --slate-300: 208 20% 62%;
@@ -13,6 +14,16 @@
    --navy-400: 213 41% 14%;
    --navy-500: 216 37% 14%;
    --navy-600: 211 51% 9%;
+   --navy-700: 235 21% 21%;
+
+   --white-100: 0 0% 100%;
+   --white-200: 210 30% 92%;
+
+   --grey-100: 210 18% 31%;
+   --grey-200: 206 25% 20%;
+
+   --skeleton-bg: hsl(var(--slate-50) / 1);
+   --skeleton-fg: hsl(var(--blue-100) / 0.1);
 
    // --txt: hsl(var(--slate-300));
    // --bg: hsl(var(--navy-600));
@@ -31,12 +42,21 @@
    // --skeleton-bg: hsl(var(--navy-200));
    // --skeleton-fg: hsl(var(--blue-200), 0.1);
 
-   --col-1: auto 2.6rem;
+   --col-1: auto 2.6rem 2.6rem;
    --col-2: 0.76rem auto 0.76rem;
-   --col-3: repeat(auto-fill, minmax(105px, 1fr));
+   --col-3: repeat(3, minmax(100px, 1fr));
    --col-4: repeat(auto-fill, minmax(150px, 1fr));
-   --col-5: repeat(auto-fill, minmax(200px, 1fr));
+   --col-5: repeat(auto-fill, 175px);
+   --col-6: repeat(auto-fill, 200px);
    --row-1: min-content auto;
+}
+
+.dark {
+   --skeleton-bg: hsl(var(--navy-200));
+
+   #_404 {
+      background-color: hsl(var(--white-200) / 0.9)
+   }
 }
 
 @tailwind base;
@@ -45,7 +65,7 @@
 
 @layer base {
    body {
-      @apply font-body bg-custom-navy-600 text-custom-slate-300;
+      @apply font-body bg-custom-white-200 text-custom-grey-100 dark:bg-custom-navy-600 dark:text-custom-slate-300;
    }
 
    #no-script {
@@ -73,3 +93,22 @@
       }
    }
 }
+
+@layer components {
+   #_404 {
+      background-image: url('../assets/_404img.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-color: hsl(var(--white-200));
+      width: 95vw;
+      max-width: 810px;
+      height: 50vh;
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translate(-50%, -10%);
+      border-radius: 1rem;
+   }
+}
+

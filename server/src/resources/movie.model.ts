@@ -4,7 +4,7 @@ import { Schema, model } from 'mongoose'
 
 const MovieSchema = new Schema<MovieDoc, Model<MovieDoc>, MovieDoc>(
    {
-      _id: { type: Number, required: true },
+      _id: { type: String, required: true },
       title: { type: String, required: true },
       year: { type: Number, required: true },
       genres: { type: [String], required: true },
@@ -13,7 +13,7 @@ const MovieSchema = new Schema<MovieDoc, Model<MovieDoc>, MovieDoc>(
       plot: { type: String, required: true },
       runtime: { type: Number, required: true },
       poster: {
-         image: { type: String, required: true },
+         image: String,
          fallback: String
       }
    },

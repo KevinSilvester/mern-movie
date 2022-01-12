@@ -1,11 +1,11 @@
 import Form from '@comp/Form'
 import SvgLeft from '@comp/Svg/SvgLeft'
-import { Link } from 'react-location'
+import { Link } from 'react-router-dom'
 
-const AddMovie = () => {
+const FormPage = () => {
    return (
       <>
-         <Link to='/' preload={5000}>
+         <Link to='/'>
             <SvgLeft className='h-4' />
          </Link>
          <h1>Add Movie</h1>
@@ -14,4 +14,4 @@ const AddMovie = () => {
    )
 }
 
-export default AddMovie
+export default FormPage

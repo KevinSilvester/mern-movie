@@ -4,13 +4,13 @@ import { Movie } from '@lib/types'
 
 const Form: React.FC<{ movie?: Movie }> = ({ movie }) => {
    const [title, setTitle] = useState<string>(movie?.title || '')
-   const [year, setYear] = useState<string>(movie?.year || '')
-   const [runtime, setRuntime] = useState<string>(movie?.runtime || '')
+   const [year, setYear] = useState<number>(movie?.year || 0)
+   const [runtime, setRuntime] = useState<number>(movie?.runtime || 0)
    const [genres, setGenres] = useState<string[]>(movie?.genres || [])
    const [director, setDirector] = useState<string>(movie?.director || '')
    const [actors, setActors] = useState<string[]>(movie?.actors || [])
    const [plot, setPlot] = useState<string>(movie?.plot || '')
-   const [posterUrl, setPosterUrl] = useState<string>(movie?.poster.url || '')
+   const [posterUrl, setPosterUrl] = useState<string>(movie?.poster.image || '')
    
    return (
       <form>

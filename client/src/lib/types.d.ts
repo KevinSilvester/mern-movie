@@ -1,50 +1,51 @@
-import { MakeGenerics } from "react-location"
+import { StringDecoder } from "string_decoder"
 
 export interface Movie {
-   _id?: number
-   actors: string[]
-   director: string
+   _id: string
+   title: string
+   year: number
    genres: string[]
+   director: string
+   actors: string[]
    plot: string
+   runtime: number
    poster: {
-      url: string
+      image: string
       fallback: string
    }
-   title: string
-   runtime: string
-   year: string
-   _v: number
 }
 
-interface IteratorYieldResult<MYield> {
-   done?: false,
-   value: MYield
-}
-
-interface IteratorReturnResult<MReturn> {
-   done: true,
-   value: MReturn
-}
-
-type IteratorResult<M, MReturn = any> = IteratorYieldResult<M> | IteratorReturnResult<MReturn>
-
-interface Iterator<M, MReturn = any, MNext = undefined> {
-   next(...arg: [] | [MNext]): IteratorResult<M, MReturn>
-   return?(value?: MReturn): IteratorResult<M, MReturn>
-   throw?(e?: any): IteratorResult<M, MReturn>
-}
-
-interface IterableMovie<Movie> {
-   [Symbol.iterator]() : Iterator<Movie>
-}
-
-export type LocationGeneric = MakeGenerics<{
-   LoaderData: {
-      movies: Movie[],
-      movie: Movie
+export interface MovieExtended extends Movie {
+   links: {
+      imdb: string
+      youtube: StringDecoder
    }
-}>
+}
 
+export interface ApiResponse {
+   success: boolean
+   message?: string
+   error?: any
+   movies?: Movie[]
+   movie?: MovieExtended
+}
+
+export interface SourceData {
+   genres: string[]
+   movies: SourceMovie[]
+}
+
+export interface SourceMovie {
+   id: number
+   title: string
+   year: string
+   runtime: string
+   genres: string[]
+   director: string
+   actors: string
+   plot: string
+   posterUrl: string
+}
 export interface Store {
    loaded: boolean;
    error: boolean;

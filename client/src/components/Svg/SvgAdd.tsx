@@ -1,4 +1,4 @@
-const Svg: React.FC<{className: any}> = ({ className }) => {
+const Svg: React.FC<{className: string; onClick?: () => void}> = ({ className, onClick }) => {
    return (
       <svg
          aria-hidden='true'
@@ -9,6 +9,7 @@ const Svg: React.FC<{className: any}> = ({ className }) => {
          role='img'
          xmlns='http://www.w3.org/2000/svg'
          viewBox='0 0 448 512'
+         onClick={onClick}
       >
          <path
             fill='currentColor'
