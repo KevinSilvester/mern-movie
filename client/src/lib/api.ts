@@ -22,21 +22,3 @@ type DataItem = {
    actors: string;
    posterUrl: string;
 }
-
-// export const postMovies = async (): Promise<Movie[]> => {
-//    const res = await axios.get(SOURCE_URL)
-//    const data = await Promise.all(res.data.movies.map(async ({ title, actors, posterUrl, ...rest}: DataItem, index: number) => {
-//       return ({
-//          ...rest,
-//          title: title,
-//          _id: index,
-//          actors: actors.split(', '),
-//          poster: {
-//             url: posterUrl,
-//             fallback: await getFallBack(title),
-//          }
-//       })
-//    }))
-//    return await (await client.post(`/movie/reset`, data)).data
-// }
-
