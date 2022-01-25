@@ -1,7 +1,6 @@
 import { z } from 'zod'
 
 const bodySchema = z.object({
-   _id: z.number({ required_error: 'Movie ID is required' }),
    title: z.string({ required_error: 'Title cannot be empty' }),
    year: z
       .number()

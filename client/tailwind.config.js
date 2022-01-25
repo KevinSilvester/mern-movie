@@ -51,7 +51,8 @@ module.exports = {
             'auto-2': 'var(--grid-auto-2)'
          },
          boxShadow: {
-            'sm-blue': '0px 1px 2px 1px hsl(var(--navy-600) / 0.05)'
+            'sm-blue': '0px 1px 2px 1px hsl(var(--navy-600) / 0.05)',
+            'md-img': '0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color), 0 -1px 11px -3px var(--tw-shadow-color)'
          }
       }
    },

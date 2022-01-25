@@ -87,6 +87,7 @@ export interface MDBMovie {
    video:                 boolean;
    vote_average:          number;
    vote_count:            number;
+   videos:                Videos;
 }
 
 export interface Genre {
@@ -96,7 +97,7 @@ export interface Genre {
 
 export interface ProductionCompany {
    id:             number;
-   logo_path:      string;
+   logo_path:      null | string;
    name:           string;
    origin_country: string;
 }
@@ -112,12 +113,11 @@ export interface SpokenLanguage {
    name:         string;
 }
 
-export interface MDBVideo {
-   id:      number;
-   results: MDBVideoResult[];
+export interface Videos {
+   results: Result[];
 }
 
-export interface MDBVideoResult {
+export interface Result {
    iso_639_1:    string;
    iso_3166_1:   string;
    name:         string;

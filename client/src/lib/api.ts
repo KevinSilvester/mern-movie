@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { ApiResponse, Movie, MovieExtended, SourceData, Store } from '@lib/types'
 
-const API_URL = 'http://localhost:4000/api'
+const API_URL = import.meta.env.VITE_API_URL as string
 const SOURCE_URL = 'https://raw.githubusercontent.com/erik-sytnyk/movies-list/master/db.json'
 
 export const API = axios.create({ baseURL: API_URL})

@@ -25,7 +25,7 @@
       "allowSyntheticDefaultImports": true,
       "strict": true,
       "forceConsistentCasingInFileNames": true,
-      "module": "amd",
+      "module": "ES2022",
       "moduleResolution": "Node",
       "resolveJsonModule": true,
       "isolatedModules": true,

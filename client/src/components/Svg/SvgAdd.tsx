@@ -1,12 +1,21 @@
-const Svg: React.FC<{className: string; onClick?: () => void}> = ({ className, onClick }) => {
+type Props = {
+   className: string;
+   onClick?: () => void;
+   focusable?: boolean;
+   role?: string;
+   props?: any
+}
+
+const Svg: React.FC<Props> = ({ className, onClick, role = 'img', focusable = false, ...props }) => {
    return (
       <svg
          aria-hidden='true'
-         focusable='false'
+         focusable={focusable}
          data-prefix='fas'
          data-icon='plus'
          className={className}
-         role='img'
+         role={role}
+         {...props}
          xmlns='http://www.w3.org/2000/svg'
          viewBox='0 0 448 512'
          onClick={onClick}
