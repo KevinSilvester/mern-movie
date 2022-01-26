@@ -37,6 +37,15 @@ export type CreateMovieInput = TypeOf<typeof createMovieSchema>
 export type GetAndDeleteMovieInput = TypeOf<typeof getMovieSchema>
 export type UpdateMovieInput = TypeOf<typeof updateMovieSchema>
 
+export interface MDBApiResult {
+   fallback: string & MDBMovie['poster_path']
+   backdrop: string & MDBMovie['backdrop_path'] | null
+   links: {
+      youtube: string & Result['key'] | null
+      imdb: string & MDBMovie['imdb_id'] | null
+   }
+}
+
 export interface MDBSearch {
    page: number
    results: MDBSearchResult[]

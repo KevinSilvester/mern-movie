@@ -1,4 +1,4 @@
-import type { MDBMovie, MDBSearch } from '../types'
+import type { MDBApiResult, MDBMovie, MDBSearch } from '../types'
 import config from 'config'
 import axios from 'axios'
 //@ts-ignore
@@ -8,7 +8,7 @@ const MDB_KEY = config.get<number>('mdbKey')
 
 const mdbApi = axios.create({ baseURL: 'https://api.themoviedb.org/3' })
 
-export const getFromMdb = async (title: string, year: number | string ) => {
+export const getFromMdb = async (title: string, year: number | string): Promise<MDBApiResult> => {
    try {
       const searchRes = (
          await mdbApi.get<MDBSearch>(
@@ -34,6 +34,9 @@ export const getFromMdb = async (title: string, year: number | string ) => {
          fallback: movieRes.poster_path
             ? `https://image.tmdb.org/t/p/w500${movieRes.poster_path}`
             : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg',
+         backdrop: movieRes.backdrop_path
+            ? `https://image.tmdb.org/t/p/original${movieRes.backdrop_path}`
+            : null,
          links: {
             imdb: movieRes.imdb_id ? `https://www.imdb.com/title/${movieRes.imdb_id}` : null,
             youtube:
@@ -45,6 +48,7 @@ export const getFromMdb = async (title: string, year: number | string ) => {
    } catch {
       return {
          fallback: 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg',
+         backdrop: null,
          links: {
             imdb: null,
             youtube: null

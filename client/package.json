@@ -34,6 +34,7 @@
       "react-loader-spinner": "^4.0.0",
       "react-query": "^3.34.7",
       "react-router-dom": "^6.0.2",
+      "react-toastify": "^8.1.0",
       "twind": "^0.16.16",
       "zustand": "^3.6.6"
    },

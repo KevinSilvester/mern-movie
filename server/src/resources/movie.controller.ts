@@ -1,7 +1,6 @@
 import type { Request, Response } from 'express'
 import type { FilterQuery } from 'mongoose'
-import queryString from 'query-string'
-import {
+import type {
    CreateMovieInput,
    GetAndDeleteMovieInput,
    UpdateMovieInput,

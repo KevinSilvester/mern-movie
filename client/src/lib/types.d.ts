@@ -16,10 +16,12 @@ export interface Movie {
 }
 
 export interface MovieExtended extends Movie {
+   backdrop: string | null
    links: {
-      imdb: string
-      youtube: StringDecoder
+      imdb: string | null
+      youtube: string | null
    }
+
 }
 
 export interface ApiResponse {

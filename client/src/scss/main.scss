@@ -116,4 +116,17 @@
       transform: translate(-50%, -10%);
       border-radius: 1rem;
    }
+
+   .movie-header {
+      background: hsl(var(--navy-500));
+      background: linear-gradient(
+         180deg,
+         rgba(22, 33, 49, 0.502305145691089) 0%,
+         rgba(22, 33, 49, 0.9868989832261029) 73%
+      );
+   }
+}
+
+.Toastify__close-button {
+   @apply text-red-400;
 }

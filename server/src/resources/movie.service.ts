@@ -5,22 +5,21 @@ import { alphanumeric } from 'nanoid-dictionary'
 import MovieModel from './movie.model'
 import { getFromMdb } from '../utils/mdbApi'
 
-const nanoid = customAlphabet(alphanumeric, 15)
+const nanoid = customAlphabet(alphanumeric, 25)
 
 export const resetDb = async (movies: MovieSource[]): Promise<MovieDoc[]> => {
    try {
       const data: DocumentDefinition<MovieDoc>[] = await Promise.all(
          movies.map(
-            async ({ id, title, actors, posterUrl, year, runtime, ...rest }, index: number) => ({
+            async ({ id, actors, posterUrl, year, runtime, ...rest }) => ({
                ...rest,
                _id: nanoid(),
-               title: title,
                year: parseInt(year),
                actors: actors.split(', '),
                runtime: parseInt(runtime),
                poster: {
                   image: posterUrl,
-                  fallback: (await getFromMdb(title, year)).fallback
+                  fallback: (await getFromMdb(rest.title, year)).fallback
                }
             })
          )
@@ -70,7 +69,8 @@ export const getMovie = async (id: FilterQuery<MovieDoc['_id']>) => {
    try {
       const movie = await MovieModel.findById(id)
       if (!movie?.toObject()) throw new Error('Movie Not Found')
-      return { ...movie.toObject(), links: (await getFromMdb(movie.title, movie.year)).links }
+      const { links, backdrop } = await getFromMdb(movie.title, movie.year)
+      return { ...movie.toObject(), links, backdrop }
    } catch (e: any) {
       throw new Error(e)
    }
