@@ -40,7 +40,7 @@ const MoviePage: React.FC = () => {
          >
             <button
                role='link'
-               aria-label='Go Back'
+               aria-label='Go to Home Page'
                className='h-11 w-[77px] rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:w-11'
                //@ts-ignore
                onClick={() => navigate(navType !== 'PUSH' ? '/' : -1)}

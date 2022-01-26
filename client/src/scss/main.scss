@@ -25,23 +25,6 @@
    --skeleton-bg: hsl(var(--slate-50) / 1);
    --skeleton-fg: hsl(var(--blue-100) / 0.1);
 
-   // --txt: hsl(var(--slate-300));
-   // --bg: hsl(var(--navy-600));
-
-   // --nav-txt: hsl(var(--slate-200));
-   // --nav-txt-lg: hsl(var(--slate-100));
-   // --nav-bg-lg: hsl(var(--navy-400));
-   // --nav-logo-bg: hsl(var(--navy-300));
-   // --nav-logo-bg-lg: hsl(var(--navy-300));
-
-   // --comp-bg: hsl(var(--navy-500));
-   // --comp-bg-lg: hsl(var(--navy-100));
-   // --comp-txt: hsl(var(--slate-400));
-   // --comp-txt-active: hsla(var(--blue-200));
-
-   // --skeleton-bg: hsl(var(--navy-200));
-   // --skeleton-fg: hsl(var(--blue-200), 0.1);
-
    --col-1: auto 2.6rem 2.6rem;
    --col-2: 0.76rem auto 0.76rem;
    --col-3: repeat(3, minmax(100px, 1fr));
@@ -63,68 +46,55 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-   [type='search']::-webkit-search-cancel-button,
-   [type='search']::-webkit-search-decoration {
-      -webkit-appearance: none;
-      appearance: none;
-   }
+[type='search']::-webkit-search-cancel-button,
+[type='search']::-webkit-search-decoration {
+   -webkit-appearance: none;
+   appearance: none;
+}
 
-   body {
-      @apply font-body bg-custom-white-200 text-custom-grey-100 dark:bg-custom-navy-600 dark:text-custom-slate-300;
-   }
+body {
+   @apply font-body bg-custom-white-200 text-custom-grey-100 dark:bg-custom-navy-600 dark:text-custom-slate-300;
+}
 
-   #no-script {
-      position: relative;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 100vw;
-      background: hsl(var(--navy-600));
+#no-script {
+   position: relative;
+   top: 0;
+   left: 0;
+   height: 100vh;
+   width: 100vw;
+   background: hsl(var(--navy-600));
 
-      span {
-         font-family: Arial, Helvetica, sans-serif;
-         font-size: 1.25rem;
-         line-height: 1.75rem;
-         color: hsl(var(--blue-200));
-         position: absolute;
-         top: 50%;
-         left: 50%;
-         transform: translate(-50%, -50%);
+   span {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+      color: hsl(var(--blue-200));
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
 
-         @screen lg {
-            font-size: 1.5rem;
-            line-height: 2rem;
-         }
+      @screen lg {
+         font-size: 1.5rem;
+         line-height: 2rem;
       }
    }
 }
 
-@layer components {
-   #_404 {
-      background-image: url('../assets/_404img.svg');
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-color: hsl(var(--white-200));
-      width: 95vw;
-      max-width: 810px;
-      height: 50vh;
-      position: absolute;
-      top: 10%;
-      left: 50%;
-      transform: translate(-50%, -10%);
-      border-radius: 1rem;
-   }
-
-   .movie-header {
-      background: hsl(var(--navy-500));
-      background: linear-gradient(
-         180deg,
-         rgba(22, 33, 49, 0.502305145691089) 0%,
-         rgba(22, 33, 49, 0.9868989832261029) 73%
-      );
-   }
+#_404 {
+   background-image: url('../assets/_404img.svg');
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-position: center;
+   background-color: hsl(var(--white-200));
+   width: 95vw;
+   max-width: 810px;
+   height: 50vh;
+   position: absolute;
+   top: 10%;
+   left: 50%;
+   transform: translate(-50%, -10%);
+   border-radius: 1rem;
 }
 
 .Toastify__close-button {

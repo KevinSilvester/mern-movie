@@ -94,14 +94,24 @@ const Header: React.FC<Props> = ({ movie, isFetching }) => {
             </span>
          </div>
          <div className='relative w-full h-10 flex mt-5 gap-4 z-0'>
-            <button className='h-full bg-red-500 w-32 text-white grid place-items-center rounded-md shadow-md dark:shadow-none transition-all hover:!shadow-red-400/50 hover:!shadow-button'>
+            <button
+               aria-label='Delete Movie'
+               role='button'
+               className='h-full bg-red-500 w-32 text-white grid place-items-center rounded-md shadow-md dark:shadow-none transition-all hover:!shadow-red-400/50 hover:!shadow-button'
+            >
                <SvgTrash className='h-1/2' />
             </button>
-            <button className='h-full bg-custom-blue-200 text-white text-lg font-bold w-full flex items-center justify-center gap-1 rounded-md shadow-md dark:shadow-none transition-all hover:!shadow-custom-blue-200/50 hover:!shadow-button'>
+            <button
+               aria-label='Edit Movie Data'
+               role='button'
+               className='h-full bg-custom-blue-200 text-white text-lg font-bold w-full flex items-center justify-center gap-1 rounded-md shadow-md dark:shadow-none transition-all hover:!shadow-custom-blue-200/50 hover:!shadow-button'
+            >
                <SvgEdit className='h-1/2' />
                <span>Edit</span>
             </button>
             <a
+               aria-label='Link to IMDb Page'
+               role='link'
                href={movie?.links.imdb as string}
                target='_blank'
                className='h-full bg-yellow-500 text-black text-lg font-bold w-full flex items-center justify-center gap-1 rounded-md shadow-md dark:shadow-none transition-all hover:!shadow-yellow-400/50 hover:!shadow-button'
