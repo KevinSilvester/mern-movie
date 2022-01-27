@@ -18,6 +18,7 @@ const MovieSchema = new Schema<MovieDoc, Model<MovieDoc>, MovieDoc>(
       }
    },
    {
+      timestamps: true,
       collection: 'movies',
       versionKey: false
    }

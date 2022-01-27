@@ -16,6 +16,8 @@ export const resetDB = async () => {
    await API.post<ApiResponse>('/movie/reset', data.movies)
 }
 
+export const deleteMovie = async (id: string) => (await API.delete<ApiResponse>(`/movie/${id}`)).data
+
 
 type DataItem = {
    title: string;

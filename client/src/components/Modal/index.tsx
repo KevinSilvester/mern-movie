@@ -3,9 +3,13 @@ import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 
-const ResetModal: React.FC<{ handleClose: (proceed: boolean) => Promise<void> }> = ({
-   handleClose
-}) => {
+type Props = {
+   handleClose: (proceed: boolean) => Promise<void>
+   title: string
+   message: string
+}
+
+const ResetModal: React.FC<Props> = ({ handleClose, title, message }) => {
    const [open, setOpen] = useState<boolean>(true)
 
    useEffect(() => disableBodyScroll(document.body), [])
@@ -24,13 +28,15 @@ const ResetModal: React.FC<{ handleClose: (proceed: boolean) => Promise<void> }>
          animate={{ opacity: 1, y: 0 }}
          exit={{ opacity: 0, y: -15 }}
          transition={{ duration: 0.15 }}
+         onClick={() => handleClick(false)}
       >
-         <div className='w-[95vw] max-w-[500px] bg-custom-white-200 dark:bg-custom-navy-600 p-6 md:p-7 rounded-md drop-shadow-2xls shadow-2xl'>
-            <h2 className='text-center text-2xl'>Reset Database</h2>
+         <div
+            className='w-[95vw] max-w-[500px] bg-custom-white-200 dark:bg-custom-navy-600 p-6 md:p-7 rounded-md drop-shadow-2xls shadow-2xl'
+            onClick={e => e.stopPropagation()}
+         >
+            <h2 className='text-center text-2xl'>{title}</h2>
             <br />
-            <span>
-               This action will undo any updates/changes you have made to the dataset of movies!
-            </span>
+            <span>{message}</span>
             <div className='mt-5 flex items-center justify-evenly'>
                <button
                   className='px-4 py-2 bg-red-500 text-white rounded-md shadow-md hover:shadow-xl duration-200'

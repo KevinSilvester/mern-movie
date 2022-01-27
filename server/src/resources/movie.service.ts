@@ -33,7 +33,7 @@ export const resetDb = async (movies: MovieSource[]): Promise<MovieDoc[]> => {
 
 export const getAllMovies = async () => {
    try {
-      return await MovieModel.find()
+      return await MovieModel.find().sort({ 'createdAt': -1 })
       // return MovieModel.aggregate().search({
       //    index: 'movie-index',
       //    text: {

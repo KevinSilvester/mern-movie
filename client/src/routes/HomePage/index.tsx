@@ -5,7 +5,7 @@ import React, { useState, useRef, useMemo } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
 import { css, jsx } from '@emotion/react'
-import { motion, AnimatePresence, useCycle } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import SvgSearch from '@comp/Svg/SvgSearch'
 import SvgAdd from '@comp/Svg/SvgAdd'
 import Card from '@comp/Card'
@@ -13,9 +13,10 @@ import Loader from '@comp/Loader'
 import SvgUndo from '@comp/Svg/SvgUndo'
 import SvgSlider from '@comp/Svg/SvgSlider'
 import SvgAdjust from '@comp/Svg/SvgAdjust'
-import ResetModal from '@comp/ResetModal'
+import Modal from '@comp/Modal'
 import { ApiResponse, Movie } from '@lib/types'
 import { getAllMovies, resetDB } from '@lib/api'
+import { notifySuccess } from '@lib/toaster'
 
 const HomePage: React.FC = () => {
    const [searchFocus, setSearchFocus] = useState<boolean>(false)
@@ -23,12 +24,10 @@ const HomePage: React.FC = () => {
    const [openModal, setOpenModal] = useState<boolean>(false)
    const [searchTerm, setSearchTerm] = useState<string>('')
 
-   const [isBlur, toggleBlur] = useCycle(false, true)
-
    const input = useRef<HTMLInputElement>(null)
 
-   const { isFetching, isError, isSuccess, data, refetch } = useQuery<ApiResponse>(
-      'movies',
+   const { isFetching, isError, data, refetch } = useQuery<ApiResponse>(
+      ['movies'],
       getAllMovies,
       {
          refetchOnMount: false,
@@ -40,12 +39,11 @@ const HomePage: React.FC = () => {
    const handleCloseModal = async (proceed: boolean) => {
       setOpenModal(false)
       if (proceed) {
-         //setTimeout(async () => {
-            setIsResetting(true)
-            await resetDB()
-            setIsResetting(false)
-            await refetch()
-         //}, 150)
+         setIsResetting(true)
+         await resetDB()
+         setIsResetting(false)
+         await refetch()
+         notifySuccess('Database Reset! ＜（＾－＾）＞')
       }   
    }
 
@@ -63,7 +61,10 @@ const HomePage: React.FC = () => {
 
    return (
       <>
-         <nav role='navigation' className='h-[14rem] w-screen absolute top-0 left-1/2 -translate-x-1/2 grid grid-rows-3 z-20 lg:h-[4.5rem] lg:fixed lg:bg-custom-navy-600 dark:lg:bg-custom-navy-400 lg:flex lg:items-center lg:justify-around lg:w-full lg:shadow-lg lg:px-10  2xl:h-[5rem]'>
+         <nav
+            role='navigation'
+            className='h-[14rem] w-screen absolute top-0 left-1/2 -translate-x-1/2 grid grid-rows-3 z-20 lg:h-[4.5rem] lg:fixed lg:bg-custom-navy-600 dark:lg:bg-custom-navy-400 lg:flex lg:items-center lg:justify-around lg:w-full lg:shadow-lg lg:px-10  2xl:h-[5rem]'
+         >
             <div className='h-full w-full grid place-items-center lg:flex lg:items-center lg:justify-center'>
                <Link
                   role='link'
@@ -113,7 +114,11 @@ const HomePage: React.FC = () => {
                   />
                </form>
             </div>
-            <div role='menu' aria-label='Nav Items' className='w-full h-full flex gap-4 px-4 justify-around lg:items-center lg:justify-center lg:ml-'>
+            <div
+               role='menu'
+               aria-label='Nav Items'
+               className='w-full h-full flex gap-4 px-4 justify-around lg:items-center lg:justify-center lg:ml-'
+            >
                <Link
                   role='link'
                   aria-label='Add Movie'
@@ -136,7 +141,7 @@ const HomePage: React.FC = () => {
                <button
                   role='menuitem'
                   aria-label='Filter Data'
-                  className='h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:w-11'
+                  className='lg:hidden h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:w-11'
                >
                   <SvgSlider className='h-1/2' />
                </button>
@@ -160,10 +165,21 @@ const HomePage: React.FC = () => {
          </nav>
 
          <AnimatePresence initial={false}>
-            {openModal && <ResetModal handleClose={handleCloseModal} />}
+            {openModal && (
+               <Modal
+                  handleClose={handleCloseModal}
+                  title='Reset Database'
+                  message='This action will undo any updates/changes you have made to the dataset of movies!'
+               />
+            )}
          </AnimatePresence>
-         
-         <main aria-live='assertive' aria-busy={isFetching || isResetting} role='main' className='mt-56 mb-10 mx-auto w-[90vw] md:w-[85vw] lg:mt-36'>
+
+         <main
+            aria-live='assertive'
+            aria-busy={isFetching || isResetting}
+            role='main'
+            className='mt-56 mb-10 mx-auto w-[90vw] md:w-[85vw] lg:mt-36'
+         >
             {isError ? (
                <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg'>
                   An Error occurred while loading the Data!
@@ -174,10 +190,12 @@ const HomePage: React.FC = () => {
                <Loader />
             ) : (
                <motion.div
-                  className={`max-w-[1152px] grid grid-cols-[var(--col-3)] row-span-1 w-full gap-x-2 gap-y-5 justify-center mx-auto md:px-4 md:grid-cols-[var(--col-4)] md:gap-x-4 md:gap-y-7 lg:grid-cols-[var(--col-5)] lg:gap-x-7 lg:gap-y-9 2xl:grid-cols-[var(--col-6)] ${isResetting && 'pointer-events-none'}`}
-                  initial={{ '--blur-radius': `${0}px` } as any }
-                  animate={{ '--blur-radius': isResetting ? `${4}px` : `${0}px` } as any }
-                  transition={{ duration: 0.05 , delay: 0.15 }}
+                  className={`max-w-[1152px] grid grid-cols-[var(--col-3)] row-span-1 w-full gap-x-2 gap-y-5 justify-center mx-auto md:px-4 md:grid-cols-[var(--col-4)] md:gap-x-4 md:gap-y-7 lg:grid-cols-[var(--col-5)] lg:gap-x-7 lg:gap-y-9 2xl:grid-cols-[var(--col-6)] ${
+                     isResetting && 'pointer-events-none'
+                  }`}
+                  initial={{ '--blur-radius': `${0}px` } as any}
+                  animate={{ '--blur-radius': isResetting ? `${4}px` : `${0}px` } as any}
+                  transition={{ duration: 0.05, delay: 0.15 }}
                   style={{ filter: 'blur(var(--blur-radius))' }}
                >
                   {MemoizedCards}

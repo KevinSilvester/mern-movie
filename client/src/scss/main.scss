@@ -97,6 +97,12 @@ body {
    border-radius: 1rem;
 }
 
-.Toastify__close-button {
-   @apply text-red-400;
+.Toastify {
+   &__toast--error &__close-button {
+      @apply text-red-400;
+   }
+
+   &__toast--success &__close-button {
+      @apply text-green-400
+   }
 }
