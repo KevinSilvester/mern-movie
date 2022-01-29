@@ -28,10 +28,10 @@ const App = () => {
             </Suspense>
             <ToastContainer
                pauseOnFocusLoss={false}
-               className='!w-[95vw] md:!w-96 !left-1/2 !-translate-x-1/2 !bottom-4'
+               className='!w-[95vw] md:!w-96 !left-1/2 !-translate-x-1/2 !bottom-7 md:!bottom-10'
             />
          </BrowserRouter>
-         {/* <ReactQueryDevtools /> */}
+         <ReactQueryDevtools />
       </QueryClientProvider>
    )
 }

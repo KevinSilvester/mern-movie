@@ -9,7 +9,7 @@ const bodySchema = z.object({
          message: 'Year cannot be greater than the current year'
       }),
    genres: z.string({ required_error: 'Genres cannot be empty' }).array(),
-   director: z.string({ required_error: 'Director cannot be empty' }),
+   director: z.string({ required_error: 'Director cannot be empty' }).array(),
    actors: z.string({ required_error: 'Actors cannot be empty' }).array(),
    plot: z.string({ required_error: 'Plot cannot be empty' }),
    runtime: z.number().min(40, { message: 'A Film cannot be shorter than 40 minutes' }).max(2000, {

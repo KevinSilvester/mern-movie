@@ -1,7 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 /** @jsxFrag */
-import type { PageContextType } from '@routes/MoviePage/PageContext'
 import React, { useState, useContext } from 'react'
 import Warning from '@comp/Warning'
 import { css, jsx } from '@emotion/react'
@@ -12,11 +11,10 @@ type Props = {
    title: string
    image: string
    fallback: string
-   context: React.Context<PageContextType>
 }
 
-const Image: React.FC<Props> = ({ title, image, fallback, context }) => {
-   const { loaded, setLoaded } = useContext(context)
+const Image: React.FC<Props> = ({ title, image, fallback }) => {
+   const [loaded, setLoaded] = useState<boolean>(false)
    const [error, setError] = useState<boolean>(false)
 
    return (
@@ -25,17 +23,14 @@ const Image: React.FC<Props> = ({ title, image, fallback, context }) => {
          <img
             src={image}
             alt={title}
-            loading='lazy'
             className='h-full object-cover absolute top-0 left-0 w-full z-0'
             onLoad={() => setLoaded(true)}
             onError={e => {
                e.currentTarget.src = fallback
-               notifyError('Poster image link is broken!')
+               notifyError('Poster image link is broken! ㄟ( ▔, ▔ )ㄏ')
                setError(true)
             }}
-            css={css`
-               opacity: ${!loaded && 0};
-            `}
+            css={!loaded && css`opacity: 0;`}
          />
          {!loaded && (
             <div className='h-full object-cover absolute top-0 left-0 w-full z-0' css={loader} />

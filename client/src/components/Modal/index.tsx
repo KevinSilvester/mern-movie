@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import Portal from '@lib/Portal'
 
 type Props = {
    handleClose: (proceed: boolean) => Promise<void>
@@ -9,7 +10,7 @@ type Props = {
    message: string
 }
 
-const ResetModal: React.FC<Props> = ({ handleClose, title, message }) => {
+const Modal: React.FC<Props> = ({ handleClose, title, message }) => {
    const [open, setOpen] = useState<boolean>(true)
 
    useEffect(() => disableBodyScroll(document.body), [])
@@ -34,9 +35,9 @@ const ResetModal: React.FC<Props> = ({ handleClose, title, message }) => {
             className='w-[95vw] max-w-[500px] bg-custom-white-200 dark:bg-custom-navy-600 p-6 md:p-7 rounded-md drop-shadow-2xls shadow-2xl'
             onClick={e => e.stopPropagation()}
          >
-            <h2 className='text-center text-2xl'>{title}</h2>
+            <h2 className='text-center text-2xl font-bold'>{title}</h2>
             <br />
-            <span>{message}</span>
+            <span className='block text-center'>{message}</span>
             <div className='mt-5 flex items-center justify-evenly'>
                <button
                   className='px-4 py-2 bg-red-500 text-white rounded-md shadow-md hover:shadow-xl duration-200'
@@ -53,8 +54,8 @@ const ResetModal: React.FC<Props> = ({ handleClose, title, message }) => {
             </div>
          </div>
       </motion.div>,
-      document.getElementById('modal') as HTMLDivElement
+      document.body
    )
 }
 
-export default ResetModal
+export default Modal

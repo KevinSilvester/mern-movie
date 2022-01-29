@@ -5,7 +5,7 @@ export const slide = keyframes`
          transform: translateX(-100%);
       }
       to {
-         transform: translateX(50%)
+         transform: translateX(75%)
       }
    `
 

@@ -15,7 +15,6 @@ import {
    getMovie,
    getAllMovies,
    deleteMovie
-   // getMovieFromExternal
 } from './movie.service'
 import {
    validateCreateMovie,
@@ -37,7 +36,7 @@ export const resetDbHandler = async (req: Request<{}, {}, MovieSource[]>, res: R
 export const getAllMoviesHandler = async (req: Request, res: Response) => {
    try {
       const movies = await getAllMovies()
-      res.status(200).json({ success: true, message: "Here's all the Movies ( ﾉ ﾟｰﾟ)ﾉ ", movies })
+      res.status(200).json({ success: true, message: "Here's all the Movies! ( ﾉ ﾟｰﾟ)ﾉ ", movies })
    } catch (err: any) {
       logger.error({ error: err })
       res.status(409).json({ success: false, error: err.message })
@@ -51,7 +50,7 @@ export const createMovieHandler = async (
    try {
       const { body } = await validateCreateMovie(createMovieSchema, req.body)
       const movie = await createMovie(body)
-      res.status(201).json({ success: true, message: 'Movie Added ヾ(≧▽≦*)o', movie })
+      res.status(201).json({ success: true, message: 'Movie Added! ヾ(≧▽≦*)o', movie })
    } catch (err: any) {
       logger.error({ error: err })
       res.status(409).json({ success: false, error: err })
@@ -65,7 +64,7 @@ export const getMovieHandler = async (
    try {
       const { params } = await validateGetAndDeleteMovie(getAndDeleteMovieSchema, req.params)
       const movie = await getMovie(params.id as FilterQuery<MovieDoc['_id']>)
-      res.status(200).json({ success: true, message: 'Movie Found o(*^▽^*)┛', movie })
+      res.status(200).json({ success: true, message: 'Movie Found! o(*^▽^*)┛', movie })
    } catch (err: any) {
       logger.error({ error: err })
       res.status(404).json({ success: false, error: err })
@@ -79,7 +78,7 @@ export const updateMovieHandler = async (
    try {
       const { body, params } = await validateUpdateMovie(updateMovieSchema, req.body, req.params)
       const movie = await findAndUpdateMovie(params.id as FilterQuery<MovieDoc['_id']>, body)
-      res.status(200).json({ success: true, message: 'Movie Updated (～￣▽￣)～', movie })
+      res.status(200).json({ success: true, message: 'Movie Updated! (～￣▽￣)～', movie })
    } catch (err: any) {
       logger.error({ error: err })
       res.status(404).json({ success: false, error: err })
@@ -93,7 +92,7 @@ export const deleteMovieHandler = async (
    try {
       const { params } = await validateGetAndDeleteMovie(getAndDeleteMovieSchema, req.params)
       const movie = await deleteMovie(params.id as FilterQuery<MovieDoc['_id']>)
-      res.status(200).json({ success: true, message: 'Movie Deleted ( •̀ ω •́ )✧', movie })
+      res.status(200).json({ success: true, message: 'Movie Deleted! ( •̀ ω •́ )✧', movie })
    } catch (err: any) {
       logger.error({ error: err })
       res.status(404).json({ success: false, error: err })

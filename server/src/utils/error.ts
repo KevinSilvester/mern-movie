@@ -23,13 +23,9 @@ class HttpException extends Error {
  * @param req @type Request Server request
  * @param res @type Response Server response
  */
-export const errorHandler: ErrorRequestHandler = (
-   error: HttpException,
-   req: Request,
-   res: Response,
-) => {
-   const status = error.statusCode || error.status || 500
-   res.sendStatus(status).json({error : 'error'})
+export const errorHandler = (error: HttpException, req: Request, res: Response) => {
+   const code = error.statusCode || error.status || 500
+   res.send(code).json({ error: 'Server Internal Error' })
 }
 
 /**
@@ -37,7 +33,7 @@ export const errorHandler: ErrorRequestHandler = (
  * @param req @type Request Server request
  * @param res @type Response Server response
  */
-export const notFoundHandler: RequestHandler = (req: Request, res: Response) => {
+export const notFoundHandler = (req: Request, res: Response) => {
    const message = 'Resource not found'
-   res.sendStatus(404).send(message)
+   res.status(404).send('Resource not found')
 }

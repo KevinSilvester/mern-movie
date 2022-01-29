@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
    --slate-50: 209 29% 75%;
    --slate-100: 212 24% 70%;
@@ -34,17 +38,6 @@
    --row-1: min-content auto;
 }
 
-.dark {
-   --skeleton-bg: hsl(var(--navy-200));
-
-   #_404 {
-      background-color: hsl(var(--white-200) / 0.9);
-   }
-}
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
 [type='search']::-webkit-search-cancel-button,
 [type='search']::-webkit-search-decoration {
@@ -53,7 +46,31 @@
 }
 
 body {
-   @apply font-body bg-custom-white-200 text-custom-grey-100 dark:bg-custom-navy-600 dark:text-custom-slate-300;
+   @apply font-body scroll-smooth bg-custom-white-200 text-custom-grey-100 dark:bg-custom-navy-600 dark:text-custom-slate-300;
+}
+
+* {
+   scrollbar-color: hsl(var(--grey-100)) hsl(var(--slate-50));
+   scrollbar-width: thin;
+
+   &::-webkit-scrollbar {
+      width: 10px;
+
+      &-track {
+         background: hsl(var(--slate-50));
+      }
+
+      &-thumb {
+         background: hsl(var(--grey-100));
+         transition: all 0.3s ease-in-out 0.2s;
+         border-radius: 0.7rem;
+         min-height: 50px;
+
+         &:hover {
+            background: hsl(var(--grey-200));
+         }
+      }
+   }
 }
 
 #no-script {
@@ -106,3 +123,16 @@ body {
       @apply text-green-400
    }
 }
+
+.dark {
+   --skeleton-bg: hsl(var(--navy-200));
+
+   #_404 {
+      background-color: hsl(var(--white-200) / 0.9);
+   }
+}
+
+
+
+
+

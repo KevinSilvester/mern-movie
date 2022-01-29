@@ -7,6 +7,7 @@ import { Movie } from '@lib/types'
 import { loader } from '@lib/styles'
 import Warning from '@comp/Warning'
 import Image from '@comp/Image'
+import TextSkeleton from '@comp/TextSkeleton'
 
 const Card: React.FC<{ movie: Movie }> = ({ movie }) => {
    const [loaded, setLoaded] = useState<boolean>(false)
@@ -14,9 +15,7 @@ const Card: React.FC<{ movie: Movie }> = ({ movie }) => {
 
    return (
       <Link to={`movie/${movie._id}`} className='grid grid-rows-[min-content_auto] relative w-full'>
-         <div
-            className='transition-all rounded-md inline-block relative w-full z-10 overflow-hidden shadow-custom-navy-600/10 shadow-md drop-shadow-md dark:shadow-none dark:drop-shadow-none aspect-[10/16]'
-         >
+         <div className='transition-all rounded-md inline-block relative w-full z-10 overflow-hidden shadow-custom-navy-600/10 shadow-md drop-shadow-md dark:shadow-none dark:drop-shadow-none aspect-[10/16]'>
             {error && <Warning />}
             <img
                src={movie.poster.image}
@@ -36,14 +35,13 @@ const Card: React.FC<{ movie: Movie }> = ({ movie }) => {
                <div className='h-full object-cover absolute top-0 left-0 w-full z-0' css={loader} />
             )}
          </div>
-         <div
-            className={`text-left text-[0.95rem] lg:text-xl mt-2 relative ${
-               loaded ? 'w-fit h-fit' : 'h-4 md:h-6 w-[80%] overflow-hidden rounded-md'
-            }`}
-            css={loaded || loader}
-         >
-            {movie.title}
-         </div>
+         {loaded ? (
+            <span className='text-left text-[0.95rem] lg:text-xl mt-2 relative w-full h-fit' style={{ overflowWrap: 'anywhere'}}>
+               {movie.title}
+            </span>
+         ) : (
+            <TextSkeleton className='w-[80%] h-4 md:h-6 mt-2' />
+         )}
       </Link>
    )
 }

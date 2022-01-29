@@ -11,11 +11,12 @@ export const resetDb = async (movies: MovieSource[]): Promise<MovieDoc[]> => {
    try {
       const data: DocumentDefinition<MovieDoc>[] = await Promise.all(
          movies.map(
-            async ({ id, actors, posterUrl, year, runtime, ...rest }) => ({
+            async ({ id, actors, director, posterUrl, year, runtime, ...rest }) => ({
                ...rest,
                _id: nanoid(),
                year: parseInt(year),
                actors: actors.split(', '),
+               director: director.split(', '),
                runtime: parseInt(runtime),
                poster: {
                   image: posterUrl,
@@ -33,7 +34,7 @@ export const resetDb = async (movies: MovieSource[]): Promise<MovieDoc[]> => {
 
 export const getAllMovies = async () => {
    try {
-      return await MovieModel.find().sort({ 'createdAt': -1 })
+      return await MovieModel.find().sort({ 'updatedAt': -1 })
       // return MovieModel.aggregate().search({
       //    index: 'movie-index',
       //    text: {

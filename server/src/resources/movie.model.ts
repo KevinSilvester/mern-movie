@@ -8,7 +8,7 @@ const MovieSchema = new Schema<MovieDoc, Model<MovieDoc>, MovieDoc>(
       title: { type: String, required: true },
       year: { type: Number, required: true },
       genres: { type: [String], required: true },
-      director: { type: String, required: true },
+      director: { type: [String], required: true },
       actors: { type: [String], required: true },
       plot: { type: String, required: true },
       runtime: { type: Number, required: true },

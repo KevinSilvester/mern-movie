@@ -17,6 +17,9 @@ import Modal from '@comp/Modal'
 import { ApiResponse, Movie } from '@lib/types'
 import { getAllMovies, resetDB } from '@lib/api'
 import { notifySuccess } from '@lib/toaster'
+import SvgLeft from '@comp/Svg/SvgLeft'
+import BackToTop from '@comp/BackToTop'
+import theme from '@lib/theme'
 
 const HomePage: React.FC = () => {
    const [searchFocus, setSearchFocus] = useState<boolean>(false)
@@ -26,15 +29,11 @@ const HomePage: React.FC = () => {
 
    const input = useRef<HTMLInputElement>(null)
 
-   const { isFetching, isError, data, refetch } = useQuery<ApiResponse>(
-      ['movies'],
-      getAllMovies,
-      {
-         refetchOnMount: false,
-         refetchOnWindowFocus: false,
-         retry: 0
-      }
-   )
+   const { isFetching, isError, data, refetch } = useQuery<ApiResponse>(['movies'], getAllMovies, {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+      retry: 0
+   })
 
    const handleCloseModal = async (proceed: boolean) => {
       setOpenModal(false)
@@ -43,8 +42,8 @@ const HomePage: React.FC = () => {
          await resetDB()
          setIsResetting(false)
          await refetch()
-         notifySuccess('Database Reset! ＜（＾－＾）＞')
-      }   
+         notifySuccess('Database Reset! ( •̀ ω •́ )✧')
+      }
    }
 
    const searchStyle = css`
@@ -55,9 +54,10 @@ const HomePage: React.FC = () => {
       color: ${searchFocus ? 'hsl(var(--blue-200))  !important' : 'hsl(var(--slate-400))'};
    `
 
-   const MemoizedCards = useMemo(() => data?.movies?.map(movie => (
-      <Card key={movie._id} movie={movie} />
-   )), [data?.movies])
+   const MemoizedCards = useMemo(
+      () => data?.movies?.map(movie => <Card key={movie._id} movie={movie} />),
+      [data?.movies]
+   )
 
    return (
       <>
@@ -123,7 +123,7 @@ const HomePage: React.FC = () => {
                   role='link'
                   aria-label='Add Movie'
                   to='add'
-                  className='h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:w-11'
+                  className='h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:!w-11'
                >
                   <SvgAdd className='h-1/2' />
                </Link>
@@ -133,7 +133,7 @@ const HomePage: React.FC = () => {
                   aria-haspopup='true'
                   aria-disabled={isFetching}
                   disabled={isFetching}
-                  className='h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:w-11'
+                  className='h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:!w-11'
                   onClick={() => setOpenModal(true)}
                >
                   <SvgUndo className='h-1/2' />
@@ -141,23 +141,15 @@ const HomePage: React.FC = () => {
                <button
                   role='menuitem'
                   aria-label='Filter Data'
-                  className='lg:hidden h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:w-11'
+                  className='lg:hidden h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:!w-11'
                >
                   <SvgSlider className='h-1/2' />
                </button>
                <button
                   role='menuitem'
                   aria-label='Change Theme'
-                  className='h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:w-11'
-                  onClick={() => {
-                     if (localStorage.theme === 'dark') {
-                        document.documentElement.classList.remove('dark')
-                        localStorage.theme = 'light'
-                     } else {
-                        document.documentElement.classList.add('dark')
-                        localStorage.theme = 'dark'
-                     }
-                  }}
+                  className='h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:!w-11'
+                  onClick={() => theme()}
                >
                   <SvgAdjust className='h-1/2' />
                </button>
@@ -195,12 +187,13 @@ const HomePage: React.FC = () => {
                   }`}
                   initial={{ '--blur-radius': `${0}px` } as any}
                   animate={{ '--blur-radius': isResetting ? `${4}px` : `${0}px` } as any}
-                  transition={{ duration: 0.05, delay: 0.15 }}
+                  transition={{ duration: 0.05, delay: 0.175 }}
                   style={{ filter: 'blur(var(--blur-radius))' }}
                >
                   {MemoizedCards}
                </motion.div>
             )}
+            <BackToTop />
          </main>
       </>
    )

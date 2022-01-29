@@ -1,6 +1,6 @@
 {
    "name": "client",
-   "version": "0.2.3",
+   "version": "0.2.4",
    "browserslist": {
       "production": [
          "last 2 version",
@@ -23,15 +23,18 @@
    "dependencies": {
       "@emotion/react": "^11.7.1",
       "@floating-ui/react-dom": "^0.4.1",
+      "@popperjs/core": "^2.11.2",
       "axios": "^0.24.0",
       "body-scroll-lock": "^4.0.0-beta.0",
       "filepond": "^4.30.3",
       "framer-motion": "^5.6.0",
+      "lozad": "^1.16.0",
       "query-string": "^7.0.1",
       "react": "^17.0.0",
       "react-dom": "^17.0.0",
       "react-filepond": "^7.1.1",
       "react-loader-spinner": "^4.0.0",
+      "react-popper": "^2.2.5",
       "react-query": "^3.34.7",
       "react-router-dom": "^6.0.2",
       "react-toastify": "^8.1.0",

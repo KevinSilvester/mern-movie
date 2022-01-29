@@ -15,7 +15,6 @@ export default defineConfig({
 	   target: 'es2016',
       sourcemap: false,
       manifest: true,
-      minify: 'esbuild',
    },
    resolve: {
       alias: {

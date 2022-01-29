@@ -19,7 +19,7 @@ export interface MovieType {
    title: string
    year: number
    genres: Types.Array<string>
-   director: string
+   director: Types.Array<string>
    actors: Types.Array<string>
    plot: string
    runtime: number
