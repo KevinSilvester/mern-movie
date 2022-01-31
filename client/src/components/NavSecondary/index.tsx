@@ -15,6 +15,7 @@ const NavSecondary: React.FC = () => {
    const [referenceElement, setReferenceElement] = useState<HTMLButtonElement | null>(null)
    const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null)
    const [showPopper, setShowPopper] = useState<boolean>(false)
+   const [lastClicked, setLastClicked] = useState<'button' | 'dropdown'>('button')
 
    const { styles, attributes } = usePopper(referenceElement, popperElement, {
       modifiers: [{ name: 'offset', options: { offset: [-50, 10] } }]
@@ -55,8 +56,13 @@ const NavSecondary: React.FC = () => {
             <button
                role='link'
                ref={setReferenceElement}
-               onClick={() => setShowPopper(!showPopper)}
-               onBlur={() => setShowPopper(false)}
+               onClick={() => {
+                  setLastClicked('button')
+                  setShowPopper(!showPopper)
+               }}
+               onBlur={() => {
+                  lastClicked === 'button' && setShowPopper(false)
+               }}
                aria-label='Go to Home Page'
                className='h-11 w-12 rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none relative'
             >
@@ -104,7 +110,9 @@ const NavSecondary: React.FC = () => {
                   {...attributes.popper}
                   className='absolute w-40 z-10'
                   onClick={() => setShowPopper(true)}
+                  onMouseEnter={() => setLastClicked('dropdown')}
                   onBlur={() => setShowPopper(false)}
+                  onMouseLeave={() => setLastClicked('button')}
                   initial={{ opacity: 0, pointerEvents: 'none', top: -5 }}
                   animate={{ opacity: 1, pointerEvents: 'all', top: 0 }}
                   exit={{ opacity: 0, pointerEvents: 'none', top: -5 }}
@@ -127,7 +135,7 @@ const NavSecondary: React.FC = () => {
                   <button
                      role='menuitem'
                      aria-label='Change Theme'
-                     className='h-11 w-full rounded-b-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid grid-cols-[1.5rem_auto] items-center justify-start gap-3 transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300'
+                     className='h-11 w-full rounded-b-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid grid-cols-[1.5rem_auto] items-center justify-start gap-3 transition-all duration-150 shadow-md dark:shadow-lg lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300'
                      onClick={() => theme()}
                   >
                      <SvgAdjust className='h-1/2 ml-2' />

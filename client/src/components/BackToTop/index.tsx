@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SvgLeft from '@comp/Svg/SvgLeft'
+import { backToTopVariants } from '@lib/variants'
 
 const BackToTop: React.FC = () => {
    const [visible, setVisible] = useState<boolean>(false)
@@ -21,7 +22,12 @@ const BackToTop: React.FC = () => {
       })
    }
 
-   window.addEventListener('scroll', toggleVisible)
+   useEffect(() => {
+      window.addEventListener('scroll', toggleVisible)
+      return () => {
+         window.removeEventListener('scroll', toggleVisible)
+      }
+   }, [])
 
    return (
       <AnimatePresence>
@@ -32,6 +38,7 @@ const BackToTop: React.FC = () => {
                initial={{ y: 10, opacity: 0, pointerEvents: 'none' }}
                animate={{ y: 0, opacity: 1, pointerEvents: 'auto' }}
                exit={{ y: 10, opacity: 0, pointerEvents: 'none' }}
+               variants={backToTopVariants}
                transition={{ duration: 0.175 }}
             >
                <SvgLeft className='h-3/5 rotate-90' />

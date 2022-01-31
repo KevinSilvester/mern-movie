@@ -81,10 +81,17 @@ export const searchForMovie = async (query: FilterQuery<MovieDoc>) => {}
 
 export const findAndUpdateMovie = async (
    id: FilterQuery<MovieDoc['_id']>,
-   update: UpdateQuery<MovieDoc>
+   update: DocumentDefinition<MovieDoc>
 ) => {
    try {
-      return await MovieModel.findByIdAndUpdate(id, update)
+      const movie = {
+         ...update,
+         poster: {
+            image: update.poster.image,
+            fallback: (await getFromMdb(update.title, update.year)).fallback
+         }
+      }
+      return await MovieModel.findByIdAndUpdate(id, movie)
    } catch (e: any) {
       throw new Error(e)
    }

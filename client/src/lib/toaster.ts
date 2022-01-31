@@ -1,4 +1,5 @@
 import { toast, Slide, ToastOptions } from 'react-toastify'
+import 'react-toastify/scss/main.scss'
 
 const defaultOptions: ToastOptions = {
    position: 'bottom-center',

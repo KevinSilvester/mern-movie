@@ -97,11 +97,12 @@ const PageHeader: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> 
 
 
          </div>
-         <div className='relative w-full h-9 flex mt-5 gap-4 z-0 lg:px-20 lg:!w-[28rem] z-20 lg:absolute lg:-translate-y-16 lg:translate-x-[19rem]'>
+         <div className='relative w-full h-9 flex mt-5 gap-4 lg:px-20 lg:!w-[28rem] z-20 lg:absolute lg:-translate-y-16 lg:translate-x-[19rem]'>
             <button
                aria-label='Delete Movie'
                role='button'
                disabled={disable}
+               aria-disabled={disable}
                className='h-full bg-red-500 w-32 text-white grid place-items-center rounded-md shadow-md dark:shadow-none transition-all hover:!shadow-red-400/50 hover:!shadow-button'
                onClick={() => setOpenModal(true)}
             >
@@ -118,6 +119,7 @@ const PageHeader: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> 
             </Link>
             <a
                aria-label='Link to IMDb Page'
+               aria-disabled={movie?.links.imdb ? false : true}
                role='link'
                rel='noopener'
                href={movie?.links.imdb as string}

@@ -1,0 +1,23 @@
+export default [
+   { value: 'Action' },
+   { value: 'Adventure' },
+   { value: 'Animation' },
+   { value: 'Biography' },
+   { value: 'Comedy' },
+   { value: 'Crime' },
+   { value: 'Drama' },
+   { value: 'Family' },
+   { value: 'Fantasy' },
+   { value: 'Film-Noir' },
+   { value: 'History' },
+   { value: 'Horror' },
+   { value: 'Music' },
+   { value: 'Musical' },
+   { value: 'Mystery' },
+   { value: 'Romance' },
+   { value: 'Sci-Fi' },
+   { value: 'Sport' },
+   { value: 'Thriller' },
+   { value: 'War' },
+   { value: 'Western' }
+]

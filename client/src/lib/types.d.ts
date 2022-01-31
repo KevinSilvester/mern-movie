@@ -1,5 +1,3 @@
-import { StringDecoder } from "string_decoder"
-
 export interface Movie {
    _id: string
    title: string
@@ -21,7 +19,18 @@ export interface MovieExtended extends Movie {
       imdb: string | null
       youtube: string | null
    }
+}
 
+export type MovieForm = Omit<Movie, '_id' | 'poster'> & {
+   poster: {
+      image: string
+   }
+}
+
+export type MovieUpdate = Omit<Movie, 'poster'> & {
+   poster: {
+      image: string
+   }
 }
 
 export interface ApiResponse {

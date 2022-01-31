@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import Portal from '@lib/Portal'
 
 type Props = {
    handleClose: (proceed: boolean) => Promise<void>

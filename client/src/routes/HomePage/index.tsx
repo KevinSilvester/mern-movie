@@ -92,7 +92,7 @@ const HomePage: React.FC = () => {
                      autoComplete='off'
                      aria-label='Search for Movie'
                      aria-multiline='false'
-                     className='bg-custom-white-100 dark:bg-custom-navy-500 outline-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300'
+                     className='input bg-custom-white-100  dark:bg-custom-navy-500  lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300'
                      onFocus={() => setSearchFocus(true)}
                      onBlur={() => setSearchFocus(false)}
                      onChange={e => setSearchTerm(e.target.value)}

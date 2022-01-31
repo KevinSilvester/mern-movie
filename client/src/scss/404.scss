@@ -1,0 +1,19 @@
+#_404 {
+   background-image: url('../assets/_404img.svg');
+   background-size: contain;
+   background-repeat: no-repeat;
+   background-position: center;
+   background-color: hsl(var(--white-200));
+   width: 95vw;
+   max-width: 810px;
+   height: 50vh;
+   position: absolute;
+   top: 10%;
+   left: 50%;
+   transform: translate(-50%, -10%);
+   border-radius: 1rem;
+}
+
+.dark #_404 {
+   background-color: hsl(var(--white-200) / 0.9);
+}

@@ -1,0 +1,30 @@
+.filepond {
+   &--root {
+      margin-bottom: 0 !important;
+   }
+
+   &--panel-root {
+      background-color: hsl(var(--navy-500) / 80) !important;
+      @apply shadow-md;
+   }
+
+   &--drop-label {
+      cursor: pointer !important;
+   }
+
+   &--drip-blob {
+      background-color: hsl(var(--blue-200)) !important;
+   }
+
+   &--item-panel {
+      background-color: hsl(var(--blue-200)) !important;
+   }
+
+   &--credits {
+      display: none;
+   }
+}
+
+.dark .filepond--panel-root {
+   @apply shadow-none;
+}

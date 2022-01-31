@@ -1,5 +1,5 @@
+import type { ApiResponse, Movie, MovieExtended, SourceData, Store } from '@lib/types'
 import axios from 'axios'
-import { ApiResponse, Movie, MovieExtended, SourceData, Store } from '@lib/types'
 
 const API_URL = import.meta.env.VITE_API_URL as string
 const SOURCE_URL = 'https://raw.githubusercontent.com/erik-sytnyk/movies-list/master/db.json'
@@ -17,10 +17,3 @@ export const resetDB = async () => {
 }
 
 export const deleteMovie = async (id: string) => (await API.delete<ApiResponse>(`/movie/${id}`)).data
-
-
-type DataItem = {
-   title: string;
-   actors: string;
-   posterUrl: string;
-}

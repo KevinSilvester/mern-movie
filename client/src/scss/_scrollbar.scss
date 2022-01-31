@@ -1,0 +1,23 @@
+* {
+   scrollbar-color: hsl(var(--grey-100)) hsl(var(--slate-50));
+   scrollbar-width: thin;
+
+   &::-webkit-scrollbar {
+      width: 10px;
+
+      &-track {
+         background: hsl(var(--slate-50));
+      }
+
+      &-thumb {
+         background: hsl(var(--grey-100));
+         transition: all 0.3s ease-in-out 0.2s;
+         border-radius: 0.7rem;
+         min-height: 50px;
+
+         &:hover {
+            background: hsl(var(--grey-200));
+         }
+      }
+   }
+}
