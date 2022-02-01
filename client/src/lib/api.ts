@@ -23,7 +23,6 @@ export const deleteMovie = async (id: string) =>
    (await API.delete<ApiResponse>(`/movie/${id}`)).data
 
 export const updateMovie = async (id: string, movie: MovieForm) => {
-   console.log(id, movie)
    return (await API.put<ApiResponse>(`/movie/${id}`, movie)).data 
 }
 

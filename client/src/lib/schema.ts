@@ -28,7 +28,7 @@ const schema = z.object({
    plot: z
       .string({ required_error: 'Plot cannot be empty' })
       .min(5, { message: 'Plot is too short' })
-      .max(200, { message: "Plot can't be longer than 200 characters" }),
+      .max(300, { message: "Plot can't be longer than 300 characters" }),
    runtime: z
       .number({
          required_error: 'Runtime cannot be empty',
@@ -38,9 +38,14 @@ const schema = z.object({
       .max(2000, {
          message: 'Runtime cannot exceed 2000 minutes'
       }),
-      poster: z.object({
-         image: z.string()
-      })
+   poster: z.object({
+      image: z
+         .string({
+            required_error: 'Poster cannot be empty',
+            invalid_type_error: 'Poster cannot be empty'
+         })
+         .min(1, { message: 'Replace the broken poster!' })
+   })
 })
 
 export type SchemaType = typeof schema

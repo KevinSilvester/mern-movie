@@ -33,7 +33,7 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
          director: [],
          runtime: undefined,
          poster: {
-            image: ''
+            image: undefined
          }
       }
    })
@@ -102,6 +102,7 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
          if (edit) update(formData)
          else create(formData)
       }
+      console.log(formData)
    }
 
    return (
@@ -177,11 +178,15 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
                      </InputImage>
 
                      <div className='flex justify-evenly items-center gap-2'>
-                        <input
+                        <button
                            type='submit'
-                           value='Submit'
                            className='w-full h-11 bg-red-500 text-white rounded-md shadow-md dark:shadow-none cursor-pointer'
-                        />
+                           onClick={e => {
+                              // e.preventDefault()
+                           }}
+                        >
+                           Submit
+                        </button>
                         <button
                            className='w-full h-11 bg-custom-blue-200 text-white rounded-md shadow-md dark:shadow-none'
                            onClick={() => navigate('/')}

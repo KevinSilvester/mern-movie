@@ -14,6 +14,7 @@ import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css'
 import axios from 'axios'
+import { notifyError } from '@lib/toaster'
 
 registerPlugin(
    FilePondPluginImageExifOrientation,
@@ -27,36 +28,40 @@ registerPlugin(
 const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
    const { formState, setValue, clearErrors, setError, watch } = useFormContext<MovieForm>()
    const [file, setFile] = useState<FilePondFile[]>([])
-   const [removed, setRemoved] = useState<boolean>(false)
 
    const UrlToFile = async (url: string): Promise<File> =>
-      new Promise(async resolve => {
-         const res = await (await axios.get(url, { responseType: 'blob' })).data
-         const file = new File([res], `${watch('title')}.poster`, { type: res.type })
-         resolve(file)
+      new Promise(async (resolve, reject) => {
+         try {
+            const { data } = await axios.get(url, { responseType: 'blob' })
+            const file = new File([data], `${watch('title')}.poster`, { type: data.type })
+            resolve(file)
+         } catch {
+            setValue('poster.image', '')
+            reject(file)
+         }
       })
 
    const createDefault = async (): Promise<void> => {
-      const file = await UrlToFile(watch('poster.image'))
-      const fileArr = [
-         {
+      try {
+         const file = await UrlToFile(watch('poster.image'))
+         const fileArr = [{
             source: 'DummySource',
             options: {
                type: 'local',
                file,
-               metadata: {
-                  poster: watch('poster.image')
-               }
+               metadata: { poster: watch('poster.image') }
             }
-         }
-      ]
-      setFile(fileArr as any)
+         }]
+         setFile(fileArr as any)
+      } catch {
+         setFile([])
+      }
    }
 
    const createDataUrl = (type: string, base64: string): string => `data:${type};base64,${base64}`
 
    useEffect(() => {
-      if (edit && watch('poster.image') && !removed) {
+      if (edit && watch('poster.image')) {
          createDefault()
       }
    }, [edit, watch('poster.image')])
@@ -70,7 +75,6 @@ const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
                   formState.isSubmitted && file.length === 0 ? 'ring-2 ring-red-500 rounded-md' : ''
                }`}
             >
-               {console.log(formState.errors)}
                <FilePond
                   // @ts-ignore
                   files={file}
@@ -80,18 +84,12 @@ const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
                   name='image'
                   allowFileSizeValidation={true}
                   maxFileSize={'5MB'}
-                  onremovefile={() => {
-                     setRemoved(false)
-                  }}
+                  onerror={() => console.log('error')}
                   onupdatefiles={files => {
-                     console.log(files)
                      setFile(files)
                      if (files.length !== 0) {
-                        const base64 = createDataUrl(
-                           files[0].fileType,
-                           // @ts-ignore
-                           files[0].getFileEncodeBase64String()
-                        )
+                        // @ts-ignore
+                        const base64 = createDataUrl(files[0].fileType, files[0].getFileEncodeBase64String())
                         // @ts-ignore
                         const check = files[0].getFileEncodeBase64String() === undefined
 
@@ -116,7 +114,9 @@ const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
             {formState.isSubmitted && file.length === 0 && (
                <span className='text-sm text-red-500 px-2 py-1 mt-1 h-7 w-fit bg-red-50 rounded-md flex gap-x-2 items-center'>
                   <SvgExclamationTriangle className='h-2/3' />
-                  <span>Poster cannot be empty</span>
+                  <span>
+                     {formState.errors.poster?.image && formState.errors.poster?.image.message}
+                  </span>
                </span>
             )}
          </div>
