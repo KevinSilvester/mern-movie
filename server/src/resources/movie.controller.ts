@@ -5,20 +5,23 @@ import type {
    GetAndDeleteMovieInput,
    UpdateMovieInput,
    MovieDoc,
-   MovieSource
+   MovieSource,
+   SearchMovieInput
 } from '../types'
-import { createMovieSchema, updateMovieSchema, getAndDeleteMovieSchema } from './movie.schema'
+import { createMovieSchema, updateMovieSchema, getAndDeleteMovieSchema, searchMovieSchema } from './movie.schema'
 import {
    resetDb,
    createMovie,
    findAndUpdateMovie,
    getMovie,
    getAllMovies,
-   deleteMovie
+   deleteMovie,
+   searchForMovie
 } from './movie.service'
 import {
    validateCreateMovie,
    validateGetAndDeleteMovie,
+   validateSearchMovie,
    validateUpdateMovie
 } from './movie.validation'
 import logger from '../utils/logger'
@@ -99,23 +102,12 @@ export const deleteMovieHandler = async (
    }
 }
 
-// /**
-//  * Search: https://api.themoviedb.org/3/search/movie?api_key=${mdbKey}&query=${movie?.title}&page=1
-//  * Movie: https://api.themoviedb.org/3/movie/${movieSearchRes.data.results[0].id}?api_key=${mdbKey}
-//  * Video: https://api.themoviedb.org/3/movie/${movieRes.data.id}/videos?api_key=${mdbKey}&language=en
-//  */
-
-// export const getMovieFromExternalHandler = async (
-//    req: Request<GetAndDeleteMovieInput['params'], {}, {}>,
-//    res: Response
-// ) => {
-
-//    try {
-//       const { params } = await validateGetAndDeleteMovie(getAndDeleteMovieSchema, req.params)
-//       const movie = await getMovieFromExternal(params.id as FilterQuery<MovieDoc['_id']>)
-
-//    } catch (err: any) {
-//       logger.error({ error: err })
-//       res.status(404).json({ success: false, error: err })
-//    }
-// }
+export const searchMovieHandler = async (req: Request<{}, {}, {}, SearchMovieInput['query']>, res: Response) => {
+   try {
+      const { query } = await validateSearchMovie(searchMovieSchema, req.query)
+      const movies = await searchForMovie(query)
+      res.status(200).json({ movies })
+   } catch (err: any) {
+      res.status(400).json({ error: err })
+   }
+}

@@ -1,8 +1,7 @@
-import type { ActualFileObject, FilePondFile } from 'filepond'
+import type { FilePondFile } from 'filepond'
 import type { MovieForm } from '@lib/types'
 import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
-import SvgExclamationTriangle from '@comp/Svg/SvgExclamationTriangle'
 import { FilePond, registerPlugin } from 'react-filepond'
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
@@ -10,11 +9,11 @@ import FilePondPluginFileEncode from 'filepond-plugin-file-encode'
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import FilePondPluginFilePoster from 'filepond-plugin-file-poster'
+import axios from 'axios'
 import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css'
-import axios from 'axios'
-import { notifyError } from '@lib/toaster'
+import SvgExclamationTriangle from '@comp/Svg/SvgExclamationTriangle'
 
 registerPlugin(
    FilePondPluginImageExifOrientation,
@@ -26,7 +25,7 @@ registerPlugin(
 )
 
 const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
-   const { formState, setValue, clearErrors, setError, watch } = useFormContext<MovieForm>()
+   const { formState: { isSubmitted, errors }, setValue, clearErrors, setError, watch } = useFormContext<MovieForm>()
    const [file, setFile] = useState<FilePondFile[]>([])
 
    const UrlToFile = async (url: string): Promise<File> =>
@@ -72,7 +71,7 @@ const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
             {children}
             <div
                className={`${
-                  formState.isSubmitted && file.length === 0 ? 'ring-2 ring-red-500 rounded-md' : ''
+                  isSubmitted && file.length === 0 ? 'ring-2 ring-red-500 rounded-md' : ''
                }`}
             >
                <FilePond
@@ -111,11 +110,11 @@ const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
                         `}
                />
             </div>
-            {formState.isSubmitted && file.length === 0 && (
+            {isSubmitted && file.length === 0 && (
                <span className='text-sm text-red-500 px-2 py-1 mt-1 h-7 w-fit bg-red-50 rounded-md flex gap-x-2 items-center'>
                   <SvgExclamationTriangle className='h-2/3' />
                   <span>
-                     {formState.errors.poster?.image && formState.errors.poster?.image.message}
+                     {errors.poster?.image && errors.poster?.image.message}
                   </span>
                </span>
             )}

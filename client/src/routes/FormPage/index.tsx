@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react'
 import type { Control } from 'react-hook-form'
 import type { ApiResponse, MovieForm } from '@lib/types'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -39,7 +39,7 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
    })
 
    const { isError, isFetched, data } = id
-      ? useQuery(['movie', id], () => getMovie(id as string), {
+      ? useQuery<ApiResponse>(['movie', id], () => getMovie(id as string), {
            refetchOnMount: false,
            refetchOnWindowFocus: false,
            retry: 0
@@ -80,16 +80,18 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
 
    useEffect(() => {
       if (edit && data) {
+         // @ts-ignore
+         const movie: ApiResponse['movie'] = data.movie
          methods.reset({
-            title: data?.movie?.title as string,
-            year: data?.movie?.year as number,
-            genres: [...(data?.movie?.genres as string[])],
-            plot: data?.movie?.plot as string,
-            actors: [...(data?.movie?.actors as string[])],
-            director: [...(data?.movie?.director as string[])],
-            runtime: data?.movie?.runtime as number,
+            title: movie?.title as string,
+            year: movie?.year as number,
+            genres: [...(movie?.genres as string[])],
+            plot: movie?.plot as string,
+            actors: [...(movie?.actors as string[])],
+            director: [...(movie?.director as string[])],
+            runtime: movie?.runtime as number,
             poster: {
-               image: data?.movie?.poster.image as string
+               image: movie?.poster.image as string
             }
          })
       }
@@ -109,6 +111,7 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
       <>
          <NavSecondary />
          <main className='px-5 h-auto w-full md:w-2xl mt-24 mb-14 mx-auto lg:px-0 lg:w-full lg:max-w-5xl lg:mt-24 lg:mx-auto'>
+            {console.log(methods.formState)}
             {!isError && isFetched ? (
                <FormProvider {...methods}>
                   <form

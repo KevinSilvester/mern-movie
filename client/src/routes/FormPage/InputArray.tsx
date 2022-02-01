@@ -9,7 +9,7 @@ type Props = {
 }
 
 const InputArray: React.FC<Props> = ({ children, inputName }) => {
-   const { setValue, getValues, watch, formState, setError, clearErrors } =
+   const { setValue, getValues, watch, formState: { isSubmitted, errors }, setError, clearErrors } =
       useFormContext<MovieForm>()
    const [inputValue, setInputValue] = useState<string>('')
 
@@ -17,14 +17,14 @@ const InputArray: React.FC<Props> = ({ children, inputName }) => {
 
    useEffect(() => {
       const subscription = watch(data => {
-         formState.isSubmitted && (data[inputName]?.length as number) === 0
+         isSubmitted && (data[inputName]?.length as number) === 0
             ? setError(inputName, {
                  message: `Must have at least 1 ${inputName === 'actors' ? 'Actor' : 'Director'}`
               })
             : clearErrors(inputName)
       })
       return () => subscription.unsubscribe()
-   }, [watch, formState])
+   }, [watch, isSubmitted])
 
    return (
       <>
@@ -58,7 +58,7 @@ const InputArray: React.FC<Props> = ({ children, inputName }) => {
                         type='text'
                         value={inputValue}
                         className={`h-11 rounded-l-md shadow-md  border-none focus:ring-custom-blue-100/70 dark:focus:ring-custom-blue-200/70 focus:border-none focus:ring-2 dark:bg-custom-navy-500 ${
-                           formState.errors[inputName]
+                           errors[inputName]
                               ? '!ring-2 !ring-red-500'
                               : 'shadow-md dark:shadow-none'
                         }`}
@@ -80,12 +80,12 @@ const InputArray: React.FC<Props> = ({ children, inputName }) => {
                         {/* {`Add ${inputName === 'actors' ? 'Actor' : 'Director'}`} */}
                      </button>
                   </div>
-                  {formState.errors[inputName] && (
+                  {errors[inputName] && (
                      <span className='text-sm text-red-500 px-2 py-1 mt-0 h-7 w-fit bg-red-50 rounded-md flex gap-x-2 items-center'>
                         <SvgExclamationTriangle className='h-2/3' />
                         {
                            // @ts-ignore
-                           formState.errors[inputName].message
+                           errors[inputName].message
                         }
                      </span>
                   )}

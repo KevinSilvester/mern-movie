@@ -25,6 +25,14 @@ const paramsSchema = z.object({
    id: z.string({ required_error: 'Movie ID is required' })
 })
 
+const querySchema = z.object({
+   title: z.string().optional(),
+   year: z.preprocess(a => parseInt(a as string, 10), z.number().positive()).optional(),
+   genres: z.string().array().optional(),
+   sort: z.string().optional(),
+   sortOrder: z.preprocess(a => parseInt(a as string, 10), z.number()).optional()
+})
+
 export const createMovieSchema = z.object({ body: bodySchema })
 
 export const updateMovieSchema = z.object({
@@ -33,3 +41,5 @@ export const updateMovieSchema = z.object({
 })
 
 export const getAndDeleteMovieSchema = z.object({ params: paramsSchema })
+
+export const searchMovieSchema = z.object({ query: querySchema })

@@ -1,6 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 /** @jsxFrag */
+import type { ApiResponse, Movie } from '@lib/types'
 import React, { useState, useRef, useMemo } from 'react'
 import { useQuery, useQueryClient } from 'react-query'
 import { Link } from 'react-router-dom'
@@ -14,7 +15,6 @@ import SvgUndo from '@comp/Svg/SvgUndo'
 import SvgSlider from '@comp/Svg/SvgSlider'
 import SvgAdjust from '@comp/Svg/SvgAdjust'
 import Modal from '@comp/Modal'
-import { ApiResponse, Movie } from '@lib/types'
 import { getAllMovies, resetDB } from '@lib/api'
 import { notifySuccess } from '@lib/toaster'
 import SvgLeft from '@comp/Svg/SvgLeft'

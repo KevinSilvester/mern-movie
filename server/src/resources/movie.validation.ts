@@ -1,5 +1,5 @@
 import type { AnyZodObject } from 'zod'
-import type { CreateMovieInput, UpdateMovieInput, GetAndDeleteMovieInput } from '../types'
+import type { CreateMovieInput, UpdateMovieInput, GetAndDeleteMovieInput, SearchMovieInput } from '../types'
 import { z } from 'zod'
 
 export const validateCreateMovie = async <T extends AnyZodObject>(
@@ -31,6 +31,17 @@ export const validateGetAndDeleteMovie = async <T extends AnyZodObject>(
 ): Promise<z.infer<T>> => {
    try {
       return schema.parseAsync({ params: reqParams })
+   } catch (err: any) {
+      throw new Error(err)
+   }
+}
+
+export const validateSearchMovie = async <T extends AnyZodObject>(
+   schema: T,
+   reqQuery: SearchMovieInput['query']
+): Promise<z.infer<T>> => {
+   try {
+      return schema.parseAsync({ query: reqQuery })
    } catch (err: any) {
       throw new Error(err)
    }

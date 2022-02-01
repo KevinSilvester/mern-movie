@@ -1,6 +1,6 @@
 import { Types } from 'mongoose'
 import { TypeOf } from 'zod'
-import { createMovieSchema, getMoveSchema, updateMovieSchema } from './resources/movie.schema'
+import { createMovieSchema, getMoveSchema, updateMovieSchema, searchMovieSchema } from './resources/movie.schema'
 
 
 export interface MovieSource {
@@ -36,6 +36,7 @@ export interface MovieDoc extends MovieType {
 export type CreateMovieInput = TypeOf<typeof createMovieSchema>
 export type GetAndDeleteMovieInput = TypeOf<typeof getMovieSchema>
 export type UpdateMovieInput = TypeOf<typeof updateMovieSchema>
+export type SearchMovieInput = TypeOf<typeof searchMovieSchema>
 
 export interface MDBApiResult {
    fallback: string & MDBMovie['poster_path']
@@ -138,3 +139,19 @@ export interface Result {
    published_at: Date;
    id:           string;
 }
+
+// export interface SearchQueryInput {
+//    title?:     string;
+//    year?:   string;
+//    genres?:    string[];
+//    sort?:      string;
+//    sortOrder?: string;
+// }
+
+// export interface SearchQuery {
+//    title?:     string;
+//    year?:   number;
+//    genres?:    string[];
+//    sort?:      string;
+//    sortOrder?: number;
+// }

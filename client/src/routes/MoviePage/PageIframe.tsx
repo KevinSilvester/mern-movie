@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useEffect, useRef } from 'react'
 import type { ApiResponse } from '@lib/types'
+import React, { useEffect, useRef } from 'react'
 import { jsx } from '@emotion/react'
 import SvgYoutube from '@comp/Svg/SvgYoutube'
 import { loader } from '@lib/styles'

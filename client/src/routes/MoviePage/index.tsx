@@ -6,7 +6,6 @@ import React, { useState, useMemo, createContext,  useEffect, useRef } from 'rea
 import { jsx } from '@emotion/react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
-import { tw } from 'twind'
 import _404Page from '@routes/_404Page'
 import NavSecondary from '@comp/NavSecondary'
 import { loader } from '@lib/styles'

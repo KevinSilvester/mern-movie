@@ -1,5 +1,5 @@
-import type { DocumentDefinition, FilterQuery, QueryOptions, UpdateQuery } from 'mongoose'
-import type { MovieDoc, MovieSource } from '../types'
+import type { Aggregate, DocumentDefinition, FilterQuery, PipelineStage, QueryOptions, UpdateQuery } from 'mongoose'
+import type { MovieDoc, MovieSource, SearchMovieInput } from '../types'
 import { customAlphabet } from 'nanoid'
 import { alphanumeric } from 'nanoid-dictionary'
 import MovieModel from './movie.model'
@@ -77,7 +77,61 @@ export const getMovie = async (id: FilterQuery<MovieDoc['_id']>) => {
    }
 }
 
-export const searchForMovie = async (query: FilterQuery<MovieDoc>) => {}
+export const searchForMovie = async (query: FilterQuery<SearchMovieInput['query']>) => {
+   try {
+      let aggregate: PipelineStage[] = []
+
+      if (query.title) {
+         const search = {
+            $search: {
+               index: 'index',
+               autocomplete: {
+                  query: query.title,
+                  path: 'title'
+               }
+            }
+         }
+         aggregate = [...aggregate, search]
+      }
+
+      
+      if (query.year) {
+         const year = {
+            $match: {
+               year: query.year
+            }
+         }
+         aggregate = [...aggregate, year]
+      }
+      
+      if (query.genres && query.genres.length > 0) {
+         const genres = {
+            $match: {
+               genres: {
+                  $in: [...query.genres]
+               }
+            }
+         }
+         aggregate = [...aggregate, genres]
+      }
+      
+      if (query.sort && (query.sortOrder === -1 || query.sortOrder === 1)) {
+         const sort = {
+            $sort: {
+               [query.sort]: query.sortOrder
+            }
+         }
+         aggregate = [...aggregate, sort]
+      }
+
+      const movies = await MovieModel.aggregate(aggregate)
+
+      return movies
+
+   } catch (e: any) {
+      throw new Error(e)
+   }
+}
 
 export const findAndUpdateMovie = async (
    id: FilterQuery<MovieDoc['_id']>,
