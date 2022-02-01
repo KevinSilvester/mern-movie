@@ -1,10 +1,10 @@
-import type { FormValues } from '.'
+import type { MovieForm } from '@lib/types'
 import { useFormContext } from "react-hook-form"
 import genres from '@lib/genres'
 import SvgExclamationTriangle from '@comp/Svg/SvgExclamationTriangle'
 
-const CheckboxInput: React.FC = ({ children }) => {
-   const { formState, register } = useFormContext<FormValues>()
+const InputCheckbox: React.FC = ({ children }) => {
+   const { formState, register } = useFormContext<MovieForm>()
 
    return (
       <div className='flex flex-col'>
@@ -39,4 +39,4 @@ const CheckboxInput: React.FC = ({ children }) => {
    )
 }
 
-export default CheckboxInput
+export default InputCheckbox

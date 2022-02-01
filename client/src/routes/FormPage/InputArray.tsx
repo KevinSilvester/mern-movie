@@ -1,4 +1,4 @@
-import type { FormValues } from '.'
+import type { MovieForm } from '@lib/types'
 import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import SvgAdd from '@comp/Svg/SvgAdd'
@@ -8,9 +8,9 @@ type Props = {
    inputName: 'actors' | 'director'
 }
 
-const ArrayInput: React.FC<Props> = ({ children, inputName }) => {
+const InputArray: React.FC<Props> = ({ children, inputName }) => {
    const { setValue, getValues, watch, formState, setError, clearErrors } =
-      useFormContext<FormValues>()
+      useFormContext<MovieForm>()
    const [inputValue, setInputValue] = useState<string>('')
 
    const storedValues = watch(inputName)
@@ -53,16 +53,33 @@ const ArrayInput: React.FC<Props> = ({ children, inputName }) => {
             </div>
             {getValues(inputName).length < 6 && (
                <>
-                  <input
-                     type='text'
-                     value={inputValue}
-                     className={`h-11 rounded-md shadow-md  border-none focus:ring-custom-blue-100/70 dark:focus:ring-custom-blue-200/70 focus:border-none focus:ring-2 dark:bg-custom-navy-500 ${
-                        formState.errors[inputName]
-                           ? '!ring-2 !ring-red-500'
-                           : 'shadow-md dark:shadow-none'
-                     }`}
-                     onChange={e => setInputValue(e.target.value)}
-                  />
+                  <div className='grid grid-cols-[auto_3rem] md:grid-cols-[auto_4rem]'>
+                     <input
+                        type='text'
+                        value={inputValue}
+                        className={`h-11 rounded-l-md shadow-md  border-none focus:ring-custom-blue-100/70 dark:focus:ring-custom-blue-200/70 focus:border-none focus:ring-2 dark:bg-custom-navy-500 ${
+                           formState.errors[inputName]
+                              ? '!ring-2 !ring-red-500'
+                              : 'shadow-md dark:shadow-none'
+                        }`}
+                        onChange={e => setInputValue(e.target.value)}
+                     />
+                     <button
+                        className='w-full h-11 grid place-items-center rounded-r-md shadow-md text-white bg-custom-navy-500 disabled:bg-custom-navy-500/50 dark:bg-custom-blue-200 dark:disabled:bg-custom-blue-200/40'
+                        disabled={inputValue.length <= 2}
+                        aria-disabled={inputValue.length <= 2}
+                        onClick={e => {
+                           e.preventDefault()
+                           if (!getValues(inputName).includes(inputValue) && inputValue.length > 2) {
+                              setValue(inputName, [...storedValues, inputValue])
+                              setInputValue('')
+                           }
+                        }}
+                     >
+                        <SvgAdd className='h-1/2' />
+                        {/* {`Add ${inputName === 'actors' ? 'Actor' : 'Director'}`} */}
+                     </button>
+                  </div>
                   {formState.errors[inputName] && (
                      <span className='text-sm text-red-500 px-2 py-1 mt-0 h-7 w-fit bg-red-50 rounded-md flex gap-x-2 items-center'>
                         <SvgExclamationTriangle className='h-2/3' />
@@ -72,20 +89,6 @@ const ArrayInput: React.FC<Props> = ({ children, inputName }) => {
                         }
                      </span>
                   )}
-                  <button
-                     className='w-full h-9  rounded-md shadow-md text-white bg-custom-navy-500 disabled:bg-custom-navy-500/80 dark:bg-custom-blue-200 dark:disabled:bg-custom-blue-200/60'
-                     disabled={inputValue.length <= 2}
-                     aria-disabled={inputValue.length <= 2}
-                     onClick={e => {
-                        e.preventDefault()
-                        if (!getValues(inputName).includes(inputValue) && inputValue.length > 2) {
-                           setValue(inputName, [...storedValues, inputValue])
-                           setInputValue('')
-                        }
-                     }}
-                  >
-                     {`Add ${inputName === 'actors' ? 'Actor' : 'Director'}`}
-                  </button>
                </>
             )}
          </div>
@@ -93,4 +96,4 @@ const ArrayInput: React.FC<Props> = ({ children, inputName }) => {
    )
 }
 
-export default ArrayInput
+export default InputArray

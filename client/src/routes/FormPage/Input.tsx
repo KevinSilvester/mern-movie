@@ -1,14 +1,14 @@
-import type { FormValues } from '.'
+import type { MovieForm } from '@lib/types'
 import { useFormContext } from "react-hook-form"
 import SvgExclamationTriangle from '@comp/Svg/SvgExclamationTriangle'
 
 type Props = {
    type: 'number' | 'text'
-   inputName: 'title' | 'year' | 'runtime' | 'image'
+   inputName: 'title' | 'year' | 'runtime'
 }
 
 const Input: React.FC<Props> = ({ children, type, inputName }) => {
-   const { register, formState } = useFormContext<FormValues>()
+   const { register, formState } = useFormContext<MovieForm>()
 
    const TextInput = (
       <input

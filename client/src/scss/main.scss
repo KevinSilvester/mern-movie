@@ -42,40 +42,38 @@
    @apply px-0 outline-none shadow-none border-none ring-transparent;
 }
 
-@layer base {
-   [type='search'] {
+[type='search'] {
+   @extend %search-reset;
+
+   &:focus {
       @extend %search-reset;
-
-      &:focus {
-         @extend %search-reset;
-      }
-      &::-webkit-search-cancel-button,
-      &::-webkit-search-decoration {
-         -webkit-appearance: none;
-         appearance: none;
-      }
    }
-
-   body {
-      @apply font-body scroll-smooth bg-custom-white-200 text-custom-grey-100 dark:bg-custom-navy-600 dark:text-custom-slate-300;
+   &::-webkit-search-cancel-button,
+   &::-webkit-search-decoration {
+      -webkit-appearance: none;
+      appearance: none;
    }
+}
+
+body {
+   @apply font-body scroll-smooth bg-custom-white-200 text-custom-grey-100 dark:bg-custom-navy-600 dark:text-custom-slate-300;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+   -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.dark {
+   --skeleton-bg: hsl(var(--navy-200));
 
    input:-webkit-autofill,
    input:-webkit-autofill:hover,
    input:-webkit-autofill:focus,
    input:-webkit-autofill:active {
-      -webkit-box-shadow: 0 0 0 30px white inset !important;
-   }
-
-   .dark {
-      --skeleton-bg: hsl(var(--navy-200));
-
-      input:-webkit-autofill,
-      input:-webkit-autofill:hover,
-      input:-webkit-autofill:focus,
-      input:-webkit-autofill:active {
-         -webkit-box-shadow: 0 0 0 30px hsl(var(--navy-500)) inset !important;
-      }
+      -webkit-box-shadow: 0 0 0 30px hsl(var(--navy-500)) inset !important;
    }
 }
 

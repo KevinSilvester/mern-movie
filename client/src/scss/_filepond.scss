@@ -4,7 +4,7 @@
    }
 
    &--panel-root {
-      background-color: hsl(var(--navy-500) / 80) !important;
+      background-color: hsl(var(--navy-500) / 70) !important;
       @apply shadow-md;
    }
 
@@ -17,7 +17,7 @@
    }
 
    &--item-panel {
-      background-color: hsl(var(--blue-200)) !important;
+      background-color: theme('colors.orange.300') !important;
    }
 
    &--credits {
@@ -27,4 +27,13 @@
 
 .dark .filepond--panel-root {
    @apply shadow-none;
+}
+
+[data-filepond-item-state*='error'] .filepond--item-panel,
+[data-filepond-item-state*='invalid'] .filepond--item-panel {
+    background-color: theme('colors.red.500') !important;
+}
+
+[data-filepond-item-state='processing-complete'] .filepond--item-panel {
+    background-color: theme('colors.green.400') !important;
 }

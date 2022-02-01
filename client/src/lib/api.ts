@@ -1,4 +1,4 @@
-import type { ApiResponse, Movie, MovieExtended, SourceData, Store } from '@lib/types'
+import type { ApiResponse, Movie, MovieExtended, SourceData, Store, MovieForm } from '@lib/types'
 import axios from 'axios'
 
 const API_URL = import.meta.env.VITE_API_URL as string
@@ -16,4 +16,15 @@ export const resetDB = async () => {
    await API.post<ApiResponse>('/movie/reset', data.movies)
 }
 
-export const deleteMovie = async (id: string) => (await API.delete<ApiResponse>(`/movie/${id}`)).data
+export const createMovie = async (movie: MovieForm) =>
+   (await API.post<ApiResponse>('/movie', movie)).data 
+
+export const deleteMovie = async (id: string) =>
+   (await API.delete<ApiResponse>(`/movie/${id}`)).data
+
+export const updateMovie = async (id: string, movie: MovieForm) => {
+   console.log(id, movie)
+   return (await API.put<ApiResponse>(`/movie/${id}`, movie)).data 
+}
+
+

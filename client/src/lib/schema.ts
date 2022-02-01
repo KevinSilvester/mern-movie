@@ -38,7 +38,9 @@ const schema = z.object({
       .max(2000, {
          message: 'Runtime cannot exceed 2000 minutes'
       }),
-      image: z.string()
+      poster: z.object({
+         image: z.string()
+      })
 })
 
 export type SchemaType = typeof schema

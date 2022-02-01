@@ -19,8 +19,8 @@ const App = () => {
             <Suspense fallback={<Loader />}>
                <Routes>
                   <Route index element={<HomePage />} />
-                  <Route path='add' element={<FormPage />} />
-                  <Route path='edit/:id' element={<FormPage />} />
+                  <Route path='add' element={<FormPage edit={false} />} />
+                  <Route path='edit/:id' element={<FormPage edit={true} />} />
                   <Route path='movie' element={<Navigate to={'/'} />} />
                   <Route path='movie/:id' element={<MoviePage />} />
                   <Route path='*' element={<_404Page />} />

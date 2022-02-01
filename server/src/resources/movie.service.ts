@@ -81,7 +81,7 @@ export const searchForMovie = async (query: FilterQuery<MovieDoc>) => {}
 
 export const findAndUpdateMovie = async (
    id: FilterQuery<MovieDoc['_id']>,
-   update: DocumentDefinition<MovieDoc>
+   update: DocumentDefinition<Omit<MovieDoc, '_id'>>
 ) => {
    try {
       const movie = {
