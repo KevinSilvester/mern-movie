@@ -7,7 +7,7 @@ import {
    getMovieHandler,
    getAllMoviesHandler,
    deleteMovieHandler,
-   searchMovieHandler
+   getYearsListHandler
 } from './resources/movie.controller'
 
 const router = Router()
@@ -17,7 +17,7 @@ router.get('/__healthcheck', (req: Request, res: Response) => {
 })
 
 router.post('/movie/reset', resetDbHandler)
-router.get('/movie/search', searchMovieHandler)
+router.get('/movie/years', getYearsListHandler)
 router.post('/movie', createMovieHandler)
 router.get('/movie', getAllMoviesHandler)
 

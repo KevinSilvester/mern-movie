@@ -2,9 +2,10 @@
 /** @jsx jsx */
 /** @jsxFrag */
 import type { ApiResponse, Movie } from '@lib/types'
-import React, { useState, useRef, useMemo } from 'react'
+import React, { useState, useRef, useMemo, useEffect } from 'react'
+import queryString from 'query-string'
 import { useQuery, useQueryClient } from 'react-query'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { css, jsx } from '@emotion/react'
 import { motion, AnimatePresence } from 'framer-motion'
 import SvgSearch from '@comp/Svg/SvgSearch'
@@ -16,24 +17,31 @@ import SvgSlider from '@comp/Svg/SvgSlider'
 import SvgAdjust from '@comp/Svg/SvgAdjust'
 import Modal from '@comp/Modal'
 import { getAllMovies, resetDB } from '@lib/api'
-import { notifySuccess } from '@lib/toaster'
+import { notifyError, notifySuccess } from '@lib/toaster'
 import SvgLeft from '@comp/Svg/SvgLeft'
 import BackToTop from '@comp/BackToTop'
 import theme from '@lib/theme'
+import SearchBar from '@comp/SearchBar'
+import useStore from '@hooks/useStore'
+import shallow from 'zustand/shallow'
+import Filter from '@comp/Filter'
 
 const HomePage: React.FC = () => {
-   const [searchFocus, setSearchFocus] = useState<boolean>(false)
+   const [searchParams, setSearchParams] = useSearchParams()
    const [isResetting, setIsResetting] = useState<boolean>(false)
    const [openModal, setOpenModal] = useState<boolean>(false)
-   const [searchTerm, setSearchTerm] = useState<string>('')
+   const [showFilter, setShowFilter] = useState<boolean>(false)
+   const [searchTitle, setSearchTitle] = useStore(state => [state.searchTitle, state.setSearchTitle], shallow)
 
-   const input = useRef<HTMLInputElement>(null)
-
-   const { isFetching, isError, data, refetch } = useQuery<ApiResponse>(['movies'], getAllMovies, {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-      retry: 0
-   })
+   const { isFetching, isError, data, refetch } = useQuery<ApiResponse>(
+      ['movies'],
+      () => getAllMovies(queryString.stringify({ title: searchTitle })),
+      {
+         refetchOnMount: false,
+         refetchOnWindowFocus: false,
+         retry: 0
+      }
+   )
 
    const handleCloseModal = async (proceed: boolean) => {
       setOpenModal(false)
@@ -46,21 +54,49 @@ const HomePage: React.FC = () => {
       }
    }
 
-   const searchStyle = css`
-      color: ${searchFocus ? 'hsl(var(--blue-200))  !important' : 'hsl(var(--slate-400))'};
-   `
-
-   const clearStyle = css`
-      color: ${searchFocus ? 'hsl(var(--blue-200))  !important' : 'hsl(var(--slate-400))'};
-   `
-
    const MemoizedCards = useMemo(
-      () => data?.movies?.map(movie => <Card key={movie._id} movie={movie} />),
+      () => {
+         if (data?.movies?.length === 0) {
+            return (
+               <div className='absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-28 w-fit text-xl'>
+                  No movies found! ≡(▔﹏▔)≡
+               </div>
+            )
+         } else {
+            return data?.movies?.map(movie => <Card key={movie._id} movie={movie} />)
+         }
+      },
       [data?.movies]
    )
 
+
+   useEffect(() => {
+      if (searchTitle.length !== 0) {
+         setSearchParams({ title: searchTitle })
+         refetch()
+      }
+
+      if (searchTitle.length === 0) {
+         setSearchParams({})
+         refetch()
+      }
+   }, [searchParams, searchTitle])
+
+   
+   // useEffect(() => {
+   //    refetch()
+   // }, [searchParams, searchTitle])
+
+   // useEffect(() => {
+   //    refetch()
+   // }, [searchTitle])
+
    return (
       <>
+         {console.log(
+            queryString.stringify({ genres: ['Action', 'Comedy'] }, { arrayFormat: 'bracket' })
+         )}
+         {console.log(Object.fromEntries([...searchParams]))}
          <nav
             role='navigation'
             className='h-[14rem] w-screen absolute top-0 left-1/2 -translate-x-1/2 grid grid-rows-3 z-20 lg:h-[4.5rem] lg:fixed lg:bg-custom-navy-600 dark:lg:bg-custom-navy-400 lg:flex lg:items-center lg:justify-around lg:w-full lg:shadow-lg lg:px-10  2xl:h-[5rem]'
@@ -70,49 +106,14 @@ const HomePage: React.FC = () => {
                   role='link'
                   aria-label='Link to Home'
                   to='/'
+                  onClick={() => setSearchTitle('')}
                   className='text-custom-grey-200 dark:text-custom-blue-200 bg-custom-slate-50 dark:bg-custom-navy-300 font-title font-semibold text-3xl px-2 py-2 my-4 rounded-lg shadow-md lg:bg-custom-navy-500 lg:text-custom-blue-200 dark:lg:bg-custom-navy-300'
                >
                   MovieDB
                </Link>
             </div>
             <div className='w-full h-full grid items-center gap-3 grid-cols-1 px-4 py-0 '>
-               <form
-                  role='search'
-                  aria-label='Search for Movie'
-                  className='h-11 relative group w-full grid items-center gap-5 grid-cols-[var(--col-2)] rounded-lg bg-custom-white-100 shadow-md dark:shadow-none dark:bg-custom-navy-500 text-custom-slate-400 lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300'
-                  onSubmit={e => e.preventDefault()}
-               >
-                  <SvgSearch
-                     className='h-1/3 ml-2 transition-all delay-75 duration-150 group-hover:text-custom-blue-200 lg:group-hover:text-custom-slate-200'
-                     css={searchStyle}
-                  />
-                  <input
-                     id='search'
-                     type='search'
-                     autoComplete='off'
-                     aria-label='Search for Movie'
-                     aria-multiline='false'
-                     className='input bg-custom-white-100  dark:bg-custom-navy-500  lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300'
-                     onFocus={() => setSearchFocus(true)}
-                     onBlur={() => setSearchFocus(false)}
-                     onChange={e => setSearchTerm(e.target.value)}
-                     value={searchTerm}
-                     ref={input}
-                  />
-                  <SvgAdd
-                     role='button'
-                     focusable={true}
-                     aria-label='Clear Search Input'
-                     aria-controls='search'
-                     className={`h-1/3 -ml-2 rotate-45 transition-all delay-75 duration-150 cursor-pointer ${
-                        searchFocus ? 'text-custom-blue-200' : 'opacity-0'
-                     }`}
-                     onClick={() => {
-                        setSearchTerm('')
-                        input.current?.focus()
-                     }}
-                  />
-               </form>
+               <SearchBar />
             </div>
             <div
                role='menu'
@@ -142,6 +143,7 @@ const HomePage: React.FC = () => {
                   role='menuitem'
                   aria-label='Filter Data'
                   className='lg:hidden h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:!w-11'
+                  onClick={() => setShowFilter(!showFilter)}
                >
                   <SvgSlider className='h-1/2' />
                </button>
@@ -164,13 +166,14 @@ const HomePage: React.FC = () => {
                   message='This action will undo any updates/changes you have made to the dataset of movies!'
                />
             )}
+            <Filter show={showFilter} />
          </AnimatePresence>
 
          <main
             aria-live='assertive'
             aria-busy={isFetching || isResetting}
             role='main'
-            className='mt-56 mb-10 mx-auto w-[90vw] md:w-[85vw] lg:mt-36'
+            className='mt-7 mb-10 mx-auto w-[90vw] md:w-[85vw] lg:mt-36'
          >
             {isError ? (
                <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg'>

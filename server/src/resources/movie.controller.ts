@@ -16,7 +16,7 @@ import {
    getMovie,
    getAllMovies,
    deleteMovie,
-   searchForMovie
+   getYearList
 } from './movie.service'
 import {
    validateCreateMovie,
@@ -36,9 +36,10 @@ export const resetDbHandler = async (req: Request<{}, {}, MovieSource[]>, res: R
    }
 }
 
-export const getAllMoviesHandler = async (req: Request, res: Response) => {
+export const getAllMoviesHandler = async (req: Request<{}, {}, {}, SearchMovieInput['query']>, res: Response) => {
    try {
-      const movies = await getAllMovies()
+      const { query } = await validateSearchMovie(searchMovieSchema, req.query)
+      const movies = await getAllMovies(query)
       res.status(200).json({ success: true, message: "Here's all the Movies! ( ﾉ ﾟｰﾟ)ﾉ ", movies })
    } catch (err: any) {
       logger.error({ error: err })
@@ -102,12 +103,11 @@ export const deleteMovieHandler = async (
    }
 }
 
-export const searchMovieHandler = async (req: Request<{}, {}, {}, SearchMovieInput['query']>, res: Response) => {
+export const getYearsListHandler = async (req: Request, res: Response) => {
    try {
-      const { query } = await validateSearchMovie(searchMovieSchema, req.query)
-      const movies = await searchForMovie(query)
-      res.status(200).json({ movies })
+      const yearList = await getYearList()
+      res.status(200).json({ yearList })
    } catch (err: any) {
-      res.status(400).json({ error: err })
+      res.status(404).json({ error: err })
    }
 }

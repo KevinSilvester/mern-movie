@@ -3,11 +3,32 @@ use('data')
 db.movies.aggregate([
    {
       $search: {
-        index: 'movie-index',
-        text: {
-          query: 'the lord',
-          path: 'title'
-        }
+         index: 'index',
+         autocomplete: {
+            query: `the ho`,
+            path: 'title'
+         }
+      },
+   },
+   {
+      $match: {
+         year: {
+            $gt: 2002
+         }
       }
-   }
+   },
+   {
+      $match: {
+         year: {
+            $lt: 2010
+         }
+      }
+   },
+   {
+      $match: {
+         genres: {
+            $in: ['Adventure']
+         }
+      }
+   },
 ])

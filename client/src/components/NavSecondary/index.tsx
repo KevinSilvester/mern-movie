@@ -7,6 +7,8 @@ import SvgAdd from '@comp/Svg/SvgAdd'
 import SvgAdjust from '@comp/Svg/SvgAdjust'
 import SvgLeft from '@comp/Svg/SvgLeft'
 import theme from '@lib/theme'
+import useStore from '@hooks/useStore'
+import shallow from 'zustand/shallow'
 
 const NavSecondary: React.FC = () => {
    const navigate = useNavigate()
@@ -16,6 +18,7 @@ const NavSecondary: React.FC = () => {
    const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null)
    const [showPopper, setShowPopper] = useState<boolean>(false)
    const [lastClicked, setLastClicked] = useState<'button' | 'dropdown'>('button')
+   const [searchTitle, setSearchTitle] = useStore(state => [state.searchTitle, state.setSearchTitle], shallow)
 
    const { styles, attributes } = usePopper(referenceElement, popperElement, {
       modifiers: [{ name: 'offset', options: { offset: [-50, 10] } }]
@@ -45,6 +48,7 @@ const NavSecondary: React.FC = () => {
                role='link'
                aria-label='Link to Home'
                to='/'
+               onClick={() => setSearchTitle('')}
                className='text-custom-grey-200 dark:text-custom-blue-200 bg-custom-slate-50 dark:bg-custom-navy-300 font-title font-semibold text-3xl px-2 py-2 my-4 rounded-lg shadow-md lg:bg-custom-navy-500 lg:text-custom-blue-200 dark:lg:bg-custom-navy-300'
             >
                MovieDB
@@ -73,7 +77,9 @@ const NavSecondary: React.FC = () => {
          </div>
 
          {/* search-bar */}
-         <SearchBar />
+         <div className='w-full h-full items-center gap-3 grid-cols-1 px-4 py-0 hidden lg:grid'>
+            <SearchBar />
+         </div>
 
          {/* large screen buttons */}
          <div

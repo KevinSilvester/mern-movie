@@ -4,6 +4,7 @@ import { customAlphabet } from 'nanoid'
 import { alphanumeric } from 'nanoid-dictionary'
 import MovieModel from './movie.model'
 import { getFromMdb } from '../utils/mdbApi'
+import logger from '../utils/logger'
 
 const nanoid = customAlphabet(alphanumeric, 25)
 
@@ -32,19 +33,50 @@ export const resetDb = async (movies: MovieSource[]): Promise<MovieDoc[]> => {
    }
 }
 
-export const getAllMovies = async () => {
+export const getAllMovies = async (query: FilterQuery<SearchMovieInput['query']>) => {
    try {
-      return await MovieModel.find().sort({ 'updatedAt': -1 })
-      // return MovieModel.aggregate().search({
-      //    index: 'movie-index',
-      //    text: {
-      //       query: `{
-      //          title: "the ",
-      //          genre: "drama"
-      //       }`,
-      //       path: ['title', 'genres', 'director']
-      //    }
-      // })
+      let aggregate: PipelineStage[] = []
+
+      if (query.title) {
+         const search = {
+            $search: {
+               index: 'index',
+               autocomplete: {
+                  query: query.title,
+                  path: 'title'
+               }
+            }
+         }
+         aggregate = [...aggregate, search]
+      }
+
+      if (query.year) {
+         const year = {
+            $match: { year: query.year }
+         }
+         aggregate = [...aggregate, year]
+      }
+
+      if (query.genres && query.genres.length > 0) {
+         const genres = {
+            $match: {
+               genres: { $in: [...query.genres] }
+            }
+         }
+         aggregate = [...aggregate, genres]
+      }
+
+      if (query.sort && (query.sortOrder === -1 || query.sortOrder === 1)) {
+         const sort = {
+            $sort: { [query.sort]: query.sortOrder }
+         }
+         aggregate = [...aggregate, sort]
+      }
+
+      logger.info(aggregate)
+
+      if (aggregate.length > 0 && query.title.length > 0) return await MovieModel.aggregate(aggregate)
+      return await MovieModel.find().sort({ updatedAt: -1 })
    } catch (e: any) {
       throw new Error(e)
    }
@@ -77,57 +109,9 @@ export const getMovie = async (id: FilterQuery<MovieDoc['_id']>) => {
    }
 }
 
-export const searchForMovie = async (query: FilterQuery<SearchMovieInput['query']>) => {
+export const getYearList = async () => {
    try {
-      let aggregate: PipelineStage[] = []
-
-      if (query.title) {
-         const search = {
-            $search: {
-               index: 'index',
-               autocomplete: {
-                  query: query.title,
-                  path: 'title'
-               }
-            }
-         }
-         aggregate = [...aggregate, search]
-      }
-
-      
-      if (query.year) {
-         const year = {
-            $match: {
-               year: query.year
-            }
-         }
-         aggregate = [...aggregate, year]
-      }
-      
-      if (query.genres && query.genres.length > 0) {
-         const genres = {
-            $match: {
-               genres: {
-                  $in: [...query.genres]
-               }
-            }
-         }
-         aggregate = [...aggregate, genres]
-      }
-      
-      if (query.sort && (query.sortOrder === -1 || query.sortOrder === 1)) {
-         const sort = {
-            $sort: {
-               [query.sort]: query.sortOrder
-            }
-         }
-         aggregate = [...aggregate, sort]
-      }
-
-      const movies = await MovieModel.aggregate(aggregate)
-
-      return movies
-
+      return await MovieModel.distinct('year')
    } catch (e: any) {
       throw new Error(e)
    }

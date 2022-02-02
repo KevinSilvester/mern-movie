@@ -66,6 +66,13 @@ input:-webkit-autofill:active {
    -webkit-box-shadow: 0 0 0 30px white inset !important;
 }
 
+.scrollbar-hidden {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+     display: none;
+  }
+}
+
 .dark {
    --skeleton-bg: hsl(var(--navy-200));
 

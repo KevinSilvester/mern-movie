@@ -1,11 +1,41 @@
-import type { Movie, Store } from '@lib/types'
+import type { Movie } from '@lib/types'
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-const useStore = create(
+
+type SearchQuery = {
+   title?: string,
+   year?: number,
+   genres?: number,
+   sort?: string,
+   sortOrder?: number
+}
+interface Store {
+   searchTitle: string
+   searchQuery: SearchQuery
+   updateSearchQuery: (newQuery: SearchQuery ) => void;
+   setSearchTitle: (query: string) => void;
+}
+
+const useStore = create<Store>(
    devtools(set => ({
-      query: undefined,
-      setQuery: (newQuery: string | undefined) => set(state => ({ query: newQuery }))
+      searchTitle: '',
+      searchQuery: {
+         title: undefined,
+         year: undefined,
+         genres: undefined,
+         sort: undefined,
+         sortOrder: undefined
+      },
+      updateSearchQuery: newQuery => set(state => ({
+         searchQuery: {
+            ...state.searchQuery,
+            newQuery
+         }
+      })),
+      setSearchTitle: query => set(state => ({
+         searchTitle: query
+      }))
    }))
 )
 

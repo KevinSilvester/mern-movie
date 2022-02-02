@@ -39,6 +39,7 @@ export interface ApiResponse {
    error?: any
    movies?: Movie[]
    movie?: MovieExtended
+   yearList?: number[]
 }
 
 export interface SourceData {
