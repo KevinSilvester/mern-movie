@@ -5,7 +5,7 @@ db.movies.aggregate([
       $search: {
          index: 'index',
          autocomplete: {
-            query: `the ho`,
+            query: `thes`,
             path: 'title'
          }
       },
