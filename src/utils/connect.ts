@@ -10,7 +10,7 @@ import logger from './logger'
  * source: https://mongoosejs.com/docs/migrating_to_6.html#no-more-deprecation-warning-options
  */
 const connect = async (): Promise<void> => {
-   const dbUri = config.get<string>('dbUri')
+   const dbUri = config.get<string>('mongoUri')
 
    try {
       await mongoose.connect(dbUri)
