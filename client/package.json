@@ -1,6 +1,6 @@
 {
    "name": "client",
-   "version": "0.2.6",
+   "version": "1.0.0",
    "browserslist": {
       "production": [
          "last 2 version",
@@ -14,11 +14,8 @@
    },
    "scripts": {
       "dev": "vite",
-      "dev:server": "concurrently '(cd ../server && pnpm dev)' 'vite'",
       "prod": "serve dist -s -p 3000",
-      "prod:server": "concurrently '(cd ../server && pnpm start)' 'serve dist -s -p 3000'",
-      "build": "tsc && vite build",
-      "build:server": "tsc && vite build && (cd ../server && pnpm build)"
+      "build": "tsc && vite build"
    },
    "dependencies": {
       "@emotion/react": "^11.7.1",
@@ -60,7 +57,6 @@
       "@vitejs/plugin-legacy": "^1.6.3",
       "@vitejs/plugin-react": "^1.0.0",
       "autoprefixer": "^10.4.0",
-      "concurrently": "^6.5.1",
       "cssnano": "^5.0.12",
       "postcss": "^8.4.4",
       "sass": "^1.45.2",
