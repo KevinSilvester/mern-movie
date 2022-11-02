@@ -160,12 +160,13 @@ const HomePage: React.FC = () => {
          <AnimatePresence initial={false}>
             {openModal && (
                <Modal
+                  key={1}
                   handleClose={handleCloseModal}
                   title='Reset Database'
                   message='This action will undo any updates/changes you have made to the dataset of movies!'
                />
             )}
-            <Filter show={showFilter} />
+            <Filter key={2} show={showFilter} />
          </AnimatePresence>
 
          <main

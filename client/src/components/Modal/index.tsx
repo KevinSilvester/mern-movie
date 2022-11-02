@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
@@ -10,12 +10,9 @@ type Props = {
 }
 
 const Modal: React.FC<Props> = ({ handleClose, title, message }) => {
-   const [open, setOpen] = useState<boolean>(true)
-
    useEffect(() => disableBodyScroll(document.body), [])
 
    const handleClick = (proceed: boolean) => {
-      setOpen(false)
       enableBodyScroll(document.body)
       handleClose(proceed)
    }

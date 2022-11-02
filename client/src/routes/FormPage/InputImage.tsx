@@ -1,4 +1,4 @@
-import type { FilePondFile, FilePondInitialFile } from 'filepond'
+import type { FilePondInitialFile } from 'filepond'
 import type { MovieForm } from '@lib/types'
 import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
@@ -60,12 +60,16 @@ const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
                source: 'Input',
                options: {
                   type: 'local',
-                  file,
+                  file: {
+                     name: file.name,
+                     size: file.size,
+                     type: file.type
+                  },
                   metadata: { poster: watch('poster.image') }
                }
             }
          ]
-         setFiles(fileArr as any)
+         setFiles(fileArr)
       } catch {
          setFiles([])
       }
@@ -93,30 +97,35 @@ const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
                   allowMultiple={false}
                   allowFileSizeValidation={true}
                   onerror={() => notifyError('Oop! An error occured! (◎﹏◎)')}
-                  onupdatefiles={files => {
-                     setFiles(
-                        files.map<FilePondInitialFile>(f => ({
-                           source: 'Input',
-                           options: {
-                              type: 'local',
-                              file: { ...f.file },
-                              metadata: f.getMetadata()
-                           }
-                        }))
-                     )
-
-                     if (files.length !== 0) {
-                        const base64 = files[0].getFileEncodeBase64String()
-                        const fileType = files[0].fileType
+                  onupdatefiles={storedFiles => {
+                     if (storedFiles.length !== 0) {
+                        const base64 = storedFiles[0].getFileEncodeBase64String()
+                        const fileType = storedFiles[0].fileType
 
                         if (base64) {
                            const dataUrl = createDataUrl(fileType, base64)
                            setValue('poster.image', dataUrl)
                            clearErrors('poster.image')
+
+                           setFiles(
+                              storedFiles.map<FilePondInitialFile>(f => ({
+                                 source: 'Input',
+                                 options: {
+                                    type: 'local',
+                                    file: {
+                                       name: f.filename,
+                                       size: f.fileSize,
+                                       type: f.fileType
+                                    },
+                                    metadata: { poster: dataUrl }
+                                 }
+                              }))
+                           )
                         }
                      } else {
                         setValue('poster.image', undefined!)
                         setError('poster.image', { message: 'Poster cannot be empty!' })
+                        setFiles([])
                      }
                   }}
                   labelIdle={`

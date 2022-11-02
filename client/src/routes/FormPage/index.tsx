@@ -1,7 +1,6 @@
-import type { Control } from 'react-hook-form'
 import type { ApiResponse, MovieForm } from '@lib/types'
-import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient, useQuery } from 'react-query'
@@ -51,7 +50,7 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
 
    const queryClient = useQueryClient()
 
-   const { mutate: create } = useMutation<ApiResponse,{}, MovieForm>(createMovie, {
+   const { mutate: create } = useMutation<ApiResponse, Record<string, unknown>, MovieForm>(createMovie, {
       onSuccess: async data => {
          await queryClient.refetchQueries(['movies'], { exact: true })
          notifySuccess(data?.message as string)
@@ -62,7 +61,7 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
       }
    })
 
-   const { mutate: update } = useMutation<ApiResponse, {}, MovieForm>(
+   const { mutate: update } = useMutation<ApiResponse, Record<string, unknown>, MovieForm>(
       updatedMovie => updateMovie(id as string, updatedMovie),
       {
          onSuccess: async data => {
@@ -139,9 +138,7 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
                         </label>
                         <textarea
                            className={`resize-none h-28 rounded-md shadow-md  border-none focus:ring-custom-blue-100/70 dark:focus:ring-custom-blue-200/70 focus:border-none focus:ring-2 dark:bg-custom-navy-500  ${
-                              methods.formState.errors.plot
-                                 ? '!ring-2 !ring-red-500'
-                                 : 'shadow-md dark:shadow-none'
+                              methods.formState.errors.plot ? '!ring-2 !ring-red-500' : 'shadow-md dark:shadow-none'
                            }`}
                            {...methods.register('plot')}
                         ></textarea>
@@ -181,9 +178,6 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
                         <button
                            type='submit'
                            className='w-full h-11 bg-red-500 text-white rounded-md shadow-md dark:shadow-none cursor-pointer'
-                           onClick={e => {
-                              // e.preventDefault()
-                           }}
                         >
                            Submit
                         </button>

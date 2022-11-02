@@ -15,7 +15,8 @@
    "scripts": {
       "dev": "vite --host --port 3000",
       "prod": "serve dist -s -p 5000",
-      "build": "tsc && vite build"
+      "build": "tsc && vite build",
+      "lint": "eslint ."
    },
    "dependencies": {
       "@emotion/react": "^11.7.1",
@@ -48,16 +49,22 @@
    },
    "devDependencies": {
       "@babel/core": "^7.16.5",
+      "@emotion/eslint-plugin": "^11.10.0",
+      "@eslint/create-config": "^0.4.1",
       "@hookform/devtools": "^4.0.2",
       "@tailwindcss/forms": "^0.4.0",
       "@types/body-scroll-lock": "^3.1.0",
       "@types/node": "^16.11.11",
       "@types/react": "^17.0.37",
       "@types/react-dom": "^17.0.11",
+      "@typescript-eslint/eslint-plugin": "^5.42.0",
+      "@typescript-eslint/parser": "^5.42.0",
       "@vitejs/plugin-legacy": "^2.3.0",
       "@vitejs/plugin-react": "^1.0.0",
       "autoprefixer": "^10.4.0",
       "cssnano": "^5.0.12",
+      "eslint": "^8.26.0",
+      "eslint-plugin-react": "^7.31.10",
       "postcss": "^8.4.4",
       "rollup": "^3.2.5",
       "sass": "^1.45.2",

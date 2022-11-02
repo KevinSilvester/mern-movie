@@ -1,6 +1,6 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { css, jsx, SerializedStyles } from "@emotion/react"
+import { jsx, SerializedStyles } from "@emotion/react"
 
 interface Props {
    className: string;

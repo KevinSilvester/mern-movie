@@ -1,7 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
-import { createBrowserRouter, RouterProvider, BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import Loader from '@comp/Loader'
 
 import HomePage from '@routes/HomePage'
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
    },
    {
       path: 'movie',
-      element: <HomePage />
+      element: <Navigate to='/' />
    },
    {
       path: 'movie/:id',

@@ -10,7 +10,7 @@ export default defineConfig({
       legacy({
          targets: ['ie >= 11']
       }),
-      terminal({ console: 'terminal', output: ['terminal', 'console'] })
+      // terminal({ console: 'terminal', output: ['terminal', 'console'] })
    ],
    build: {
 	   emptyOutDir: true,

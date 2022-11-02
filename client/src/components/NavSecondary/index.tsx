@@ -35,8 +35,7 @@ const NavSecondary: React.FC = () => {
                role='link'
                aria-label='Go to Home Page'
                className='h-11 w-12 rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:hidden'
-               //@ts-ignore
-               onClick={() => navigate(navType !== 'PUSH' ? '/' : -1)}
+               onClick={() => navType !== 'PUSH' ? navigate('/') : navigate(-1)}
             >
                <SvgLeft className='h-1/2' />
             </button>

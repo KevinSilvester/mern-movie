@@ -121,7 +121,7 @@ const PageHeader: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> 
                aria-label='Link to IMDb Page'
                aria-disabled={movie?.links.imdb ? false : true}
                role='link'
-               rel='noopener'
+               rel="noopener noreferrer"
                href={movie?.links.imdb as string}
                target='_blank'
                className='h-full bg-yellow-500 text-black text-md font-bold w-full flex items-center justify-center gap-1 rounded-md shadow-md dark:shadow-none transition-all hover:!shadow-yellow-400/50 hover:!shadow-button'

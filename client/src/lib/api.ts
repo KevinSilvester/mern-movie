@@ -1,6 +1,6 @@
-import { ParsedQuery, UrlObject } from 'query-string'
-import type { ApiResponse, Movie, MovieExtended, SourceData, Store, MovieForm } from '@lib/types'
-import queryString from 'query-string'
+// import type { ParsedQuery, UrlObject } from 'query-string'
+import type { ApiResponse, /* Movie, MovieExtended, */ SourceData, /* Store, */ MovieForm } from '@lib/types'
+// import queryString from 'query-string'
 import axios from 'axios'
 
 const API_URL = import.meta.env.VITE_API_URL as string

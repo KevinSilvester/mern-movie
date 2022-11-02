@@ -6,7 +6,6 @@ import { css, jsx } from '@emotion/react'
 import { Movie } from '@lib/types'
 import { loader } from '@lib/styles'
 import Warning from '@comp/Warning'
-import Image from '@comp/Image'
 import TextSkeleton from '@comp/TextSkeleton'
 
 const Card: React.FC<{ movie: Movie }> = ({ movie }) => {

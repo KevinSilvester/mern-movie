@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 /** @jsxFrag */
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import Warning from '@comp/Warning'
 import { css, jsx } from '@emotion/react'
 import { loader } from '@lib/styles'
@@ -30,11 +30,14 @@ const Image: React.FC<Props> = ({ title, image, fallback }) => {
                notifyError('Poster image link is broken! ㄟ( ▔, ▔ )ㄏ')
                setError(true)
             }}
-            css={!loaded && css`opacity: 0;`}
+            css={
+               !loaded &&
+               css`
+                  opacity: 0;
+               `
+            }
          />
-         {!loaded && (
-            <div className='h-full object-cover absolute top-0 left-0 w-full z-0' css={loader} />
-         )}
+         {!loaded && <div className='h-full object-cover absolute top-0 left-0 w-full z-0' css={loader} />}
       </>
    )
 }
