@@ -14,7 +14,7 @@
    },
    "scripts": {
       "dev": "vite",
-      "prod": "serve dist -s -p 3000",
+      "prod": "serve dist -s -p 5000",
       "build": "tsc && vite build"
    },
    "dependencies": {
@@ -40,11 +40,11 @@
       "react-loader-spinner": "^4.0.0",
       "react-popper": "^2.2.5",
       "react-query": "^3.34.7",
-      "react-router-dom": "^6.0.2",
+      "react-router-dom": "^6.4.3",
       "react-toastify": "^8.1.0",
       "twind": "^0.16.16",
       "zod": "^3.11.6",
-      "zustand": "^3.6.6"
+      "zustand": "v3.6.6"
    },
    "devDependencies": {
       "@babel/core": "^7.16.5",
@@ -54,7 +54,7 @@
       "@types/node": "^16.11.11",
       "@types/react": "^17.0.37",
       "@types/react-dom": "^17.0.11",
-      "@vitejs/plugin-legacy": "^1.6.3",
+      "@vitejs/plugin-legacy": "^2.3.0",
       "@vitejs/plugin-react": "^1.0.0",
       "autoprefixer": "^10.4.0",
       "cssnano": "^5.0.12",
@@ -62,7 +62,8 @@
       "sass": "^1.45.2",
       "serve": "^13.0.2",
       "tailwindcss": "^3.0.0",
+      "terser": "^5.15.1",
       "typescript": "^4.5.2",
-      "vite": "^2.6.14"
+      "vite": "^3.2.2"
    }
 }

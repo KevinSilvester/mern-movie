@@ -93,10 +93,6 @@ const HomePage: React.FC = () => {
 
    return (
       <>
-         {console.log(
-            queryString.stringify({ genres: ['Action', 'Comedy'] }, { arrayFormat: 'bracket' })
-         )}
-         {console.log(Object.fromEntries([...searchParams]))}
          <nav
             role='navigation'
             className='h-[14rem] w-screen absolute top-0 left-1/2 -translate-x-1/2 grid grid-rows-3 z-20 lg:h-[4.5rem] lg:fixed lg:bg-custom-navy-600 dark:lg:bg-custom-navy-400 lg:flex lg:items-center lg:justify-around lg:w-full lg:shadow-lg lg:px-10  2xl:h-[5rem]'
