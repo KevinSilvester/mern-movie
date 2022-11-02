@@ -97,20 +97,18 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
    }, [edit, data])
 
    const onSubmit = (formData: MovieForm) => {
-      if (!!Object.keys(methods.formState.errors).length) {
+      if (Object.keys(methods.formState.errors).length) {
          notifyError('Please fill all fields of the form! (◎﹏◎)')
       } else {
          if (edit) update(formData)
          else create(formData)
       }
-      console.log(formData)
    }
 
    return (
       <>
          <NavSecondary />
          <main className='px-5 h-auto w-full md:w-2xl mt-24 mb-14 mx-auto lg:px-0 lg:w-full lg:max-w-5xl lg:mt-24 lg:mx-auto'>
-            {console.log(methods.formState)}
             {!isError && isFetched ? (
                <FormProvider {...methods}>
                   <form

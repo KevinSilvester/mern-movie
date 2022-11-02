@@ -1,4 +1,4 @@
-import type { FilePondFile } from 'filepond'
+import type { FilePondFile, FilePondInitialFile } from 'filepond'
 import type { MovieForm } from '@lib/types'
 import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
@@ -14,6 +14,13 @@ import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css'
 import SvgExclamationTriangle from '@comp/Svg/SvgExclamationTriangle'
+import { notifyError } from '@lib/toaster'
+
+declare module 'filepond' {
+   export interface FilePondFile {
+      getFileEncodeBase64String: () => string | undefined
+   }
+}
 
 registerPlugin(
    FilePondPluginImageExifOrientation,
@@ -25,35 +32,42 @@ registerPlugin(
 )
 
 const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
-   const { formState: { isSubmitted, errors }, setValue, clearErrors, setError, watch } = useFormContext<MovieForm>()
-   const [file, setFile] = useState<FilePondFile[]>([])
+   const {
+      formState: { isSubmitted, errors },
+      setValue,
+      clearErrors,
+      setError,
+      watch
+   } = useFormContext<MovieForm>()
+   const [files, setFiles] = useState<FilePondInitialFile[]>([])
 
-   const UrlToFile = async (url: string): Promise<File> =>
-      new Promise(async (resolve, reject) => {
-         try {
-            const { data } = await axios.get(url, { responseType: 'blob' })
-            const file = new File([data], `${watch('title')}.poster`, { type: data.type })
-            resolve(file)
-         } catch {
-            setValue('poster.image', '')
-            reject(file)
-         }
-      })
+   const UrlToFile = async (url: string): Promise<File> => {
+      try {
+         const { data } = await axios.get(url, { responseType: 'blob' })
+         const file = new File([data], `${watch('title')}.poster`, { type: data.type })
+         return file
+      } catch {
+         setValue('poster.image', '')
+         throw new Error('Conversion Failed')
+      }
+   }
 
    const createDefault = async (): Promise<void> => {
       try {
          const file = await UrlToFile(watch('poster.image'))
-         const fileArr = [{
-            source: 'DummySource',
-            options: {
-               type: 'local',
-               file,
-               metadata: { poster: watch('poster.image') }
+         const fileArr: FilePondInitialFile[] = [
+            {
+               source: 'Input',
+               options: {
+                  type: 'local',
+                  file,
+                  metadata: { poster: watch('poster.image') }
+               }
             }
-         }]
-         setFile(fileArr as any)
+         ]
+         setFiles(fileArr as any)
       } catch {
-         setFile([])
+         setFiles([])
       }
    }
 
@@ -69,36 +83,38 @@ const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
       <>
          <div className='flex flex-col'>
             {children}
-            <div
-               className={`${
-                  isSubmitted && file.length === 0 ? 'ring-2 ring-red-500 rounded-md' : ''
-               }`}
-            >
+            <div className={`${isSubmitted && files.length === 0 ? 'ring-2 ring-red-500 rounded-md' : ''}`}>
                <FilePond
-                  // @ts-ignore
-                  files={file}
+                  files={files}
+                  name='image'
                   maxFiles={1}
+                  maxFileSize={'5MB'}
                   acceptedFileTypes={['image/jpeg', 'image/png']}
                   allowMultiple={false}
-                  name='image'
                   allowFileSizeValidation={true}
-                  maxFileSize={'5MB'}
-                  onerror={() => console.log('error')}
+                  onerror={() => notifyError('Oop! An error occured! (◎﹏◎)')}
                   onupdatefiles={files => {
-                     setFile(files)
-                     if (files.length !== 0) {
-                        // @ts-ignore
-                        const base64 = createDataUrl(files[0].fileType, files[0].getFileEncodeBase64String())
-                        // @ts-ignore
-                        const check = files[0].getFileEncodeBase64String() === undefined
+                     setFiles(
+                        files.map<FilePondInitialFile>(f => ({
+                           source: 'Input',
+                           options: {
+                              type: 'local',
+                              file: { ...f.file },
+                              metadata: f.getMetadata()
+                           }
+                        }))
+                     )
 
-                        if (!check) {
-                           console.log('valid')
-                           setValue('poster.image', base64)
+                     if (files.length !== 0) {
+                        const base64 = files[0].getFileEncodeBase64String()
+                        const fileType = files[0].fileType
+
+                        if (base64) {
+                           const dataUrl = createDataUrl(fileType, base64)
+                           setValue('poster.image', dataUrl)
                            clearErrors('poster.image')
                         }
                      } else {
-                        console.log('invalid2')
                         setValue('poster.image', undefined!)
                         setError('poster.image', { message: 'Poster cannot be empty!' })
                      }
@@ -110,14 +126,12 @@ const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
                         `}
                />
             </div>
-            {isSubmitted && file.length === 0 && (
+            {isSubmitted && files.length === 0 ? (
                <span className='text-sm text-red-500 px-2 py-1 mt-1 h-7 w-fit bg-red-50 rounded-md flex gap-x-2 items-center'>
                   <SvgExclamationTriangle className='h-2/3' />
-                  <span>
-                     {errors.poster?.image && errors.poster?.image.message}
-                  </span>
+                  <span>{errors.poster?.image && errors.poster?.image.message}</span>
                </span>
-            )}
+            ) : null}
          </div>
       </>
    )
