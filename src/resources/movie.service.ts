@@ -2,29 +2,29 @@ import type { Aggregate, DocumentDefinition, FilterQuery, PipelineStage, QueryOp
 import type { MovieDoc, MovieSource, SearchMovieInput } from '../types'
 import { customAlphabet } from 'nanoid'
 import { alphanumeric } from 'nanoid-dictionary'
+import config from 'config'
 import MovieModel from './movie.model'
 import { getFromMdb } from '../utils/mdbApi'
 import logger from '../utils/logger'
 
 const nanoid = customAlphabet(alphanumeric, 25)
+const dbName = config.get<string>('mongoDbName')
 
 export const resetDb = async (movies: MovieSource[]): Promise<MovieDoc[]> => {
    try {
       const data: DocumentDefinition<MovieDoc>[] = await Promise.all(
-         movies.map(
-            async ({ id, actors, director, posterUrl, year, runtime, ...rest }) => ({
-               ...rest,
-               _id: nanoid(),
-               year: parseInt(year),
-               actors: actors.split(', '),
-               director: director.split(', '),
-               runtime: parseInt(runtime),
-               poster: {
-                  image: posterUrl,
-                  fallback: (await getFromMdb(rest.title, year)).fallback
-               }
-            })
-         )
+         movies.map(async ({ id, actors, director, posterUrl, year, runtime, ...rest }) => ({
+            ...rest,
+            _id: nanoid(),
+            year: parseInt(year),
+            actors: actors.split(', '),
+            director: director.split(', '),
+            runtime: parseInt(runtime),
+            poster: {
+               image: posterUrl,
+               fallback: (await getFromMdb(rest.title, year)).fallback
+            }
+         }))
       )
       await MovieModel.deleteMany({})
       return await MovieModel.insertMany(data)
@@ -40,10 +40,31 @@ export const getAllMovies = async (query: FilterQuery<SearchMovieInput['query']>
       if (query.title) {
          const search = {
             $search: {
-               index: 'index',
-               autocomplete: {
-                  query: query.title,
-                  path: 'title'
+               index: dbName,
+               compound: {
+                  should: [
+                     {
+                        autocomplete: {
+                           query: query.title,
+                           path: 'title',
+                           score: { boost: { value: 3 } }
+                        }
+                     },
+                     {
+                        text: {
+                           query: query.title,
+                           path: ['actors', 'director'],
+                           score: { boost: { value: 3 } }
+                        }
+                     },
+                     {
+                        text: {
+                           query: query.title,
+                           path: 'title',
+                           score: { constant: { value: 3 } }
+                        }
+                     }
+                  ]
                }
             }
          }
@@ -76,6 +97,7 @@ export const getAllMovies = async (query: FilterQuery<SearchMovieInput['query']>
       logger.info(aggregate)
 
       if (aggregate.length > 0 && query.title.length > 0) return await MovieModel.aggregate(aggregate)
+
       return await MovieModel.find().sort({ updatedAt: -1 })
    } catch (e: any) {
       throw new Error(e)

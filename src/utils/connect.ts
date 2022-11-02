@@ -2,18 +2,14 @@ import mongoose from 'mongoose'
 import config from 'config'
 import logger from './logger'
 
-/**
- * useNewUrlParser, useUnifiedTopology, useFindAndModify, and useCreateIndex are no longer supported options.
- * Mongoose 6 always behaves as if useNewUrlParser, useUnifiedTopology, and useCreateIndex are true,
- * and useFindAndModify is false. Please remove these options from your code.
- *
- * source: https://mongoosejs.com/docs/migrating_to_6.html#no-more-deprecation-warning-options
- */
 const connect = async (): Promise<void> => {
    const dbUri = config.get<string>('mongoUri')
+   const dbName = config.get<string>('mongoDbName')
+
+   logger.info(dbName)
 
    try {
-      await mongoose.connect(dbUri)
+      await mongoose.connect(dbUri, { dbName })
       logger.info('Connected to DB')
    } catch (err) {
       logger.fatal('DB connected failed!' + err)
