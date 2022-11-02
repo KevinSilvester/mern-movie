@@ -81,7 +81,7 @@ const Filter: React.FC<{ show: boolean }> = ({ show }) => {
          </motion.div>
 
          <AnimatePresence>
-            {showYear && (
+            {showYear ? (
                <motion.div
                   ref={setYearPopper}
                   style={yearStyle.popper}
@@ -96,7 +96,10 @@ const Filter: React.FC<{ show: boolean }> = ({ show }) => {
                   <div className='h-[300px] overflow-auto overscroll-contain p-3'>
                      <div className='whitespace-nowrap flex flex-col'>
                         {data?.yearList?.map(year => (
-                           <button className='py-3 px-3 rounded-md text-base duration-150 hover:bg-slate-100 hover:text-custom-blue-200 dark:hover:bg-custom-navy-100'>
+                           <button
+                              key={year}
+                              className='py-3 px-3 rounded-md text-base duration-150 hover:bg-slate-100 hover:text-custom-blue-200 dark:hover:bg-custom-navy-100'
+                           >
                               <div className='grid grid-cols-[auto_20px]'>
                                  <span className='text-left'>{year}</span>
                               </div>
@@ -105,9 +108,9 @@ const Filter: React.FC<{ show: boolean }> = ({ show }) => {
                      </div>
                   </div>
                </motion.div>
-            )}
+            ) : null}
 
-            {showGenres && (
+            {showGenres ? (
                <motion.div
                   ref={setGenrePopper}
                   style={genreStyle.popper}
@@ -121,8 +124,11 @@ const Filter: React.FC<{ show: boolean }> = ({ show }) => {
                >
                   <div className='h-[300px] overflow-auto overscroll-contain p-3'>
                      <div className='whitespace-nowrap flex flex-col'>
-                        {genres.map(genre => (
-                           <button className='py-3 px-3 rounded-md text-base duration-150 hover:bg-slate-100 hover:text-custom-blue-200 dark:hover:bg-custom-navy-100'>
+                        {genres.map((genre, i) => (
+                           <button
+                              key={i}
+                              className='py-3 px-3 rounded-md text-base duration-150 hover:bg-slate-100 hover:text-custom-blue-200 dark:hover:bg-custom-navy-100'
+                           >
                               <div className='grid grid-cols-[auto_20px]'>
                                  <span className='text-left'>{genre.value}</span>
                               </div>
@@ -131,7 +137,7 @@ const Filter: React.FC<{ show: boolean }> = ({ show }) => {
                      </div>
                   </div>
                </motion.div>
-            )}
+            ) : null}
          </AnimatePresence>
       </>
    )
