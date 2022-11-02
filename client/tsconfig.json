@@ -5,7 +5,8 @@
       "lib": [
          "DOM",
          "DOM.Iterable",
-         "es5"
+         "es5",
+         "ES2015"
       ],
       "baseUrl": "src",
       "paths": {

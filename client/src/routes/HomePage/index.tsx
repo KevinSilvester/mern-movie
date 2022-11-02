@@ -5,7 +5,7 @@ import type { ApiResponse, Movie } from '@lib/types'
 import React, { useState, useRef, useMemo, useEffect } from 'react'
 import queryString from 'query-string'
 import { useQuery, useQueryClient } from 'react-query'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, ScrollRestoration, useSearchParams } from 'react-router-dom'
 import { css, jsx } from '@emotion/react'
 import { motion, AnimatePresence } from 'framer-motion'
 import SvgSearch from '@comp/Svg/SvgSearch'
@@ -58,7 +58,7 @@ const HomePage: React.FC = () => {
       () => {
          if (data?.movies?.length === 0) {
             return (
-               <div className='absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-28 w-fit text-xl'>
+               <div className='absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-28 w-fit text-xl text-center'>
                   No movies found! ≡(▔﹏▔)≡
                </div>
             )
@@ -70,29 +70,32 @@ const HomePage: React.FC = () => {
    )
 
 
-   useEffect(() => {
-      if (searchTitle.length !== 0) {
-         setSearchParams({ title: searchTitle })
-         refetch()
-      }
-
-      if (searchTitle.length === 0) {
-         setSearchParams({})
-         refetch()
-      }
-   }, [searchParams, searchTitle])
-
-   
    // useEffect(() => {
-   //    refetch()
-   // }, [searchParams, searchTitle])
-
-   // useEffect(() => {
-   //    refetch()
+   //    if (Object.keys(searchParams).length) {
+   //       setSearchParams({ title: searchTitle })
+   //       console.log(searchParams)
+   //       refetch()
+   //    }
+   //    //
+   //    // if (searchTitle.length === 0) {
+   //    //    setSearchParams({})
+   //    //    refetch()
+   //    // }
+   //
    // }, [searchTitle])
+   //
+   // 
+   // // useEffect(() => {
+   // //    refetch()
+   // // }, [searchParams, searchTitle])
+   //
+   // // useEffect(() => {
+   // //    refetch()
+   // // }, [searchTitle])
 
    return (
       <>
+         <ScrollRestoration />
          <nav
             role='navigation'
             className='h-[14rem] w-screen absolute top-0 left-1/2 -translate-x-1/2 grid grid-rows-3 z-20 lg:h-[4.5rem] lg:fixed lg:bg-custom-navy-600 dark:lg:bg-custom-navy-400 lg:flex lg:items-center lg:justify-around lg:w-full lg:shadow-lg lg:px-10  2xl:h-[5rem]'
@@ -169,7 +172,7 @@ const HomePage: React.FC = () => {
             aria-live='assertive'
             aria-busy={isFetching || isResetting}
             role='main'
-            className='mt-7 mb-10 mx-auto w-[90vw] md:w-[85vw] lg:mt-36'
+            className='relative mt-7 mb-10 mx-auto w-[90vw] md:w-[85vw] lg:mt-36 min-h-[40vh]'
          >
             {isError ? (
                <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-lg'>

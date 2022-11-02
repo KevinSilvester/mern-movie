@@ -42,7 +42,6 @@ const SearchBar: React.FC = () => {
    // }, [searchTitle])
 
    useEffect(() => {
-      console.log(value, searchTitle)
       setSearchTitle(debounceValue as string)
    }, [debounceValue])
 

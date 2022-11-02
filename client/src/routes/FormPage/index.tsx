@@ -15,7 +15,6 @@ import SvgExclamationTriangle from '@comp/Svg/SvgExclamationTriangle'
 import { notifyError, notifySuccess } from '@lib/toaster'
 import { createMovie, getMovie, updateMovie } from '@lib/api'
 import Loader from '@comp/Loader'
-import { m } from 'framer-motion'
 
 const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
    const navigate = useNavigate()
