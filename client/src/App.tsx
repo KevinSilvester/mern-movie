@@ -12,6 +12,8 @@ const _404Page = lazy(() => import('@routes/_404Page'))
 
 const queryClient = new QueryClient()
 
+console.log('hello world')
+
 const App = () => {
    return (
       <QueryClientProvider client={queryClient}>

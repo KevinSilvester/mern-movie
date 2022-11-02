@@ -19,6 +19,7 @@
          "@routes/*": ["routes/*"],
          "@scss/*": ["scss/*"],
       },
+      "types": ["vite-plugin-terminal/client"],
       "allowJs": false,
       "skipLibCheck": false,
       "esModuleInterop": false,

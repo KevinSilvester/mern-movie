@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import { resolve } from 'path'
 import react from '@vitejs/plugin-react'
 import legacy from '@vitejs/plugin-legacy'
+import terminal from 'vite-plugin-terminal'
 
 export default defineConfig({
    plugins: [
@@ -9,6 +10,7 @@ export default defineConfig({
       legacy({
          targets: ['ie >= 11']
       }),
+      terminal({ console: 'terminal', output: ['terminal', 'console'] })
    ],
    build: {
 	   emptyOutDir: true,
