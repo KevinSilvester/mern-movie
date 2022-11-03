@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link, useNavigate, useNavigationType } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useNavigationType, useSearchParams } from 'react-router-dom'
 import { usePopper } from 'react-popper'
 import { motion, AnimatePresence } from 'framer-motion'
 import SearchBar from '@comp/SearchBar'
@@ -18,11 +18,31 @@ const NavSecondary: React.FC = () => {
    const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null)
    const [showPopper, setShowPopper] = useState<boolean>(false)
    const [lastClicked, setLastClicked] = useState<'button' | 'dropdown'>('button')
-   const [searchTitle, setSearchTitle] = useStore(state => [state.searchTitle, state.setSearchTitle], shallow)
+   const [searchTitle, setSearchTitle, reset] = useStore(
+      state => [state.searchTitle, state.setSearchTitle, state.resetSearch],
+      shallow
+   )
+   const location = useLocation()
+   const [searchParams, setSearchParams] = useSearchParams()
 
    const { styles, attributes } = usePopper(referenceElement, popperElement, {
       modifiers: [{ name: 'offset', options: { offset: [-50, 10] } }]
    })
+
+   const handleSearchChange = (val: string) => {
+      setSearchTitle(val)
+      setSearchParams({ ...setSearchParams, title: val })
+   }
+
+   const handleSearchCancel = () => {
+      setSearchTitle('')
+      setSearchParams({ ...setSearchParams, title: '' })
+   }
+
+   const handleSearchSubmit = (e: React.FormEvent) => {
+      e.preventDefault()
+      navigate(`/${location.search}`)
+   }
 
    return (
       <nav
@@ -35,7 +55,7 @@ const NavSecondary: React.FC = () => {
                role='link'
                aria-label='Go to Home Page'
                className='h-11 w-12 rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:hidden'
-               onClick={() => navType !== 'PUSH' ? navigate('/') : navigate(-1)}
+               onClick={() => (navType !== 'PUSH' ? navigate('/') : navigate(-1))}
             >
                <SvgLeft className='h-1/2' />
             </button>
@@ -47,7 +67,10 @@ const NavSecondary: React.FC = () => {
                role='link'
                aria-label='Link to Home'
                to='/'
-               onClick={() => setSearchTitle('')}
+               onClick={() => {
+                  setSearchParams({})
+                  reset()
+               }}
                className='text-custom-grey-200 dark:text-custom-blue-200 bg-custom-slate-50 dark:bg-custom-navy-300 font-title font-semibold text-3xl px-2 py-2 my-4 rounded-lg shadow-md lg:bg-custom-navy-500 lg:text-custom-blue-200 dark:lg:bg-custom-navy-300'
             >
                MovieDB
@@ -69,15 +92,13 @@ const NavSecondary: React.FC = () => {
                aria-label='Go to Home Page'
                className='h-11 w-12 rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none relative'
             >
-               <SvgLeft
-                  className={`h-1/2 duration-150 ${showPopper ? 'rotate-90' : '-rotate-90'}`}
-               />
+               <SvgLeft className={`h-1/2 duration-150 ${showPopper ? 'rotate-90' : '-rotate-90'}`} />
             </button>
          </div>
 
          {/* search-bar */}
          <div className='w-full h-full items-center gap-3 grid-cols-1 px-4 py-0 hidden lg:grid'>
-            <SearchBar />
+            <SearchBar onChange={handleSearchChange} onCancel={handleSearchCancel} onSubmit={handleSearchSubmit} />
          </div>
 
          {/* large screen buttons */}
@@ -87,7 +108,7 @@ const NavSecondary: React.FC = () => {
             className='w-full h-full hidden gap-4 px-4 justify-around items-center lg:flex lg:justify-center'
          >
             <Link
-               to='/add'
+               to={`/add/${location.search}`}
                role='link'
                aria-label='Add Movie'
                className='h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:!w-16'
@@ -129,7 +150,7 @@ const NavSecondary: React.FC = () => {
                      className='w-2 h-2 bg-transparent -top-1 before:absolute before:w-full before:h-full before:bg-white before:rotate-45 dark:before:bg-custom-navy-500 before:transition-all before:duration-150'
                   ></div>
                   <Link
-                     to='/add'
+                     to={`/add/${location.search}`}
                      role='link'
                      aria-label='Add Movie'
                      className='h-11 w-full rounded-t-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid grid-cols-[1.5rem_auto] items-center justify-start gap-3 transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300'

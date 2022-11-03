@@ -4,19 +4,22 @@ import react from '@vitejs/plugin-react'
 import legacy from '@vitejs/plugin-legacy'
 import terminal from 'vite-plugin-terminal'
 
+const mode = process.env.NODE_ENV
+const dev = mode === 'development'
+
 export default defineConfig({
    plugins: [
       react(),
       legacy({
          targets: ['ie >= 11']
       }),
-      // terminal({ console: 'terminal', output: ['terminal', 'console'] })
+      dev && terminal({ console: 'terminal', output: ['terminal', 'console'] })
    ],
    build: {
-	   emptyOutDir: true,
-	   target: 'es2016',
+      emptyOutDir: true,
+      target: 'es2016',
       sourcemap: false,
-      manifest: true,
+      manifest: true
    },
    resolve: {
       alias: {
@@ -28,7 +31,7 @@ export default defineConfig({
          '@lib': resolve(__dirname, './src/lib'),
          '@pages': resolve(__dirname, './src/pages'),
          '@routes': resolve(__dirname, './src/routes'),
-         '@scss': resolve(__dirname, './src/scss'),
+         '@scss': resolve(__dirname, './src/scss')
       }
-   },
+   }
 })

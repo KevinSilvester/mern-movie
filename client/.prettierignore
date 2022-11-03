@@ -1,0 +1,5 @@
+.*
+pnpm*
+yarn*
+**/*.svg
+dist/

@@ -1,4 +1,4 @@
-import type { Variants } from "framer-motion"
+import type { Variants } from 'framer-motion'
 
 export const popperVariants: Variants = {
    hidden: { opacity: 0, pointerEvents: 'none', top: -5 },
@@ -7,7 +7,7 @@ export const popperVariants: Variants = {
 
 export const modalVariants: Variants = {
    hidden: { opacity: 0, y: -15 },
-   visible: { opacity: 1, y: 0 },
+   visible: { opacity: 1, y: 0 }
 }
 
 export const backToTopVariants: Variants = {

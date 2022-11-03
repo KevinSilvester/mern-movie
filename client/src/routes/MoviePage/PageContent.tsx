@@ -2,10 +2,7 @@ import type { ApiResponse } from '@lib/types'
 import TextSkeleton from '@comp/TextSkeleton'
 import Pill from '@comp/Pill'
 
-const PageContent: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> = ({
-   movie,
-   isFetched
-}) => {
+const PageContent: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> = ({ movie, isFetched }) => {
    return (
       <section className='my-6 bg-white dark:bg-custom-navy-500 rounded-md shadow-md dark:shadow-none p-4 lg:!w-96'>
          <div aria-label='Plot Section' className=''>

@@ -1,8 +1,8 @@
 type Props = {
-   className: string;
-   onClick?: () => void;
-   focusable?: boolean;
-   role?: string;
+   className: string
+   onClick?: () => void
+   focusable?: boolean
+   role?: string
    props?: any
 }
 

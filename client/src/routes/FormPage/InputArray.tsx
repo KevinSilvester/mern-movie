@@ -9,8 +9,14 @@ type Props = {
 }
 
 const InputArray: React.FC<Props> = ({ children, inputName }) => {
-   const { setValue, getValues, watch, formState: { isSubmitted, errors }, setError, clearErrors } =
-      useFormContext<MovieForm>()
+   const {
+      setValue,
+      getValues,
+      watch,
+      formState: { isSubmitted, errors },
+      setError,
+      clearErrors
+   } = useFormContext<MovieForm>()
    const [inputValue, setInputValue] = useState<string>('')
 
    const storedValues = watch(inputName)
@@ -41,9 +47,7 @@ const InputArray: React.FC<Props> = ({ children, inputName }) => {
                         className='h-4 w-4 rounded-full text-white grid place-items-center'
                         onClick={e => {
                            e.preventDefault()
-                           setValue(inputName, [
-                              ...getValues(inputName).filter((a: string) => a !== name)
-                           ])
+                           setValue(inputName, [...getValues(inputName).filter((a: string) => a !== name)])
                         }}
                      >
                         <SvgAdd className='h-full rotate-45' />
@@ -58,9 +62,7 @@ const InputArray: React.FC<Props> = ({ children, inputName }) => {
                         type='text'
                         value={inputValue}
                         className={`h-11 rounded-l-md shadow-md  border-none focus:ring-custom-blue-100/70 dark:focus:ring-custom-blue-200/70 focus:border-none focus:ring-2 dark:bg-custom-navy-500 ${
-                           errors[inputName]
-                              ? '!ring-2 !ring-red-500'
-                              : 'shadow-md dark:shadow-none'
+                           errors[inputName] ? '!ring-2 !ring-red-500' : 'shadow-md dark:shadow-none'
                         }`}
                         onChange={e => setInputValue(e.target.value)}
                      />

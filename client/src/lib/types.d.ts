@@ -59,17 +59,17 @@ export interface SourceMovie {
    posterUrl: string
 }
 export interface Store {
-   loaded: boolean;
-   error: boolean;
-   movies: Movie[] | null;
-   modalOpen: boolean;
-   movie: Movie | null;
-   searchQuery: string;
+   loaded: boolean
+   error: boolean
+   movies: Movie[] | null
+   modalOpen: boolean
+   movie: Movie | null
+   searchQuery: string
    actions: {
-      fetchSuccess: (data: Movie[]) => void;
-      fetchFail: () => void;
-      modalOpen: (movie: Movie) => void;
-      modalClose: () => void;
-      updateSearchQuery: (query: string) => void;
-   };
+      fetchSuccess: (data: Movie[]) => void
+      fetchFail: () => void
+      modalOpen: (movie: Movie) => void
+      modalClose: () => void
+      updateSearchQuery: (query: string) => void
+   }
 }

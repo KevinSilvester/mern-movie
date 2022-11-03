@@ -16,7 +16,9 @@
       "dev": "vite --host --port 3000",
       "prod": "serve dist -s -p 5000",
       "build": "tsc && vite build",
-      "lint": "eslint ."
+      "lint": "eslint .",
+      "format:check": "prettier --check './**/*.{md,js,json,ts,tsx}'",
+      "format:write": "prettier --write './**/*.{md,js,json,ts,tsx}'"
    },
    "dependencies": {
       "@emotion/react": "^11.7.1",
@@ -43,6 +45,7 @@
       "react-query": "^3.34.7",
       "react-router-dom": "^6.4.3",
       "react-toastify": "^8.1.0",
+      "rooks": "^7.4.1",
       "twind": "^0.16.16",
       "zod": "^3.11.6",
       "zustand": "v3.6.6"

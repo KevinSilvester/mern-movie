@@ -8,6 +8,7 @@ import type {
    MovieSource,
    SearchMovieInput
 } from '../types'
+import queryString from 'query-string'
 import { createMovieSchema, updateMovieSchema, getAndDeleteMovieSchema, searchMovieSchema } from './movie.schema'
 import {
    resetDb,
@@ -38,19 +39,21 @@ export const resetDbHandler = async (req: Request<{}, {}, MovieSource[]>, res: R
 
 export const getAllMoviesHandler = async (req: Request<{}, {}, {}, SearchMovieInput['query']>, res: Response) => {
    try {
-      const { query } = await validateSearchMovie(searchMovieSchema, req.query)
+      const rawQuery = req.query
+      if (req.query.genres && !Array.isArray(rawQuery.genres))
+         rawQuery.genres = new Array().concat(req.query.genres)
+
+      const { query } = await validateSearchMovie(searchMovieSchema, rawQuery)
       const movies = await getAllMovies(query)
       res.status(200).json({ success: true, message: "Here's all the Movies! ( ﾉ ﾟｰﾟ)ﾉ ", movies })
    } catch (err: any) {
-      logger.error({ error: err })
+      console.log(err)
+      // logger.error({ error: err })
       res.status(409).json({ success: false, error: err.message })
    }
 }
 
-export const createMovieHandler = async (
-   req: Request<{}, {}, CreateMovieInput['body']>,
-   res: Response
-) => {
+export const createMovieHandler = async (req: Request<{}, {}, CreateMovieInput['body']>, res: Response) => {
    try {
       const { body } = await validateCreateMovie(createMovieSchema, req.body)
       const movie = await createMovie(body)
@@ -61,10 +64,7 @@ export const createMovieHandler = async (
    }
 }
 
-export const getMovieHandler = async (
-   req: Request<GetAndDeleteMovieInput['params'], {}, {}>,
-   res: Response
-) => {
+export const getMovieHandler = async (req: Request<GetAndDeleteMovieInput['params'], {}, {}>, res: Response) => {
    try {
       const { params } = await validateGetAndDeleteMovie(getAndDeleteMovieSchema, req.params)
       const movie = await getMovie(params.id as FilterQuery<MovieDoc['_id']>)
@@ -89,10 +89,7 @@ export const updateMovieHandler = async (
    }
 }
 
-export const deleteMovieHandler = async (
-   req: Request<GetAndDeleteMovieInput['params'], {}, {}>,
-   res: Response
-) => {
+export const deleteMovieHandler = async (req: Request<GetAndDeleteMovieInput['params'], {}, {}>, res: Response) => {
    try {
       const { params } = await validateGetAndDeleteMovie(getAndDeleteMovieSchema, req.params)
       const movie = await deleteMovie(params.id as FilterQuery<MovieDoc['_id']>)

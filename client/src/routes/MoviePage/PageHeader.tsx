@@ -19,10 +19,7 @@ import waves from '@assets/wave.svg'
 import { tw } from 'twind'
 import TextSkeleton from '@comp/TextSkeleton'
 
-const PageHeader: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> = ({
-   movie,
-   isFetched
-}) => {
+const PageHeader: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> = ({ movie, isFetched }) => {
    const [openModal, setOpenModal] = useState<boolean>(false)
    const [disable, setDisable] = useState<boolean>(false)
 
@@ -75,10 +72,7 @@ const PageHeader: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> 
          className='relative bg-cover bg-center bg-no-repeat p-3 rounded-md shadow-lg dark:shadow-none lg:py-4'
          css={headerSection}
       >
-         <div
-            className='absolute top-0 left-0 z-0 h-full w-full rounded-md'
-            css={headerSectionDiv}
-         ></div>
+         <div className='absolute top-0 left-0 z-0 h-full w-full rounded-md' css={headerSectionDiv}></div>
          <div className='relative grid grid-cols-[8rem_auto] gap-2 z-10 md:grid-cols-[11rem_auto] md:gap-4 lg:grid-cols-[14rem_auto] lg:px-20 lg:gap-20'>
             <div className='transition-all rounded-md inline-block relative w-full z-10 overflow-hidden shadow-custom-navy-600/20 shadow-md-img drop-shadow-xl dark:shadow-none dark:drop-shadow-none aspect-[10/16] bg-white'>
                <Image
@@ -88,14 +82,15 @@ const PageHeader: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> 
                />
             </div>
             {isFetched ? (
-               <span className='relative text-left text-3xl font-bold text-white mt-4 w-full h-fit lg:h-8 lg:text-4xl lg:mt-6'  style={{ overflowWrap: 'anywhere'}}>
+               <span
+                  className='relative text-left text-3xl font-bold text-white mt-4 w-full h-fit lg:h-8 lg:text-4xl lg:mt-6'
+                  style={{ overflowWrap: 'anywhere' }}
+               >
                   {movie?.title}
                </span>
             ) : (
                <TextSkeleton className='w-full lg:!w-[24rem] h-7 lg:h-8' />
             )}
-
-
          </div>
          <div className='relative w-full h-9 flex mt-5 gap-4 lg:px-20 lg:!w-[28rem] z-20 lg:absolute lg:-translate-y-16 lg:translate-x-[19rem]'>
             <button
@@ -121,13 +116,11 @@ const PageHeader: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> 
                aria-label='Link to IMDb Page'
                aria-disabled={movie?.links.imdb ? false : true}
                role='link'
-               rel="noopener noreferrer"
+               rel='noopener noreferrer'
                href={movie?.links.imdb as string}
                target='_blank'
                className='h-full bg-yellow-500 text-black text-md font-bold w-full flex items-center justify-center gap-1 rounded-md shadow-md dark:shadow-none transition-all hover:!shadow-yellow-400/50 hover:!shadow-button'
-               onClick={() =>
-                  !movie?.links.imdb && notifyError('IMDb link not found!  ㄟ( ▔, ▔ )ㄏ')
-               }
+               onClick={() => !movie?.links.imdb && notifyError('IMDb link not found!  ㄟ( ▔, ▔ )ㄏ')}
                css={!movie?.links.imdb && imdbLink}
             >
                <SvgImdb className='h-3/5' />

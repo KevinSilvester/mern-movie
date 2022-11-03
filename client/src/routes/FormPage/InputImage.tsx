@@ -55,21 +55,20 @@ const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
    const createDefault = async (): Promise<void> => {
       try {
          const file = await UrlToFile(watch('poster.image'))
-         const fileArr: FilePondInitialFile[] = [
-            {
-               source: 'Input',
-               options: {
-                  type: 'local',
-                  file: {
-                     name: file.name,
-                     size: file.size,
-                     type: file.type
-                  },
-                  metadata: { poster: watch('poster.image') }
-               }
+         const initialFile: FilePondInitialFile = {
+            source: 'Input',
+            options: {
+               type: 'local',
+               file: {
+                  name: file.name,
+                  size: file.size,
+                  type: file.type
+               },
+               metadata: { poster: watch('poster.image') }
             }
-         ]
-         setFiles(fileArr)
+         }
+         console.log(initialFile)
+         setFiles([initialFile])
       } catch {
          setFiles([])
       }

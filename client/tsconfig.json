@@ -2,12 +2,7 @@
    "compilerOptions": {
       "target": "es2016",
       "useDefineForClassFields": true,
-      "lib": [
-         "DOM",
-         "DOM.Iterable",
-         "es5",
-         "ES2016"
-      ],
+      "lib": ["DOM", "DOM.Iterable", "es5", "ES2016"],
       "baseUrl": "src",
       "paths": {
          "@assets/*": ["assets/*"],
@@ -18,7 +13,7 @@
          "@lib/*": ["lib/*"],
          "@pages/*": ["pages/*"],
          "@routes/*": ["routes/*"],
-         "@scss/*": ["scss/*"],
+         "@scss/*": ["scss/*"]
       },
       "types": ["vite-plugin-terminal/client"],
       "allowJs": false,
@@ -35,7 +30,5 @@
       "jsx": "react-jsx",
       "jsxImportSource": "@emotion/react"
    },
-   "include": [
-      "src"
-   ]
+   "include": ["src"]
 }

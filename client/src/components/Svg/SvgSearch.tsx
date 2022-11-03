@@ -1,10 +1,10 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import { jsx, SerializedStyles } from "@emotion/react"
+import { jsx, SerializedStyles } from '@emotion/react'
 
 interface Props {
-   className: string;
-   css?: SerializedStyles;
+   className: string
+   css?: SerializedStyles
 }
 
 const SvgSearch = ({ className, css }: Props) => {

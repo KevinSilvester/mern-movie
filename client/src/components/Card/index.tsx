@@ -1,7 +1,7 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { css, jsx } from '@emotion/react'
 import { Movie } from '@lib/types'
 import { loader } from '@lib/styles'
@@ -11,10 +11,11 @@ import TextSkeleton from '@comp/TextSkeleton'
 const Card: React.FC<{ movie: Movie }> = ({ movie }) => {
    const [loaded, setLoaded] = useState<boolean>(false)
    const [error, setError] = useState<boolean>(false)
+   const location = useLocation()
 
    return (
       <Link
-         to={`movie/${movie._id}`}
+         to={`movie/${movie._id}/${location.search}`}
          preventScrollReset={true}
          className='grid grid-rows-[min-content_auto] relative w-full'
       >

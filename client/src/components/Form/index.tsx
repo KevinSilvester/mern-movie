@@ -11,7 +11,7 @@
 //    const [actors, setActors] = useState<string[]>(movie?.actors || [])
 //    const [plot, setPlot] = useState<string>(movie?.plot || '')
 //    const [posterUrl, setPosterUrl] = useState<string>(movie?.poster.image || '')
-   
+
 //    return (
 //       <form>
 //          <input type='text' placeholder='Title' />

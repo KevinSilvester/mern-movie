@@ -96,7 +96,8 @@ export const getAllMovies = async (query: FilterQuery<SearchMovieInput['query']>
 
       logger.info(aggregate)
 
-      if (aggregate.length > 0 && query.title.length > 0) return await MovieModel.aggregate(aggregate)
+      if (aggregate.length)
+         return await MovieModel.aggregate(aggregate)
 
       return await MovieModel.find().sort({ updatedAt: -1 })
    } catch (e: any) {

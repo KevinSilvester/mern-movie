@@ -7,15 +7,11 @@ import SvgYoutube from '@comp/Svg/SvgYoutube'
 import { loader } from '@lib/styles'
 import { notifyError } from '@lib/toaster'
 
-const PageIframe: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> = ({
-   movie,
-   isFetched
-}) => {
+const PageIframe: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> = ({ movie, isFetched }) => {
    const iframeRef = useRef<HTMLIFrameElement>(null)
 
    useEffect(() => {
-      if (isFetched && movie?.links.youtube)
-         iframeRef.current?.setAttribute('src', movie?.links.youtube as string)
+      if (isFetched && movie?.links.youtube) iframeRef.current?.setAttribute('src', movie?.links.youtube as string)
 
       if (movie?.links.youtube === null) notifyError('No trailer found! ㄟ( ▔, ▔ )ㄏ')
    }, [isFetched])

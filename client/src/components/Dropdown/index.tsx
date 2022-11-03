@@ -11,7 +11,7 @@ const Dropdown: React.FC<{ referenceElement: HTMLButtonElement | null }> = ({ re
          onClick={e => e.stopPropagation()}
          key='popper'
          initial={{
-            opacity: 0,
+            opacity: 0
          }}
          animate={{ opacity: 1 }}
          exit={{ opacity: 0 }}

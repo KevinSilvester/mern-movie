@@ -4,11 +4,10 @@
 import type { ApiResponse, Movie } from '@lib/types'
 import React, { useState, useRef, useMemo, useEffect } from 'react'
 import queryString from 'query-string'
-import { useQuery, useQueryClient } from 'react-query'
-import { Link, ScrollRestoration, useSearchParams } from 'react-router-dom'
+import { QueryClient, useIsFetching, useQuery, useQueryClient } from 'react-query'
+import { Link, Params, ScrollRestoration, useLoaderData, useLocation, useSearchParams } from 'react-router-dom'
 import { css, jsx } from '@emotion/react'
 import { motion, AnimatePresence } from 'framer-motion'
-import SvgSearch from '@comp/Svg/SvgSearch'
 import SvgAdd from '@comp/Svg/SvgAdd'
 import Card from '@comp/Card'
 import Loader from '@comp/Loader'
@@ -18,84 +17,109 @@ import SvgAdjust from '@comp/Svg/SvgAdjust'
 import Modal from '@comp/Modal'
 import { getAllMovies, resetDB } from '@lib/api'
 import { notifyError, notifySuccess } from '@lib/toaster'
-import SvgLeft from '@comp/Svg/SvgLeft'
 import BackToTop from '@comp/BackToTop'
 import theme from '@lib/theme'
 import SearchBar from '@comp/SearchBar'
 import useStore from '@hooks/useStore'
 import shallow from 'zustand/shallow'
 import Filter from '@comp/Filter'
+import { useDebounce } from 'rooks'
+
+export interface TQueryParams {
+   title?: string
+   genres?: string[]
+   years?: number
+   sort?: 'title' | 'year'
+   sortOrder?: -1 | 1
+}
+
+interface TLoaderParam {
+   request: Request
+   params: Params
+}
+
+export const homeLoader =
+   (queryClient: QueryClient) =>
+   async ({ request }: TLoaderParam) => {
+      const url = new URL(request.url)
+      const params: TQueryParams = queryString.parse(url.search, { arrayFormat: 'bracket' })
+      if (!queryClient.getQueryData(['movies'])) {
+         await queryClient.fetchQuery(['movies'], () => getAllMovies(params))
+      }
+      return params
+   }
+
+export const homeAction = (queryClient: QueryClient) => async () => {
+   const movies = await resetDB()
+   queryClient.invalidateQueries(['movies'])
+   return movies
+}
 
 const HomePage: React.FC = () => {
-   const [searchParams, setSearchParams] = useSearchParams()
-   const [isResetting, setIsResetting] = useState<boolean>(false)
+   const params = useLoaderData() as TQueryParams
+   const { data, refetch, isFetching, isError } = useQuery(['movies'], () => getAllMovies(params))
+   const queryClient = useQueryClient()
+   const location = useLocation()
+   const [_, setSearchParams] = useSearchParams()
    const [openModal, setOpenModal] = useState<boolean>(false)
-   const [showFilter, setShowFilter] = useState<boolean>(false)
-   const [searchTitle, setSearchTitle] = useStore(state => [state.searchTitle, state.setSearchTitle], shallow)
-
-   const { isFetching, isError, data, refetch } = useQuery<ApiResponse>(
-      ['movies'],
-      () => getAllMovies(queryString.stringify({ title: searchTitle })),
-      {
-         refetchOnMount: false,
-         refetchOnWindowFocus: false,
-         retry: 0
-      }
+   const [isResetting, setIsResetting] = useState<boolean>(false)
+   const [searchTitle, setSearchTitle, reset] = useStore(
+      state => [state.searchTitle, state.setSearchTitle, state.resetSearch],
+      shallow
    )
+   const debounceSearch = useDebounce(refetch, 300)
+
+   useEffect(() => {
+      params.title && setSearchTitle(params.title)
+   }, [])
+
+   const resetSearch = async () => {
+      reset()
+      setSearchParams({})
+      debounceSearch()
+   }
 
    const handleCloseModal = async (proceed: boolean) => {
       setOpenModal(false)
-      if (proceed) {
-         setIsResetting(true)
-         await resetDB()
-         setIsResetting(false)
-         await refetch()
+      if (!proceed) return
+      setIsResetting(true)
+      const data = await resetDB()
+      setIsResetting(false)
+
+      if (data.success) {
+         await resetSearch()
          notifySuccess('Database Reset! ( •̀ ω •́ )✧')
+      } else {
+         notifyError('Rest Failed! ⊙﹏⊙∥')
       }
    }
 
-   const MemoizedCards = useMemo(
-      () => {
-         if (data?.movies?.length === 0) {
-            return (
-               <div className='absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-28 w-fit text-xl text-center'>
-                  No movies found! ≡(▔﹏▔)≡
-               </div>
-            )
-         } else {
-            return data?.movies?.map(movie => <Card key={movie._id} movie={movie} />)
-         }
-      },
-      [data?.movies]
-   )
+   const handleSearchChange = async (val: string) => {
+      setSearchTitle(val)
+      setSearchParams({ title: val })
+      debounceSearch()
+   }
 
+   const handleSearchCancel = () => {
+      setSearchTitle('')
+      setSearchParams({ title: '' })
+      debounceSearch()
+   }
 
-   // useEffect(() => {
-   //    if (Object.keys(searchParams).length) {
-   //       setSearchParams({ title: searchTitle })
-   //       console.log(searchParams)
-   //       refetch()
-   //    }
-   //    //
-   //    // if (searchTitle.length === 0) {
-   //    //    setSearchParams({})
-   //    //    refetch()
-   //    // }
-   //
-   // }, [searchTitle])
-   //
-   // 
-   // // useEffect(() => {
-   // //    refetch()
-   // // }, [searchParams, searchTitle])
-   //
-   // // useEffect(() => {
-   // //    refetch()
-   // // }, [searchTitle])
+   const MemoizedCards = useMemo(() => {
+      if (data?.movies?.length === 0) {
+         return (
+            <div className='absolute top-1/2 left-1/2 -translate-x-1/2 translate-y-28 w-fit text-xl text-center'>
+               No movies found! ≡(▔﹏▔)≡
+            </div>
+         )
+      } else {
+         return data?.movies?.map(movie => <Card key={movie._id} movie={movie} />)
+      }
+   }, [data?.movies])
 
    return (
       <>
-         <ScrollRestoration />
          <nav
             role='navigation'
             className='h-[14rem] w-screen absolute top-0 left-1/2 -translate-x-1/2 grid grid-rows-3 z-20 lg:h-[4.5rem] lg:fixed lg:bg-custom-navy-600 dark:lg:bg-custom-navy-400 lg:flex lg:items-center lg:justify-around lg:w-full lg:shadow-lg lg:px-10  2xl:h-[5rem]'
@@ -105,15 +129,21 @@ const HomePage: React.FC = () => {
                   role='link'
                   aria-label='Link to Home'
                   to='/'
-                  onClick={() => setSearchTitle('')}
+                  onClick={resetSearch}
                   className='text-custom-grey-200 dark:text-custom-blue-200 bg-custom-slate-50 dark:bg-custom-navy-300 font-title font-semibold text-3xl px-2 py-2 my-4 rounded-lg shadow-md lg:bg-custom-navy-500 lg:text-custom-blue-200 dark:lg:bg-custom-navy-300'
                >
                   MovieDB
                </Link>
             </div>
+
             <div className='w-full h-full grid items-center gap-3 grid-cols-1 px-4 py-0 '>
-               <SearchBar />
+               <SearchBar
+                  onChange={handleSearchChange}
+                  onSubmit={e => e.preventDefault()}
+                  onCancel={handleSearchCancel}
+               />
             </div>
+
             <div
                role='menu'
                aria-label='Nav Items'
@@ -122,7 +152,7 @@ const HomePage: React.FC = () => {
                <Link
                   role='link'
                   aria-label='Add Movie'
-                  to='add'
+                  to={`add/${location.search}`}
                   className='h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:!w-11'
                >
                   <SvgAdd className='h-1/2' />
@@ -142,7 +172,7 @@ const HomePage: React.FC = () => {
                   role='menuitem'
                   aria-label='Filter Data'
                   className='lg:hidden h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:!w-11'
-                  onClick={() => setShowFilter(!showFilter)}
+                  // onClick={() => setShowFilter(!showFilter)}
                >
                   <SvgSlider className='h-1/2' />
                </button>
@@ -166,7 +196,7 @@ const HomePage: React.FC = () => {
                   message='This action will undo any updates/changes you have made to the dataset of movies!'
                />
             )}
-            <Filter key={2} show={showFilter} />
+            {/* <Filter key={2} show={showFilter} /> */}
          </AnimatePresence>
 
          <main

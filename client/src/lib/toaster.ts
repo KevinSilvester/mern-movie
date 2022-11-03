@@ -13,20 +13,14 @@ const defaultOptions: ToastOptions = {
    transition: Slide
 }
 
-export const notifyError = (
-   message: string,
-   toastOptions = { ...defaultOptions }
-) =>
+export const notifyError = (message: string, toastOptions = { ...defaultOptions }) =>
    toast.error(message, {
       ...defaultOptions,
       ...toastOptions,
       className: '!rounded-md shadow-md !mb-1 lg:!mb-2 !h-14 !min-h-0 !bg-red-50 !text-red-400'
    })
 
-export const notifySuccess = (
-   message: string,
-   toastOptions = { ...defaultOptions }
-) =>
+export const notifySuccess = (message: string, toastOptions = { ...defaultOptions }) =>
    toast.success(message, {
       ...defaultOptions,
       ...toastOptions,
