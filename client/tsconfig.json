@@ -2,7 +2,7 @@
    "compilerOptions": {
       "target": "es2016",
       "useDefineForClassFields": true,
-      "lib": ["DOM", "DOM.Iterable", "es5", "ES2016"],
+      "lib": ["DOM", "DOM.Iterable", "es5", "ES2018"],
       "baseUrl": "src",
       "paths": {
          "@assets/*": ["assets/*"],

@@ -1,34 +1,31 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-/** @jsxFrag */
-import type { ApiResponse, Movie } from '@lib/types'
-import React, { useState, useRef, useMemo, useEffect } from 'react'
-import queryString from 'query-string'
-import { QueryClient, useIsFetching, useQuery, useQueryClient } from 'react-query'
-import { Link, Params, ScrollRestoration, useLoaderData, useLocation, useSearchParams } from 'react-router-dom'
-import { css, jsx } from '@emotion/react'
+import React, { useState, useMemo, useEffect } from 'react'
+import { QueryClient, useQuery  } from 'react-query'
+import { Link, Params, ScrollRestoration, useLoaderData, useLocation,  } from 'react-router-dom'
+import { useDebounce } from 'rooks'
 import { motion, AnimatePresence } from 'framer-motion'
-import SvgAdd from '@comp/Svg/SvgAdd'
+import shallow from 'zustand/shallow'
+import produce from 'immer'
+import queryString from 'query-string'
+import Modal from '@comp/Modal'
 import Card from '@comp/Card'
 import Loader from '@comp/Loader'
+import SearchBar from '@comp/SearchBar'
+import BackToTop from '@comp/BackToTop'
+import Filter from '@comp/Filter'
+import SvgAdd from '@comp/Svg/SvgAdd'
 import SvgUndo from '@comp/Svg/SvgUndo'
 import SvgSlider from '@comp/Svg/SvgSlider'
 import SvgAdjust from '@comp/Svg/SvgAdjust'
-import Modal from '@comp/Modal'
+import useStore from '@hooks/useStore'
+import useSearchParams from '@hooks/useSearchParams'
 import { getAllMovies, resetDB } from '@lib/api'
 import { notifyError, notifySuccess } from '@lib/toaster'
-import BackToTop from '@comp/BackToTop'
 import theme from '@lib/theme'
-import SearchBar from '@comp/SearchBar'
-import useStore from '@hooks/useStore'
-import shallow from 'zustand/shallow'
-import Filter from '@comp/Filter'
-import { useDebounce } from 'rooks'
 
 export interface TQueryParams {
    title?: string
    genres?: string[]
-   years?: number
+   year?: number
    sort?: 'title' | 'year'
    sortOrder?: -1 | 1
 }
@@ -42,35 +39,43 @@ export const homeLoader =
    (queryClient: QueryClient) =>
    async ({ request }: TLoaderParam) => {
       const url = new URL(request.url)
-      const params: TQueryParams = queryString.parse(url.search, { arrayFormat: 'bracket' })
+      const params: TQueryParams = queryString.parse(url.search, { arrayFormat: 'bracket', parseNumbers: true })
       if (!queryClient.getQueryData(['movies'])) {
          await queryClient.fetchQuery(['movies'], () => getAllMovies(params))
       }
       return params
    }
 
-export const homeAction = (queryClient: QueryClient) => async () => {
-   const movies = await resetDB()
-   queryClient.invalidateQueries(['movies'])
-   return movies
-}
-
 const HomePage: React.FC = () => {
    const params = useLoaderData() as TQueryParams
-   const { data, refetch, isFetching, isError } = useQuery(['movies'], () => getAllMovies(params))
-   const queryClient = useQueryClient()
+   const { data, refetch, isFetching, isError } = useQuery(['movies'], () => getAllMovies(params), {
+      refetchOnWindowFocus: false,
+      retry: 2
+   })
    const location = useLocation()
-   const [_, setSearchParams] = useSearchParams()
+   const [searchParams, setSearchParams] = useSearchParams()
    const [openModal, setOpenModal] = useState<boolean>(false)
    const [isResetting, setIsResetting] = useState<boolean>(false)
-   const [searchTitle, setSearchTitle, reset] = useStore(
-      state => [state.searchTitle, state.setSearchTitle, state.resetSearch],
+   const [showFilter, setShowFilter] = useState<boolean>(false)
+   const [setSearchTitle, setSearchYear, setSearchGenres, setSortValue, setSortOrder, reset] = useStore(
+      state => [
+         state.setSearchTitle,
+         state.setSearchYear,
+         state.setSearchGenres,
+         state.setSortValue,
+         state.setSortOrder,
+         state.resetSearch
+      ],
       shallow
    )
    const debounceSearch = useDebounce(refetch, 300)
 
    useEffect(() => {
       params.title && setSearchTitle(params.title)
+      params.year && setSearchYear(params.year)
+      params.genres && setSearchGenres(new Array(0).concat(params.genres))
+      params.sort && setSortValue(params.sort)
+      params.sortOrder && setSortOrder(params.sortOrder)
    }, [])
 
    const resetSearch = async () => {
@@ -96,13 +101,17 @@ const HomePage: React.FC = () => {
 
    const handleSearchChange = async (val: string) => {
       setSearchTitle(val)
-      setSearchParams({ title: val })
+      setSearchParams(produce(searchParams, draft => {
+         draft['title'] = val
+      }))
       debounceSearch()
    }
 
    const handleSearchCancel = () => {
       setSearchTitle('')
-      setSearchParams({ title: '' })
+      setSearchParams(produce(searchParams, draft => {
+         draft['title'] = ''
+      }))
       debounceSearch()
    }
 
@@ -122,7 +131,7 @@ const HomePage: React.FC = () => {
       <>
          <nav
             role='navigation'
-            className='h-[14rem] w-screen absolute top-0 left-1/2 -translate-x-1/2 grid grid-rows-3 z-20 lg:h-[4.5rem] lg:fixed lg:bg-custom-navy-600 dark:lg:bg-custom-navy-400 lg:flex lg:items-center lg:justify-around lg:w-full lg:shadow-lg lg:px-10  2xl:h-[5rem]'
+            className='h-[14rem] w-screen absolute top-0 left-1/2 -translate-x-1/2 grid grid-rows-3 z-20 lg:h-[4.5rem] lg:fixed lg:bg-custom-navy-600 dark:lg:bg-custom-navy-400 lg:flex lg:items-center lg:justify-around lg:w-full lg:shadow-lg lg:px-10 lg:z-50 2xl:h-[5rem]'
          >
             <div className='h-full w-full grid place-items-center lg:flex lg:items-center lg:justify-center'>
                <Link
@@ -172,7 +181,7 @@ const HomePage: React.FC = () => {
                   role='menuitem'
                   aria-label='Filter Data'
                   className='lg:hidden h-11 w-full rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 lg:!w-11'
-                  // onClick={() => setShowFilter(!showFilter)}
+                  onClick={() => setShowFilter(!showFilter)}
                >
                   <SvgSlider className='h-1/2' />
                </button>
@@ -196,8 +205,9 @@ const HomePage: React.FC = () => {
                   message='This action will undo any updates/changes you have made to the dataset of movies!'
                />
             )}
-            {/* <Filter key={2} show={showFilter} /> */}
+            <Filter key={2} show={showFilter} />
          </AnimatePresence>
+         <ScrollRestoration />
 
          <main
             aria-live='assertive'

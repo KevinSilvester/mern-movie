@@ -1,13 +1,12 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useQueryClient } from 'react-query'
-import shallow from 'zustand/shallow'
+import { css, jsx } from '@emotion/react'
 import Loader from 'react-loader-spinner'
 import useStore from '@hooks/useStore'
 import SvgAdd from '@comp/Svg/SvgAdd'
 import SvgSearch from '@comp/Svg/SvgSearch'
-import { css, jsx } from '@emotion/react'
 
 const SearchBar: React.FC<{
    onChange: (e: string) => void
@@ -17,11 +16,13 @@ const SearchBar: React.FC<{
    const queryClient = useQueryClient()
    const isLoading = queryClient.isFetching(['movies']) > 0
    const [searchFocus, setSearchFocus] = useState<boolean>(false)
-   const [searchTitle, setSearchTitle] = useStore(state => [state.searchTitle, state.setSearchTitle], shallow)
+   const searchTitleRef = useRef(useStore.getState().searchTitle)
    const input = useRef<HTMLInputElement>(null)
    const searchStyle = css`
       color: ${searchFocus ? 'hsl(var(--blue-200))  !important' : 'hsl(var(--slate-400))'};
    `
+
+   useEffect(() => useStore.subscribe(state => (searchTitleRef.current = state.searchTitle)), [])
 
    return (
       <form
@@ -51,7 +52,7 @@ const SearchBar: React.FC<{
             onFocus={() => setSearchFocus(true)}
             onBlur={() => setSearchFocus(false)}
             onChange={e => onChange(e.target.value)}
-            value={searchTitle}
+            value={searchTitleRef.current}
             ref={input}
          />
          <SvgAdd

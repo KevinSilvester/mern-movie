@@ -1,5 +1,5 @@
 {
-   "name": "client",
+   "name": "mern-movie client",
    "version": "1.0.0",
    "browserslist": {
       "production": [
@@ -17,6 +17,7 @@
       "prod": "serve dist -s -p 5000",
       "build": "tsc && vite build",
       "lint": "eslint .",
+      "lint:fix": "eslint . --fix",
       "format:check": "prettier --check './**/*.{md,js,json,ts,tsx}'",
       "format:write": "prettier --write './**/*.{md,js,json,ts,tsx}'"
    },
@@ -25,7 +26,6 @@
       "@hookform/resolvers": "^2.8.8",
       "@popperjs/core": "^2.11.2",
       "axios": "^0.24.0",
-      "body-scroll-lock": "^4.0.0-beta.0",
       "filepond": "^4.30.3",
       "filepond-plugin-file-encode": "^2.1.10",
       "filepond-plugin-file-poster": "^2.5.1",
@@ -34,7 +34,7 @@
       "filepond-plugin-image-exif-orientation": "^1.0.11",
       "filepond-plugin-image-preview": "^4.6.10",
       "framer-motion": "^5.6.0",
-      "lozad": "^1.16.0",
+      "immer": "^9.0.16",
       "query-string": "^7.0.1",
       "react": "^17.0.0",
       "react-dom": "^17.0.0",
@@ -46,7 +46,6 @@
       "react-router-dom": "^6.4.3",
       "react-toastify": "^8.1.0",
       "rooks": "^7.4.1",
-      "twind": "^0.16.16",
       "zod": "^3.11.6",
       "zustand": "v3.6.6"
    },
@@ -55,6 +54,7 @@
       "@emotion/eslint-plugin": "^11.10.0",
       "@eslint/create-config": "^0.4.1",
       "@hookform/devtools": "^4.0.2",
+      "@react-types/shared": "^3.15.0",
       "@tailwindcss/forms": "^0.4.0",
       "@types/body-scroll-lock": "^3.1.0",
       "@types/node": "^16.11.11",

@@ -67,7 +67,6 @@ const InputImage: React.FC<{ edit: boolean }> = ({ children, edit }) => {
                metadata: { poster: watch('poster.image') }
             }
          }
-         console.log(initialFile)
          setFiles([initialFile])
       } catch {
          setFiles([])

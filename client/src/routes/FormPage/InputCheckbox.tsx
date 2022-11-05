@@ -1,7 +1,7 @@
 import type { MovieForm } from '@lib/types'
 import { useFormContext } from 'react-hook-form'
-import genres from '@lib/genres'
 import SvgExclamationTriangle from '@comp/Svg/SvgExclamationTriangle'
+import genres from '@lib/genres'
 
 const InputCheckbox: React.FC = ({ children }) => {
    const {

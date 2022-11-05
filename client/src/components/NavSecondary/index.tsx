@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
-import { Link, useLocation, useNavigate, useNavigationType, useSearchParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useNavigationType } from 'react-router-dom'
 import { usePopper } from 'react-popper'
 import { motion, AnimatePresence } from 'framer-motion'
+import shallow from 'zustand/shallow'
+import produce from 'immer'
 import SearchBar from '@comp/SearchBar'
 import SvgAdd from '@comp/Svg/SvgAdd'
 import SvgAdjust from '@comp/Svg/SvgAdjust'
 import SvgLeft from '@comp/Svg/SvgLeft'
 import theme from '@lib/theme'
 import useStore from '@hooks/useStore'
-import shallow from 'zustand/shallow'
+import useSearchParams from '@hooks/useSearchParams'
 
 const NavSecondary: React.FC = () => {
    const navigate = useNavigate()
@@ -18,10 +20,7 @@ const NavSecondary: React.FC = () => {
    const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(null)
    const [showPopper, setShowPopper] = useState<boolean>(false)
    const [lastClicked, setLastClicked] = useState<'button' | 'dropdown'>('button')
-   const [searchTitle, setSearchTitle, reset] = useStore(
-      state => [state.searchTitle, state.setSearchTitle, state.resetSearch],
-      shallow
-   )
+   const [setSearchTitle, reset] = useStore(state => [state.setSearchTitle, state.resetSearch], shallow)
    const location = useLocation()
    const [searchParams, setSearchParams] = useSearchParams()
 
@@ -31,12 +30,16 @@ const NavSecondary: React.FC = () => {
 
    const handleSearchChange = (val: string) => {
       setSearchTitle(val)
-      setSearchParams({ ...setSearchParams, title: val })
+      setSearchParams(produce(searchParams, draft => {
+         draft['title'] = val
+      }))
    }
 
    const handleSearchCancel = () => {
       setSearchTitle('')
-      setSearchParams({ ...setSearchParams, title: '' })
+      setSearchParams(produce(searchParams, draft => {
+         draft['title'] = ''
+      }))
    }
 
    const handleSearchSubmit = (e: React.FormEvent) => {
@@ -55,7 +58,7 @@ const NavSecondary: React.FC = () => {
                role='link'
                aria-label='Go to Home Page'
                className='h-11 w-12 rounded-lg bg-custom-white-100 dark:bg-custom-navy-500 text-custom-slate-400 hover:text-custom-blue-200 lg:hover:text-custom-slate-200 active:!text-custom-blue-200 grid place-items-center transition-all duration-150 shadow-md dark:shadow-none lg:hidden'
-               onClick={() => (navType !== 'PUSH' ? navigate('/') : navigate(-1))}
+               onClick={() => (navType !== 'PUSH' ? navigate(`/${location.search}`) : navigate(-1))}
             >
                <SvgLeft className='h-1/2' />
             </button>

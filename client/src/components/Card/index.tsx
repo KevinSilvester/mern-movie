@@ -1,12 +1,12 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
+import type { Movie } from '@lib/types'
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { css, jsx } from '@emotion/react'
-import { Movie } from '@lib/types'
-import { loader } from '@lib/styles'
 import Warning from '@comp/Warning'
 import TextSkeleton from '@comp/TextSkeleton'
+import { loader } from '@lib/styles'
 
 const Card: React.FC<{ movie: Movie }> = ({ movie }) => {
    const [loaded, setLoaded] = useState<boolean>(false)

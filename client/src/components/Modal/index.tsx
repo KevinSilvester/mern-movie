@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { motion } from 'framer-motion'
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import { lockScreen, unlockScreen } from '@lib/scroll-lock'
 
 type Props = {
    handleClose: (proceed: boolean) => Promise<void>
@@ -10,10 +10,10 @@ type Props = {
 }
 
 const Modal: React.FC<Props> = ({ handleClose, title, message }) => {
-   useEffect(() => disableBodyScroll(document.body), [])
+   useEffect(() => lockScreen(), [])
 
    const handleClick = (proceed: boolean) => {
-      enableBodyScroll(document.body)
+      unlockScreen()
       handleClose(proceed)
    }
 

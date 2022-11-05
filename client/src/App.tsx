@@ -4,8 +4,9 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import Loader from '@comp/Loader'
 
-import HomePage, { homeAction, homeLoader } from '@routes/HomePage'
+import HomePage, { homeLoader } from '@routes/HomePage'
 import { ToastContainer } from 'react-toastify'
+import ErrorPage from '@routes/ErrorPage'
 const MoviePage = lazy(() => import('@routes/MoviePage'))
 const FormPage = lazy(() => import('@routes/FormPage'))
 const _404Page = lazy(() => import('@routes/_404Page'))
@@ -15,14 +16,13 @@ const queryClient = new QueryClient()
 const router = createBrowserRouter([
    {
       path: '/',
+      errorElement: <ErrorPage />,
       children: [
          {
             index: true,
             element: <HomePage />,
-            // errorElement: <ErrorPage />,
             loader: homeLoader(queryClient)
          },
-
          {
             path: 'add',
             element: <FormPage edit={false} />

@@ -1,0 +1,6 @@
+@import './placeholders';
+
+#error {
+   @extend %svg-img;
+   background-image: url('../assets/error-img.svg');
+}

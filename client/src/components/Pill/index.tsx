@@ -1,5 +1,5 @@
 const Pill: React.FC = ({ children }) => (
-   <div className='text-base bg-custom-slate-50 dark:bg-custom-navy-100 w-fit px-1 text-center rounded-md'>
+   <div className='flex items-center gap-1 text-base bg-custom-slate-50 dark:bg-custom-navy-100 w-fit px-2 text-center rounded-md'>
       {children}
    </div>
 )

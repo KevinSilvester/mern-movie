@@ -1,19 +1,11 @@
-/** @jsxRuntime classic */
-/** @jsx jsx */
-/** @jsxFrag */
-import type { Dispatch, SetStateAction } from 'react'
-import React, { useState, useMemo, createContext, useEffect, useRef } from 'react'
-import { jsx } from '@emotion/react'
+import React, { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { useQuery } from 'react-query'
 import _404Page from '@routes/_404Page'
 import NavSecondary from '@comp/NavSecondary'
-import { loader } from '@lib/styles'
 import { getMovie } from '@lib/api'
 import PageHeader from './PageHeader'
 import PageContent from './PageContent'
-import SvgYoutube from '@comp/Svg/SvgYoutube'
-import { notifyError } from '@lib/toaster'
 import PageIframe from './PageIframe'
 
 const MoviePage: React.FC = () => {

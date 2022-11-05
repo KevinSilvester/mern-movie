@@ -1,6 +1,6 @@
 import type { ApiResponse, MovieForm } from '@lib/types'
 import { useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useNavigationType, useParams } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation, useQueryClient, useQuery } from 'react-query'
@@ -17,6 +17,8 @@ import Loader from '@comp/Loader'
 
 const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
    const navigate = useNavigate()
+   const navType = useNavigationType()
+   const location = useLocation()
 
    const { id } = useParams()
 
@@ -53,6 +55,7 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
    const { mutate: create } = useMutation<ApiResponse, Record<string, unknown>, MovieForm>(createMovie, {
       onSuccess: async data => {
          await queryClient.refetchQueries(['movies'], { exact: true })
+         await queryClient.refetchQueries(['years'], { exact: true })
          notifySuccess(data?.message as string)
          setTimeout(() => navigate(`/movie/${data.movie?._id}`), 1000)
       },
@@ -183,7 +186,10 @@ const FormPage: React.FC<{ edit: boolean }> = ({ edit }) => {
                         </button>
                         <button
                            className='w-full h-11 bg-custom-blue-200 text-white rounded-md shadow-md dark:shadow-none'
-                           onClick={() => navigate('/')}
+                           onClick={e => {
+                              e.preventDefault()
+                              navType !== 'PUSH' ? navigate(`/${location.search}`) : navigate(-1)
+                           }}
                         >
                            Cancel
                         </button>

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import SvgAdd from '@comp/Svg/SvgAdd'
 import SvgExclamationTriangle from '@comp/Svg/SvgExclamationTriangle'
+import { notifyError } from '@lib/toaster'
 
 type Props = {
    inputName: 'actors' | 'director'
@@ -44,7 +45,7 @@ const InputArray: React.FC<Props> = ({ children, inputName }) => {
                   >
                      <span>{name}</span>
                      <div
-                        className='h-4 w-4 rounded-full text-white grid place-items-center'
+                        className='h-4 w-4 rounded-full text-white grid place-items-center cursor-pointer'
                         onClick={e => {
                            e.preventDefault()
                            setValue(inputName, [...getValues(inputName).filter((a: string) => a !== name)])
@@ -72,9 +73,11 @@ const InputArray: React.FC<Props> = ({ children, inputName }) => {
                         aria-disabled={inputValue.length <= 2}
                         onClick={e => {
                            e.preventDefault()
-                           if (!getValues(inputName).includes(inputValue) && inputValue.length > 2) {
+                           if (!getValues(inputName).includes(inputValue)) {
                               setValue(inputName, [...storedValues, inputValue])
                               setInputValue('')
+                           } else {
+                              notifyError('Value already exists! ＼(ﾟｰﾟ＼)')
                            }
                         }}
                      >

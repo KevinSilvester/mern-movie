@@ -1,6 +1,5 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
-/** @jsxFrag */
 import { jsx } from '@emotion/react'
 import { loader } from '@lib/styles'
 

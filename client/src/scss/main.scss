@@ -36,10 +36,9 @@
    --col-5: repeat(auto-fill, 175px);
    --col-6: repeat(auto-fill, 200px);
    --row-1: min-content auto;
-}
 
-%search-reset {
-   @apply px-0 outline-none shadow-none border-none ring-transparent;
+   --scroll-thumb-thin: hsl(var(--slate-100));
+   --scroll-thumb-thin-hover: hsl(var(--grey-200));
 }
 
 [type='search'] {
@@ -67,25 +66,52 @@ input:-webkit-autofill:active {
 }
 
 .scrollbar-hidden {
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-     display: none;
-  }
+   scrollbar-width: none;
+   &::-webkit-scrollbar {
+      display: none !important;
+      width: 0px !important;
+   }
+}
+
+.scrollbar-thin {
+   @media (min-width: 768px) {
+      scrollbar-width: thin;
+      scrollbar-color: var(--scroll-thumb-thin) rgb(1 1 1 / 0);
+
+      &::-webkit-scrollbar {
+         width: 4px;
+      }
+      &::-webkit-scrollbar-thumb {
+         border-radius: 5px;
+         width: 4px;
+         background: var(--scroll-thumb-thin);
+         height: 20px;
+         &:hover {
+            background: var(--scroll-thumb-thin-hover);
+         }
+      }
+      &::-webkit-scrollbar-track {
+         background: transparent;
+      }
+   }
 }
 
 .dark {
    --skeleton-bg: hsl(var(--navy-200));
+   --scroll-thumb-thin: hsl(var(var(--slate-100)));
+   --scroll-thumb-thin-hover: hsl(var(var(--slate-50)));
 
    input:-webkit-autofill,
    input:-webkit-autofill:hover,
    input:-webkit-autofill:focus,
    input:-webkit-autofill:active {
       -webkit-box-shadow: 0 0 0 30px hsl(var(--navy-500)) inset !important;
+      box-shadow: 0 0 0 30px hsl(var(--navy-500)) inset !important;
    }
 }
 
+@import './placeholders';
 @import './scrollbar';
 @import './no-script';
-@import './404.scss';
 @import './toaster';
 @import './filepond';

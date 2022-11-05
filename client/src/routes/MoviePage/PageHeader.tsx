@@ -3,21 +3,19 @@
 /** @jsxFrag */
 import type { ApiResponse } from '@lib/types'
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { css, jsx } from '@emotion/react'
 import { useQueryClient, useMutation } from 'react-query'
+import { Link, useNavigate } from 'react-router-dom'
 import { AnimatePresence } from 'framer-motion'
+import { css, jsx } from '@emotion/react'
 import SvgTrash from '@comp/Svg/SvgTrash'
 import SvgEdit from '@comp/Svg/SvgEdit'
 import SvgImdb from '@comp/Svg/SvgImdb'
+import TextSkeleton from '@comp/TextSkeleton'
 import Modal from '@comp/Modal'
 import Image from '@comp/Image'
 import { deleteMovie } from '@lib/api'
 import { notifyError, notifySuccess } from '@lib/toaster'
-import { loader } from '@lib/styles'
 import waves from '@assets/wave.svg'
-import { tw } from 'twind'
-import TextSkeleton from '@comp/TextSkeleton'
 
 const PageHeader: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> = ({ movie, isFetched }) => {
    const [openModal, setOpenModal] = useState<boolean>(false)

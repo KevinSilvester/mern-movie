@@ -2,8 +2,8 @@
 /** @jsx jsx */
 /** @jsxFrag */
 import React, { useState } from 'react'
-import Warning from '@comp/Warning'
 import { css, jsx } from '@emotion/react'
+import Warning from '@comp/Warning'
 import { loader } from '@lib/styles'
 import { notifyError } from '@lib/toaster'
 
