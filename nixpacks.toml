@@ -1,0 +1,2 @@
+[phases.build]
+cmds = ["pnpm install --dir client --frozen-lockfile", "..."]
