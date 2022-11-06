@@ -8,7 +8,6 @@ import type {
    MovieSource,
    SearchMovieInput
 } from '../types'
-import queryString from 'query-string'
 import { createMovieSchema, updateMovieSchema, getAndDeleteMovieSchema, searchMovieSchema } from './movie.schema'
 import {
    resetDb,
@@ -40,8 +39,7 @@ export const resetDbHandler = async (req: Request<{}, {}, MovieSource[]>, res: R
 export const getAllMoviesHandler = async (req: Request<{}, {}, {}, SearchMovieInput['query']>, res: Response) => {
    try {
       const rawQuery = req.query
-      if (req.query.genres && !Array.isArray(rawQuery.genres))
-         rawQuery.genres = new Array().concat(req.query.genres)
+      if (req.query.genres && !Array.isArray(rawQuery.genres)) rawQuery.genres = new Array(0).concat(req.query.genres)
 
       const { query } = await validateSearchMovie(searchMovieSchema, rawQuery)
       const movies = await getAllMovies(query)

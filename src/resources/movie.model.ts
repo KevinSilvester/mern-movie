@@ -1,6 +1,6 @@
 import type { Model } from 'mongoose'
 import type { MovieDoc } from '../types'
-import { Schema, model, } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
 const MovieSchema = new Schema<MovieDoc, Model<MovieDoc>, MovieDoc>(
    {

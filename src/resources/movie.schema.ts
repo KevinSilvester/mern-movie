@@ -2,12 +2,9 @@ import { z } from 'zod'
 
 const bodySchema = z.object({
    title: z.string({ required_error: 'Title cannot be empty' }),
-   year: z
-      .number()
-      .min(1888, { message: "Movies didn't exist before 1888" })
-      .max(new Date().getFullYear(), {
-         message: 'Year cannot be greater than the current year'
-      }),
+   year: z.number().min(1888, { message: "Movies didn't exist before 1888" }).max(new Date().getFullYear(), {
+      message: 'Year cannot be greater than the current year'
+   }),
    genres: z.string({ required_error: 'Genres cannot be empty' }).array(),
    director: z.string({ required_error: 'Director cannot be empty' }).array(),
    actors: z.string({ required_error: 'Actors cannot be empty' }).array(),

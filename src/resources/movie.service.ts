@@ -1,11 +1,10 @@
-import type { Aggregate, DocumentDefinition, FilterQuery, PipelineStage, QueryOptions, UpdateQuery } from 'mongoose'
+import type { DocumentDefinition, FilterQuery, PipelineStage } from 'mongoose'
 import type { MovieDoc, MovieSource, SearchMovieInput } from '../types'
 import { customAlphabet } from 'nanoid'
 import { alphanumeric } from 'nanoid-dictionary'
 import config from 'config'
 import MovieModel from './movie.model'
 import { getFromMdb } from '../utils/mdbApi'
-import logger from '../utils/logger'
 
 const nanoid = customAlphabet(alphanumeric, 25)
 const dbName = config.get<string>('mongoDbName')
@@ -94,10 +93,7 @@ export const getAllMovies = async (query: FilterQuery<SearchMovieInput['query']>
          aggregate = [...aggregate, sort]
       }
 
-      logger.info(aggregate)
-
-      if (aggregate.length)
-         return await MovieModel.aggregate(aggregate)
+      if (aggregate.length) return await MovieModel.aggregate(aggregate)
 
       return await MovieModel.find().sort({ updatedAt: -1 })
    } catch (e: any) {

@@ -34,6 +34,7 @@ const BackToTop: React.FC = () => {
          {visible && (
             <motion.button
                className='fixed bottom-4 right-5 w-11 h-11 bg-white text-custom-slate-400 grid place-items-center rounded-md shadow-lg shadow-custom-navy-600/30 duration-150 transition-all hover:text-custom-blue-200 dark:bg-custom-navy-400 md:bottom-8 md:right-9 md:w-14 md:h-14'
+               name='Back to top'
                onClick={() => scrollToTop()}
                initial={{ y: 10, opacity: 0, pointerEvents: 'none' }}
                animate={{ y: 0, opacity: 1, pointerEvents: 'auto' }}

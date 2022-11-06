@@ -2,17 +2,16 @@ import { Types } from 'mongoose'
 import { TypeOf } from 'zod'
 import { createMovieSchema, getMoveSchema, updateMovieSchema, searchMovieSchema } from './resources/movie.schema'
 
-
 export interface MovieSource {
-   id:        number;
-   title:     string;
-   year:      string;
-   runtime:   string;
-   genres:    string[];
-   director:  string;
-   actors:    string;
-   plot:      string;
-   posterUrl: string;
+   id: number
+   title: string
+   year: string
+   runtime: string
+   genres: string[]
+   director: string
+   actors: string
+   plot: string
+   posterUrl: string
 }
 
 export interface MovieType {
@@ -40,10 +39,10 @@ export type SearchMovieInput = TypeOf<typeof searchMovieSchema>
 
 export interface MDBApiResult {
    fallback: string & MDBMovie['poster_path']
-   backdrop: string & MDBMovie['backdrop_path'] | null
+   backdrop: (string & MDBMovie['backdrop_path']) | null
    links: {
-      youtube: string & Result['key'] | null
-      imdb: string & MDBMovie['imdb_id'] | null
+      youtube: (string & Result['key']) | null
+      imdb: (string & MDBMovie['imdb_id']) | null
    }
 }
 
@@ -72,72 +71,72 @@ export interface MDBSearchResult {
 }
 
 export interface MDBMovie {
-   adult:                 boolean;
-   backdrop_path:         string;
-   belongs_to_collection: null;
-   budget:                number;
-   genres:                Genre[];
-   homepage:              string;
-   id:                    number;
-   imdb_id:               string;
-   original_language:     string;
-   original_title:        string;
-   overview:              string;
-   popularity:            number;
-   poster_path:           string;
-   production_companies:  ProductionCompany[];
-   production_countries:  ProductionCountry[];
-   release_date:          Date;
-   revenue:               number;
-   runtime:               number;
-   spoken_languages:      SpokenLanguage[];
-   status:                string;
-   tagline:               string;
-   title:                 string;
-   video:                 boolean;
-   vote_average:          number;
-   vote_count:            number;
-   videos:                Videos;
+   adult: boolean
+   backdrop_path: string
+   belongs_to_collection: null
+   budget: number
+   genres: Genre[]
+   homepage: string
+   id: number
+   imdb_id: string
+   original_language: string
+   original_title: string
+   overview: string
+   popularity: number
+   poster_path: string
+   production_companies: ProductionCompany[]
+   production_countries: ProductionCountry[]
+   release_date: Date
+   revenue: number
+   runtime: number
+   spoken_languages: SpokenLanguage[]
+   status: string
+   tagline: string
+   title: string
+   video: boolean
+   vote_average: number
+   vote_count: number
+   videos: Videos
 }
 
 export interface Genre {
-   id:   number;
-   name: string;
+   id: number
+   name: string
 }
 
 export interface ProductionCompany {
-   id:             number;
-   logo_path:      null | string;
-   name:           string;
-   origin_country: string;
+   id: number
+   logo_path: null | string
+   name: string
+   origin_country: string
 }
 
 export interface ProductionCountry {
-   iso_3166_1: string;
-   name:       string;
+   iso_3166_1: string
+   name: string
 }
 
 export interface SpokenLanguage {
-   english_name: string;
-   iso_639_1:    string;
-   name:         string;
+   english_name: string
+   iso_639_1: string
+   name: string
 }
 
 export interface Videos {
-   results: Result[];
+   results: Result[]
 }
 
 export interface Result {
-   iso_639_1:    string;
-   iso_3166_1:   string;
-   name:         string;
-   key:          string;
-   site:         string;
-   size:         number;
-   type:         string;
-   official:     boolean;
-   published_at: Date;
-   id:           string;
+   iso_639_1: string
+   iso_3166_1: string
+   name: string
+   key: string
+   site: string
+   size: number
+   type: string
+   official: boolean
+   published_at: Date
+   id: string
 }
 
 // export interface SearchQueryInput {

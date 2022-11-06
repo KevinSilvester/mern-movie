@@ -134,7 +134,7 @@ function Select({ options, placeholder, multiple, value, onChange }: SelectProps
             className='relative mt-1 bg-white dark:bg-custom-navy-500 rounded-md shadow-md dark:shadow-none cursor-pointer text-base font-semibold px-4 py-2 h-10 w-full block'
             ref={setRefElement}
             tabIndex={0}
-            role='select'
+            role='button'
             aria-pressed={showOptions}
             aria-label={placeholder}
             aria-haspopup={true}

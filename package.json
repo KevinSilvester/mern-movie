@@ -13,7 +13,10 @@
       "lint": "npm run lint:server && npm run lint:client",
       "lint:client": "npm --prefix ./client run lint",
       "lint:server": "eslint .",
-      "start": "node ."
+      "lint:fix": "eslint . --fix",
+      "format:check": "prettier --check './**/*.{md,js,json,ts,tsx}'",
+      "format:write": "prettier --write './**/*.{md,js,json,ts,tsx}'",
+      "start": "cross-env NODE_ENV=production node ."
    },
    "keywords": [
       "crud",
@@ -43,8 +46,7 @@
       "nanoid-dictionary": "^4.3.0",
       "pino": "^7.6.2",
       "pino-pretty": "^7.3.0",
-      "query-string": "^7.1.1",
-      "replace-special-characters": "^1.2.5",
+      "replace-special-characters": "^1.2.7",
       "zod": "^3.11.6"
    },
    "devDependencies": {
@@ -62,6 +64,7 @@
       "@typescript-eslint/eslint-plugin": "^5.42.0",
       "@typescript-eslint/parser": "^5.42.0",
       "concurrently": "^7.5.0",
+      "cross-env": "^7.0.3",
       "eslint": "^8.26.0",
       "nodemon": "^2.0.15",
       "prettier": "^2.7.1",

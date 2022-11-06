@@ -1,7 +1,6 @@
 import type { MDBApiResult, MDBMovie, MDBSearch } from '../types'
 import config from 'config'
 import axios from 'axios'
-//@ts-ignore
 import replaceSpecialCharacters from 'replace-special-characters'
 
 const MDB_KEY = config.get<number>('mdbKey')
@@ -12,9 +11,7 @@ export const getFromMdb = async (title: string, year: number | string): Promise<
    try {
       const searchRes = (
          await mdbApi.get<MDBSearch>(
-            `search/movie?api_key=${MDB_KEY}&query=${replaceSpecialCharacters(
-               title
-            )}&primary_release_year=${year}`
+            `search/movie?api_key=${MDB_KEY}&query=${replaceSpecialCharacters(title)}&primary_release_year=${year}`
          )
       ).data
 
@@ -25,18 +22,14 @@ export const getFromMdb = async (title: string, year: number | string): Promise<
       searchRes.results.sort((a, b) => b.popularity - a.popularity)
 
       const movieRes = (
-         await mdbApi.get<MDBMovie>(
-            `movie/${searchRes.results[0].id}?api_key=${MDB_KEY}&append_to_response=videos`
-         )
+         await mdbApi.get<MDBMovie>(`movie/${searchRes.results[0].id}?api_key=${MDB_KEY}&append_to_response=videos`)
       ).data
 
       return {
          fallback: movieRes.poster_path
             ? `https://image.tmdb.org/t/p/w500${movieRes.poster_path}`
             : 'https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg',
-         backdrop: movieRes.backdrop_path
-            ? `https://image.tmdb.org/t/p/original${movieRes.backdrop_path}`
-            : null,
+         backdrop: movieRes.backdrop_path ? `https://image.tmdb.org/t/p/original${movieRes.backdrop_path}` : null,
          links: {
             imdb: movieRes.imdb_id ? `https://www.imdb.com/title/${movieRes.imdb_id}` : null,
             youtube:

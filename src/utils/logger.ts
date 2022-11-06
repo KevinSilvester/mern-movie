@@ -8,12 +8,12 @@ const logger = pino({
       target: 'pino-pretty',
       options: {
          colorize: true,
-         timestampKey: ``,
-      },
+         timestampKey: ``
+      }
    },
    base: {
       pid: false
-   },
+   }
 })
 
 export default logger
