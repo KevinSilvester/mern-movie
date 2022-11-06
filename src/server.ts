@@ -40,7 +40,9 @@ if (process.env.NODE_ENV === 'production') {
    app.use('/', express.static(path.join(__dirname, '..', 'client', 'dist')))
 }
 
-app.listen(port, async () => {
-   logger.info(`Server running at http://localhost:${port}`)
+const hostName =process.env.NODE_ENV === 'production' ? '0.0.0.0' : '127.0.0.1' 
+
+app.listen(port, '0.0.0.0', async () => {
+   logger.info(`Server running at http://${hostName}:${port}`)
    await connect()
 })
