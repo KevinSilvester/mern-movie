@@ -4,7 +4,6 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
-import { registerSW } from 'virtual:pwa-register'
 
 import Loader from '@comp/Loader'
 import ErrorPage from '@routes/ErrorPage'
@@ -53,34 +52,29 @@ const router = createBrowserRouter([
 
 const App = () => {
    const [updateNow, setUpdateNow] = useState<boolean | undefined>(undefined)
-   const reloadSW = '__RELOAD_SW__'
 
    const {
       offlineReady: [offlineReady, setOfflineReady],
       needRefresh: [needRefresh, setNeedRefresh],
       updateServiceWorker
    } = useRegisterSW({
-      onRegisteredSW(swUrl, r) {
-         console.log(`Service Worker at: ${swUrl}`)
-         // @ts-expect-error just ignore
-         if (reloadSW === 'true') {
-            r &&
-               setInterval(() => {
-                  console.log('Checking for sw update')
-                  r.update()
-               }, 60 * 60 * 12)
-         } else {
-            console.log('SW Registered: ' + r)
+      onRegisteredSW(swUrl, swReg) {
+         console.log(`[Service Worker]: Started at ${swUrl}`)
+         if (swReg) {
+            setInterval(() => {
+               console.log('[Service Worker]: Checking for updates')
+               swReg.update()
+            }, (60 * 60 * 12 * 1000))
          }
       },
       onRegisterError(error) {
-         console.log('SW registration error', error)
+         console.log('[Service Worker]: Registration Error ', error)
       }
    })
 
    useEffect(() => {
       if (offlineReady && !needRefresh) {
-         notifyInfo('SW: App ready to work offline')
+         notifyInfo('[Service Worker]: App ready to work offline')
       }
 
       if (offlineReady && needRefresh) {
