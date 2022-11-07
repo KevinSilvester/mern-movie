@@ -2,7 +2,7 @@
    "compilerOptions": {
       "target": "es2016",
       "useDefineForClassFields": true,
-      "lib": ["DOM", "DOM.Iterable", "es5", "ES2018"],
+      "lib": ["DOM", "DOM.Iterable", "ESNext",],
       "baseUrl": "src",
       "paths": {
          "@assets/*": ["assets/*"],
@@ -15,7 +15,7 @@
          "@routes/*": ["routes/*"],
          "@scss/*": ["scss/*"]
       },
-      "types": ["vite-plugin-terminal/client"],
+      "types": ["vite-plugin-pwa", "vite-plugin-pwa/client", "vite-plugin-terminal/client"],
       "allowJs": false,
       "skipLibCheck": false,
       "esModuleInterop": false,
