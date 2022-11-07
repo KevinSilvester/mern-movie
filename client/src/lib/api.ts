@@ -4,7 +4,7 @@ import { TQueryParams } from '@routes/HomePage'
 import queryString from 'query-string'
 import axios from 'axios'
 
-const API_URL = import.meta.env.VITE_API_URL || '/api'
+const API_URL = import.meta.env.VITE_API_URL as string
 const SOURCE_URL = 'https://raw.githubusercontent.com/erik-sytnyk/movies-list/master/db.json'
 
 export const API = axios.create({ baseURL: API_URL })
