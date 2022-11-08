@@ -85,7 +85,7 @@ A full-stack application built using:
    pnpm install --frozen-lockfile --dir client
    ```
 
-3. **Make `.env` file in project root**<br />
+3. **Make a `.env` file in project root**<br />
 
    > Example: [.env.example](https://github.com/KevinSilvester/mern-movie/blob/main/.env.example)
 
