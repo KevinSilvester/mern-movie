@@ -18,6 +18,9 @@
       "format:write": "prettier --write './**/*.{md,js,json,ts,tsx}'",
       "start": "cross-env NODE_ENV=production node ."
    },
+   "engines": {
+      "node": ">=14.19.0"
+   },
    "keywords": [
       "crud",
       "express",
