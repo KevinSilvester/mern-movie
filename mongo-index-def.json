@@ -1,0 +1,56 @@
+{
+   "mappings": {
+      "dynamic": false,
+      "fields": {
+         "actors": [
+            {
+               "dynamic": true,
+               "type": "document"
+            },
+            {
+               "type": "string"
+            },
+            {
+               "type": "autocomplete"
+            }
+         ],
+         "director": [
+            {
+               "dynamic": true,
+               "type": "document"
+            },
+            {
+               "type": "string"
+            },
+            {
+               "type": "autocomplete"
+            }
+         ],
+         "plot": [
+            {
+               "dynamic": true,
+               "type": "document"
+            },
+            {
+               "type": "string"
+            }
+         ],
+         "title": [
+            {
+               "dynamic": true,
+               "type": "document"
+            },
+            {
+               "store": false,
+               "type": "string"
+            },
+            {
+               "type": "autocomplete"
+            }
+         ]
+      }
+   },
+   "storedSource": {
+      "include": ["title"]
+   }
+}
