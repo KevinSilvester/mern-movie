@@ -20,12 +20,12 @@ A full-stack application built using:
 ![Screen 4](./.github/screenshots/screen-4.png)
 ![Screen 5](./.github/screenshots/screen-5.png)
 ![Screen 6](./.github/screenshots/screen-6.png)
-![Mobile Screen 1](./.github/screenshots/mob-screen-1.jpg =x850)
-![Mobile Screen 2](./.github/screenshots/mob-screen-2.jpg =x850)
-![Mobile Screen 3](./.github/screenshots/mob-screen-3.jpg =x850)
-![Mobile Screen 4](./.github/screenshots/mob-screen-4.jpg =x850)
-![Mobile Screen 5](./.github/screenshots/mob-screen-5.jpg =x850)
-![Mobile Screen 6](./.github/screenshots/mob-screen-6.jpg =x850)
+<img alt="Mobile Screen 1" src="./.github/screenshots/mob-screen-1.jpg"  height="850" />
+<img alt="Mobile Screen 2" src="./.github/screenshots/mob-screen-2.jpg"  height="850" />
+<img alt="Mobile Screen 3" src="./.github/screenshots/mob-screen-3.jpg"  height="850" />
+<img alt="Mobile Screen 4" src="./.github/screenshots/mob-screen-4.jpg"  height="850" />
+<img alt="Mobile Screen 5" src="./.github/screenshots/mob-screen-5.jpg"  height="850" />
+<img alt="Mobile Screen 6" src="./.github/screenshots/mob-screen-6.jpg"  height="850" />
 
 ---
 
