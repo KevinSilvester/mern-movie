@@ -15,11 +15,14 @@
    "scripts": {
       "dev": "cross-env NODE_ENV=development vite --host --port 3000",
       "prod": "cross-env NODE_ENV=production serve dist -s -p 5000",
-      "build": "cross-env NODE_ENV=development vite build",
+      "build": "cross-env NODE_ENV=production vite build",
       "lint": "eslint .",
       "lint:fix": "eslint . --fix",
       "format:check": "prettier --check './**/*.{md,js,json,ts,tsx}'",
       "format:write": "prettier --write './**/*.{md,js,json,ts,tsx}'"
+   },
+   "engines": {
+      "node": ">=14.19.0"
    },
    "dependencies": {
       "@emotion/react": "^11.7.1",
