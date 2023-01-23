@@ -1,6 +1,6 @@
 # MERN Stack Movie Project
 
-> Demo at <a href="https://movie-db.up.railway.app" target="_blank">https://movie-db.up.railway.app</a>
+> Demo at <a href="https://mern-movie.kevins.site" target="_blank">https://mern-movie.kevins.site</a>
 
 A full-stack application built using:
 
