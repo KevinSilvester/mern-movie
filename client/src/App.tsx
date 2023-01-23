@@ -64,7 +64,7 @@ const App = () => {
             setInterval(() => {
                console.log('[Service Worker]: Checking for updates')
                swReg.update()
-            }, (60 * 60 * 12 * 1000))
+            }, 60 * 60 * 12 * 1000)
          }
       },
       onRegisterError(error) {

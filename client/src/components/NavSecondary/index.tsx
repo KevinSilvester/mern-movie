@@ -30,16 +30,20 @@ const NavSecondary: React.FC = () => {
 
    const handleSearchChange = (val: string) => {
       setSearchTitle(val)
-      setSearchParams(produce(searchParams, draft => {
-         draft['title'] = val
-      }))
+      setSearchParams(
+         produce(searchParams, draft => {
+            draft['title'] = val
+         })
+      )
    }
 
    const handleSearchCancel = () => {
       setSearchTitle('')
-      setSearchParams(produce(searchParams, draft => {
-         draft['title'] = ''
-      }))
+      setSearchParams(
+         produce(searchParams, draft => {
+            draft['title'] = ''
+         })
+      )
    }
 
    const handleSearchSubmit = (e: React.FormEvent) => {

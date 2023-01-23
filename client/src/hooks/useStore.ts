@@ -59,9 +59,10 @@ const useStore = create<Store>(
          })),
 
       scrollOffset: { x: 0, y: 0 },
-      setScrollOffset: ({ x, y }) => set(state => ({
-         scrollOffset: { x, y }
-      }))
+      setScrollOffset: ({ x, y }) =>
+         set(state => ({
+            scrollOffset: { x, y }
+         }))
    }))
 )
 /* eslint-enable @typescript-eslint/no-unused-vars */
