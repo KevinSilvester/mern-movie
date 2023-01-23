@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react'
-import { QueryClient, useQuery  } from 'react-query'
-import { Link, Params, ScrollRestoration, useLoaderData, useLocation,  } from 'react-router-dom'
+import { QueryClient, useQuery } from 'react-query'
+import { Link, Params, useLoaderData, useLocation } from 'react-router-dom'
 import { useDebounce } from 'rooks'
 import { motion, AnimatePresence } from 'framer-motion'
 import shallow from 'zustand/shallow'
@@ -35,6 +35,23 @@ interface TLoaderParam {
    params: Params
 }
 
+const getScroll = () => {
+   if (typeof window !== 'undefined') {
+      return {
+         x: window.scrollX,
+         y: window.scrollY
+      }
+   } else {
+      const r = document.documentElement
+      const b = document.body
+
+      return {
+         x: r.scrollLeft || b.scrollLeft || 0,
+         y: r.scrollTop || b.scrollTop || 0
+      }
+   }
+}
+
 export const homeLoader =
    (queryClient: QueryClient) =>
    async ({ request }: TLoaderParam) => {
@@ -57,18 +74,33 @@ const HomePage: React.FC = () => {
    const [openModal, setOpenModal] = useState<boolean>(false)
    const [isResetting, setIsResetting] = useState<boolean>(false)
    const [showFilter, setShowFilter] = useState<boolean>(false)
-   const [setSearchTitle, setSearchYear, setSearchGenres, setSortValue, setSortOrder, reset] = useStore(
+   const [
+      setSearchTitle,
+      setSearchYear,
+      setSearchGenres,
+      setSortValue,
+      setSortOrder,
+      reset,
+      scrollOffset,
+      setScrollOffset
+   ] = useStore(
       state => [
          state.setSearchTitle,
          state.setSearchYear,
          state.setSearchGenres,
          state.setSortValue,
          state.setSortOrder,
-         state.resetSearch
+         state.resetSearch,
+         state.scrollOffset,
+         state.setScrollOffset
       ],
       shallow
    )
    const debounceSearch = useDebounce(refetch, 300)
+
+   const watchScroll = () => {
+      setScrollOffset(getScroll())
+   }
 
    useEffect(() => {
       params.title && setSearchTitle(params.title)
@@ -76,7 +108,19 @@ const HomePage: React.FC = () => {
       params.genres && setSearchGenres(new Array(0).concat(params.genres))
       params.sort && setSortValue(params.sort)
       params.sortOrder && setSortOrder(params.sortOrder)
+
+      document.addEventListener('scroll', watchScroll)
+
+      return () => {
+         document.removeEventListener('scroll', watchScroll)
+      }
    }, [])
+
+   useEffect(() => {
+      if (!isFetching && (scrollOffset.x !== 0 || scrollOffset.y !== 0)) {
+         window.scrollTo({ left: scrollOffset.x, top: scrollOffset.y, behavior: 'smooth' })
+      }
+   }, [isFetching])
 
    const resetSearch = async () => {
       reset()
@@ -101,17 +145,21 @@ const HomePage: React.FC = () => {
 
    const handleSearchChange = async (val: string) => {
       setSearchTitle(val)
-      setSearchParams(produce(searchParams, draft => {
-         draft['title'] = val
-      }))
+      setSearchParams(
+         produce(searchParams, draft => {
+            draft['title'] = val
+         })
+      )
       debounceSearch()
    }
 
    const handleSearchCancel = () => {
       setSearchTitle('')
-      setSearchParams(produce(searchParams, draft => {
-         draft['title'] = ''
-      }))
+      setSearchParams(
+         produce(searchParams, draft => {
+            draft['title'] = ''
+         })
+      )
       debounceSearch()
    }
 
@@ -129,6 +177,8 @@ const HomePage: React.FC = () => {
 
    return (
       <>
+         {console.log('scrollOffset', scrollOffset)}
+         {console.log('getScroll', getScroll())}
          <nav
             role='navigation'
             className='h-[14rem] w-screen absolute top-0 left-1/2 -translate-x-1/2 grid grid-rows-3 z-20 lg:h-[4.5rem] lg:fixed lg:bg-custom-navy-600 dark:lg:bg-custom-navy-400 lg:flex lg:items-center lg:justify-around lg:w-full lg:shadow-lg lg:px-10 lg:z-50 2xl:h-[5rem]'
@@ -207,7 +257,6 @@ const HomePage: React.FC = () => {
             )}
             <Filter key={2} show={showFilter} />
          </AnimatePresence>
-         <ScrollRestoration />
 
          <main
             aria-live='assertive'

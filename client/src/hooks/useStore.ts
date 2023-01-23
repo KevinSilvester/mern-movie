@@ -13,6 +13,11 @@ interface Store {
    setSortValue: (query?: string) => void
    setSortOrder: (query?: -1 | 1) => void
    resetSearch: () => void
+   scrollOffset: {
+      x: number
+      y: number
+   }
+   setScrollOffset: ({ x, y }: { x: number; y: number }) => void
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -51,7 +56,12 @@ const useStore = create<Store>(
             searchGenres: [],
             sortValue: '',
             sortOrder: undefined
-         }))
+         })),
+
+      scrollOffset: { x: 0, y: 0 },
+      setScrollOffset: ({ x, y }) => set(state => ({
+         scrollOffset: { x, y }
+      }))
    }))
 )
 /* eslint-enable @typescript-eslint/no-unused-vars */
