@@ -37,7 +37,7 @@ const SearchBar: React.FC<{
             </div>
          ) : (
             <SvgSearch
-               className='h-1/3 ml-2 transition-all delay-75 duration-150 group-hover:text-custom-blue-200 lg:group-hover:text-custom-slate-200'
+               className='h-1/3 ml-3 transition-all delay-75 duration-150 group-hover:text-custom-blue-200 lg:group-hover:text-custom-slate-200'
                css={searchStyle}
             />
          )}
@@ -48,7 +48,8 @@ const SearchBar: React.FC<{
             autoComplete='off'
             aria-label='Search for Movie'
             aria-multiline='false'
-            className='input bg-custom-white-100 dark:bg-custom-navy-500 lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300'
+            placeholder='Search Titles, Actors, Directors'
+            className='input bg-custom-white-100 dark:bg-custom-navy-500 lg:bg-custom-navy-500 dark:lg:bg-custom-navy-300 placeholder-custom-grey-100/40 dark:placeholder-custom-slate-300/40'
             onFocus={() => setSearchFocus(true)}
             onBlur={() => setSearchFocus(false)}
             onChange={e => onChange(e.target.value)}
@@ -60,9 +61,8 @@ const SearchBar: React.FC<{
             focusable={true}
             aria-label='Clear Search Input'
             aria-controls='search'
-            className={`h-1/3 -ml-2 rotate-45 transition-all delay-75 duration-150 cursor-pointer ${
-               searchFocus ? 'text-custom-blue-200' : 'opacity-0'
-            }`}
+            className='h-1/3 -ml-3 rotate-45 transition-all delay-75 duration-150 group-hover:text-custom-blue-200 lg:group-hover:text-custom-slate-200 cursor-pointer'
+            css={searchStyle}
             onClick={() => {
                onCancel()
                input.current?.focus()
