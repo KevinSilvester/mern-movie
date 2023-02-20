@@ -29,7 +29,18 @@ app.use(
       crossOriginEmbedderPolicy: false
    })
 )
-app.use(cors())
+app.use(
+   cors({
+      origin: [
+         'http://localhost:4000',
+         'http://localhost:3000',
+         'https://mern-movie.kevins.site',
+         'https://movie-db.up.railway.app',
+         'https://movie-db.kevin-s.me'
+      ]
+      // origin: 'http://localhost:4000'
+   })
+)
 app.use(morgan('combined'))
 app.use(express.json({ limit: '6mb' }))
 app.use(express.urlencoded({ extended: true, limit: '6mb' }))
