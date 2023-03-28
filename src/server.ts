@@ -31,13 +31,7 @@ app.use(
 )
 app.use(
    cors({
-      origin: [
-         'http://localhost:4000',
-         'http://localhost:3000',
-         'https://mern-movie.kevins.site',
-         'https://movie-db.up.railway.app',
-         'https://movie-db.kevin-s.me'
-      ]
+      origin: '*'
       // origin: 'http://localhost:4000'
    })
 )
