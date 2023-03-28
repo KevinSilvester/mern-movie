@@ -22,7 +22,7 @@
       "format:write": "prettier --write './**/*.{md,js,json,ts,tsx}'"
    },
    "engines": {
-      "node": ">=14.19.0"
+      "node": ">=16.4.0"
    },
    "dependencies": {
       "@emotion/react": "^11.7.1",
