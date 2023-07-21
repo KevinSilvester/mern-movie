@@ -13,6 +13,8 @@ jobs:
 
     strategy:
       fail-fast: false
+      matrix:
+        languages: ['javascript']
     
     steps:
       - name: Checkout
@@ -21,7 +23,7 @@ jobs:
       - name: Intialize CodeQL
         uses: github/codeql-action/init@v2
         with:
-          languages: ['javascript']  
+          languages: ${{ matrix.languages }}
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
