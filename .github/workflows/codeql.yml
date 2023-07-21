@@ -21,7 +21,7 @@ jobs:
       - name: Intialize CodeQL
         uses: github/codeql-action/init@v2
         with:
-          language: [javascript]  
+          languages: ['javascript']  
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
