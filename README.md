@@ -56,7 +56,8 @@ A full-stack application built using:
 
 ##### Requirements
 
--  Node.js (minimum v14.19.0)
+-  Node.js (minimum v16.4.0)
+-  [pnpm](https://pnpm.io/) (minimum v8.x.x)
 -  MongoDB Atlas (required for `search` aggregation)
 -  TheMovieDB API key (<a href="https://developers.themoviedb.org/3/getting-started/introduction" target="_blank">More Info</a>)
 
