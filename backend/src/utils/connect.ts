@@ -6,7 +6,7 @@ const connect = async (): Promise<void> => {
    const dbUri = config.get<string>('mongoUri')
    const dbName = config.get<string>('mongoDbName')
 
-   logger.info(dbName)
+   logger.info('DB Name: ' + dbName)
 
    try {
       await mongoose.connect(dbUri, { dbName })
