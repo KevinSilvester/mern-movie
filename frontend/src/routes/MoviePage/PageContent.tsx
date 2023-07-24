@@ -33,9 +33,7 @@ const PageContent: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }>
             <span className='text-xl font-bold dark:text-custom-white-100'>Genres</span>
             {isFetched ? (
                <div className='flex justify-start gap-1 flex-wrap'>
-                  {movie?.genres.map((genre, index) => (
-                     <Pill key={index + genre}>{genre}</Pill>
-                  ))}
+                  {movie?.genres.map((genre, index) => <Pill key={index + genre}>{genre}</Pill>)}
                </div>
             ) : (
                <TextSkeleton className='w-4/5 h-5' />
@@ -45,9 +43,7 @@ const PageContent: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }>
             <span className='text-xl font-bold dark:text-custom-white-100'>Actors</span>
             {isFetched ? (
                <div className='flex justify-start gap-1 flex-wrap'>
-                  {movie?.actors.map((actor, index) => (
-                     <Pill key={index + actor}>{actor}</Pill>
-                  ))}
+                  {movie?.actors.map((actor, index) => <Pill key={index + actor}>{actor}</Pill>)}
                </div>
             ) : (
                <TextSkeleton className='w-4/5 h-5' />
@@ -57,9 +53,7 @@ const PageContent: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }>
             <span className='text-xl font-bold dark:text-custom-white-100'>Director</span>
             {isFetched ? (
                <div className='flex justify-start gap-1 flex-wrap'>
-                  {movie?.director.map((director, index) => (
-                     <Pill key={index + director}>{director}</Pill>
-                  ))}
+                  {movie?.director.map((director, index) => <Pill key={index + director}>{director}</Pill>)}
                </div>
             ) : (
                <TextSkeleton className='w-2/5 h-5' />

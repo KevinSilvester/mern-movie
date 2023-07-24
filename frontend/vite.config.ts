@@ -2,7 +2,7 @@ import type { VitePWAOptions } from 'vite-plugin-pwa'
 import type { PluginOption } from 'vite'
 import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import { resolve } from 'path'
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react-swc'
 import legacy from '@vitejs/plugin-legacy'
 import terminal from 'vite-plugin-terminal'
 import { VitePWA } from 'vite-plugin-pwa'
@@ -40,7 +40,7 @@ const pwaOptions: Partial<VitePWAOptions> = {
 }
 
 const plugins: PluginOption[] = [
-   react(),
+   react({ jsxImportSource: '@emotion/react' }),
    legacy({
       targets: ['defaults', 'not IE 11']
    }),
