@@ -4,11 +4,13 @@ on:
     branches:
       - main
   pull_request:
+    types: [opened, synchronize]
     
 jobs:
   build:
-    runs-on: ubuntu-latest
     name: Build
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
@@ -41,18 +43,10 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
-        run: |
-          pnpm install --frozen-lockfile
-          pnpm install --dir client --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
-      - name: Run Eslint + Prettier
-        run: |
-          pnpm lint
-          pnpm format:check
-          cd client && pnpm format:check
+      - name: Build Backend
+        run: pnpm build:backend
           
-      - name: Build Server
-        run: pnpm build:server
-          
-      - name: Build Client
-        run: pnpm build:client
+      - name: Build Frontend
+        run: pnpm build:frontend
