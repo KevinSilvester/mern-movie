@@ -38,7 +38,9 @@
       "lint:fix": "turbo run lint:fix",
       "format:check": "turbo run format:check",
       "format:fix": "turbo run format:fix",
-      "start": "turbo run start"
+      "start": "turbo run start",
+      "start:frontend": "turbo run start --filter=\"./frontend\"",
+      "start:backend": "turbo run start --filter=\"./backend\""
    },
    "devDependencies": {
       "prettier": "^3.0.0",
