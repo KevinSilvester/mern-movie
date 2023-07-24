@@ -61,6 +61,7 @@ const App = () => {
       onRegisteredSW(swUrl, swReg) {
          console.log(`[Service Worker]: Started at ${swUrl}`)
          if (swReg) {
+            // prettier-ignore
             setInterval(() => {
                console.log('[Service Worker]: Checking for updates')
                swReg.update()
