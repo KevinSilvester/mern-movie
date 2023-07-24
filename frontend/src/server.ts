@@ -27,7 +27,7 @@ app.use(
       crossOriginEmbedderPolicy: false
    })
 )
-app.use(cors({ origin: '*' }))
+app.use(cors({ origin: 'https://mern-movie.keivns.site' }))
 app.use(morgan('combined'))
 app.use(express.urlencoded({ extended: true, limit: '5mb' }))
 app.use('/', express.static(path.join(__dirname)))
