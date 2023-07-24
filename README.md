@@ -81,14 +81,11 @@ A full-stack application built using:
    ```sh
    # server-side dependenices
    pnpm install --frozen-lockfile
-
-   # client-side dependenices
-   pnpm install --frozen-lockfile --dir client
    ```
 
-3. **Make a `.env` file in project root**<br />
+3. **Make a `.env` file in the `./backend` directory**<br />
 
-   > Example: [.env.example](https://github.com/KevinSilvester/mern-movie/blob/main/.env.example)
+   > Example: [.env.example](https://github.com/KevinSilvester/mern-movie/blob/main/backend/.env.example)
 
    ```sh
    # URI to MongoDB Atlas database
@@ -107,12 +104,6 @@ A full-stack application built using:
    ```sh
    # to start client and server simultaneously
    pnpm dev
-
-   # start client
-   pnpm dev:client
-
-   # start server
-   pnpm dev:server
    ```
 
 ### Key Dependencies/Packages
@@ -121,21 +112,22 @@ A full-stack application built using:
 
    |                 <!-- -->                 | <!-- -->                            |
    | :--------------------------------------: | :---------------------------------- |
+   |  [TurboRepo](https://turbo.build/repo)   | Monorepo build+config tool          |
    | [TypeScript](https://typescriptlang.org) | Type safe code                      |
    |         [Zod](https://zod.dev/)          | Schema based validation             |
    |     [Axios](https://axios-http.com)      | HTTP client for browser and node.js |
    |     [Prettier](https://prettier.io)      | Code formatter                      |
    |       [Eslint](https://eslint.org)       | Code Linting                        |
+   | [Express.js](https://expressjs.com) | Back-end and web application framework |
 
--  ##### Server-Side
+-  ##### Backend
 
    |              <!-- -->               | <!-- -->                               |
    | :---------------------------------: | :------------------------------------- |
-   | [Express.js](https://expressjs.com) | Back-end and web application framework |
    | [Mongoosse](https://mongoosejs.org) | MongoDB object modeling tool           |
    |    [Pino](https://getpino.io/#/)    | Console logger                         |
 
--  ##### Client-Side
+-  ##### Frontend
 
    |                                <!-- -->                                 | <!-- -->                                        |
    | :---------------------------------------------------------------------: | :---------------------------------------------- |
