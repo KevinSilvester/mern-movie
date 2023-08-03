@@ -42,8 +42,8 @@ importers:
         specifier: ^1.10.0
         version: 1.10.0
       nanoid:
-        specifier: ^3.1.30
-        version: 3.1.30
+        specifier: ^3.1.31
+        version: 3.1.31
       nanoid-dictionary:
         specifier: ^4.3.0
         version: 4.3.0
@@ -3506,7 +3506,7 @@ packages:
   /@types/resolve@1.17.1:
     resolution: {integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==}
     dependencies:
-      '@types/node': 16.11.11
+      '@types/node': 17.0.8
     dev: true
 
   /@types/responselike@1.0.0:
@@ -5856,7 +5856,7 @@ packages:
     resolution: {integrity: sha512-KWYVV1c4i+jbMpaBC+U++4Va0cp8OisU185o73T1vo99hqi7w8tSJfUXYswwqqrjzwxa6KpRK54WhPvwf5w6PQ==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 16.11.11
+      '@types/node': 17.0.8
       merge-stream: 2.0.0
       supports-color: 7.2.0
     dev: true
@@ -6292,8 +6292,8 @@ packages:
     resolution: {integrity: sha512-Xw1+/QnRGWO1KJ0rLfU1xR85qXmAHyLbE3TUkklu9gOIDburP6CsUnLmTaNECGpBh5SHb2uPFmx0VT8UPyoeyw==}
     dev: false
 
-  /nanoid@3.1.30:
-    resolution: {integrity: sha512-zJpuPDwOv8D2zq2WRoMe1HsfZthVewpel9CAvTfc/2mBD1uUT/agc5f7GHGWXlYkFvi1mVxe4IjvP2HNrop7nQ==}
+  /nanoid@3.1.31:
+    resolution: {integrity: sha512-ZivnJm0o9bb13p2Ot5CpgC2rQdzB9Uxm/mFZweqm5eMViqOJe3PV6LU2E30SiLgheesmcPrjquqraoolONSA0A==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
     dev: false
