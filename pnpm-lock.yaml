@@ -57,8 +57,8 @@ importers:
         specifier: ^1.2.7
         version: 1.2.7
       zod:
-        specifier: ^3.11.6
-        version: 3.11.6
+        specifier: ^3.22.3
+        version: 3.22.3
     devDependencies:
       '@eslint/create-config':
         specifier: ^0.4.1
@@ -211,8 +211,8 @@ importers:
         specifier: ^7.4.1
         version: 7.4.1(react-dom@17.0.2)(react@17.0.2)
       zod:
-        specifier: ^3.11.6
-        version: 3.11.6
+        specifier: ^3.22.3
+        version: 3.22.3
       zustand:
         specifier: v3.6.6
         version: 3.6.6(react@17.0.2)
@@ -8769,8 +8769,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zod@3.11.6:
-    resolution: {integrity: sha512-daZ80A81I3/9lIydI44motWe6n59kRBfNzTuS2bfzVh1nAXi667TOTWWtatxyG+fwgNUiagSj/CWZwRRbevJIg==}
+  /zod@3.22.3:
+    resolution: {integrity: sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug==}
     dev: false
 
   /zustand@3.6.6(react@17.0.2):

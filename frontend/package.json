@@ -57,7 +57,7 @@
       "react-router-dom": "^6.4.3",
       "react-toastify": "^8.1.0",
       "rooks": "^7.4.1",
-      "zod": "^3.11.6",
+      "zod": "^3.22.3",
       "zustand": "v3.6.6"
    },
    "devDependencies": {
