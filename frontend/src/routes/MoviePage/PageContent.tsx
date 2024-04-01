@@ -3,6 +3,8 @@ import TextSkeleton from '@comp/TextSkeleton'
 import Pill from '@comp/Pill'
 
 const PageContent: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }> = ({ movie, isFetched }) => {
+   const runtime = movie?.runtime ? `${Math.floor(movie?.runtime / 60)}h ${movie?.runtime % 60}m` : ''
+   
    return (
       <section className='my-6 bg-white dark:bg-custom-navy-500 rounded-md shadow-md dark:shadow-none p-4 lg:!w-96'>
          <div aria-label='Plot Section' className=''>
@@ -63,7 +65,7 @@ const PageContent: React.FC<{ movie: ApiResponse['movie']; isFetched: boolean }>
             <span className='text-xl font-bold dark:text-custom-white-100'>Runtime</span>
             {isFetched ? (
                <div className='flex justify-start gap-1 flex-wrap'>
-                  <Pill>{movie?.runtime}</Pill>
+                  <Pill>{runtime}</Pill>
                </div>
             ) : (
                <TextSkeleton className='w-1/5 h-5' />
