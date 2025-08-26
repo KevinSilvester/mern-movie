@@ -41,6 +41,8 @@ jobs:
           cargo build --package moviedb-client-server
 
       - name: Test Build - API Server
+        env:
+          TMDB_ACCESS_TOKEN: ${{ secrets.TMDB_ACCESS_TOKEN }}
         run: |
           cargo fmt --package moviedb-api-server -- --check
           cargo clippy --package moviedb-api-server -- -D warnings
