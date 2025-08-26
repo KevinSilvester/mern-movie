@@ -7,7 +7,7 @@ use std::time::Duration;
 
 use axum::Router;
 use axum::error_handling::HandleErrorLayer;
-use axum::http::{StatusCode, Uri};
+use axum::http::{Method, StatusCode, Uri};
 use axum::middleware::from_fn;
 use axum::response::IntoResponse;
 use axum::routing::get_service;
@@ -16,6 +16,9 @@ use mimalloc::MiMalloc;
 use tokio::net::TcpListener;
 use tower::ServiceBuilder;
 use tower_http::catch_panic::CatchPanicLayer;
+use tower_http::compression::CompressionLayer;
+use tower_http::cors::CorsLayer;
+use tower_http::decompression::DecompressionLayer;
 use tower_http::limit::RequestBodyLimitLayer;
 use tower_http::services::ServeDir;
 use tracing_subscriber::layer::SubscriberExt;
@@ -58,6 +61,9 @@ async fn main() -> anyhow::Result<()> {
         .fallback(fallback)
         .fallback_service(ServeDir::new(args.static_dir.clone()))
         .nest_service("/a", get_service(ServeDir::new(args.static_dir.clone())))
+        .layer(CorsLayer::new().allow_methods([Method::GET, Method::HEAD]))
+        .layer(CompressionLayer::new())
+        .layer(DecompressionLayer::new())
         .layer(CatchPanicLayer::new())
         .layer(
             ServiceBuilder::new()

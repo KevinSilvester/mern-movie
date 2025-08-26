@@ -2,12 +2,14 @@ use std::sync::LazyLock;
 use std::{net::SocketAddr, time::Instant};
 
 use axum::extract::{ConnectInfo, Request};
-use axum::http::{HeaderName, HeaderValue};
+use axum::http::{HeaderName, HeaderValue, header};
 use axum::middleware::Next;
 use axum::response::Response;
 
 #[derive(Debug)]
 pub struct SecurityHeaders {
+    pub access_control_allow_origin: HeaderValue,
+    pub access_control_allow_methods: HeaderValue,
     pub content_security_policy: HeaderValue,
     pub clear_site_data: HeaderValue,
     pub cross_origin_opener_policy: HeaderValue,
@@ -57,19 +59,21 @@ impl SecurityHeaders {
 impl Default for SecurityHeaders {
     fn default() -> Self {
         Self {
-            content_security_policy: Self::csp().parse().unwrap(),
-            clear_site_data: "\"\"".parse().unwrap(),
-            cross_origin_opener_policy: "same-origin".parse().unwrap(),
-            cross_origin_resource_policy: "same-origin".parse().unwrap(),
-            origin_agent_cluster: "?1".parse().unwrap(),
-            referrer_policy: "no-referrer".parse().unwrap(),
-            strict_transport_security: "max-age=15552000; includeSubDomains".parse().unwrap(),
-            x_content_type_options: "nosniff".parse().unwrap(),
-            x_dns_prefetch_control: "off".parse().unwrap(),
-            x_download_options: "noopen".parse().unwrap(),
-            x_frame_options: "SAMEORIGIN".parse().unwrap(),
-            x_permitted_cross_domain_policies: "none".parse().unwrap(),
-            x_xss_protection: "0".parse().unwrap(),
+            access_control_allow_origin: HeaderValue::from_static("*"),
+            access_control_allow_methods: HeaderValue::from_static("GET, HEAD"),
+            content_security_policy: HeaderValue::from_str(&Self::csp()).unwrap(),
+            clear_site_data: HeaderValue::from_static("\"\""),
+            cross_origin_opener_policy: HeaderValue::from_static("same-origin"),
+            cross_origin_resource_policy: HeaderValue::from_static("same-origin"),
+            origin_agent_cluster: HeaderValue::from_static("?1"),
+            referrer_policy: HeaderValue::from_static("no-referrer"),
+            strict_transport_security: HeaderValue::from_static("max-age=15552000; includeSubDomains"),
+            x_content_type_options: HeaderValue::from_static("nosniff"),
+            x_dns_prefetch_control: HeaderValue::from_static("off"),
+            x_download_options: HeaderValue::from_static("noopen"),
+            x_frame_options: HeaderValue::from_static("SAMEORIGIN"),
+            x_permitted_cross_domain_policies: HeaderValue::from_static("none"),
+            x_xss_protection: HeaderValue::from_static("0"),
         }
     }
 }
@@ -81,7 +85,15 @@ pub async fn security_headers(request: Request, next: Next) -> Response {
     let headers = response.headers_mut();
 
     headers.insert(
-        HeaderName::from_static("content-security-policy"),
+        header::ACCESS_CONTROL_ALLOW_ORIGIN,
+        SECURITY_HEADERS.access_control_allow_origin.clone(),
+    );
+    headers.insert(
+        header::ACCESS_CONTROL_ALLOW_METHODS,
+        SECURITY_HEADERS.access_control_allow_methods.clone(),
+    );
+    headers.insert(
+        header::CONTENT_SECURITY_POLICY,
         SECURITY_HEADERS.content_security_policy.clone(),
     );
     headers.insert(
@@ -101,19 +113,19 @@ pub async fn security_headers(request: Request, next: Next) -> Response {
         SECURITY_HEADERS.origin_agent_cluster.clone(),
     );
     headers.insert(
-        HeaderName::from_static("referrer-policy"),
+        header::REFERRER_POLICY,
         SECURITY_HEADERS.referrer_policy.clone(),
     );
     headers.insert(
-        HeaderName::from_static("strict-transport-security"),
+        header::STRICT_TRANSPORT_SECURITY,
         SECURITY_HEADERS.strict_transport_security.clone(),
     );
     headers.insert(
-        HeaderName::from_static("x-content-type-options"),
+        header::X_CONTENT_TYPE_OPTIONS,
         SECURITY_HEADERS.x_content_type_options.clone(),
     );
     headers.insert(
-        HeaderName::from_static("x-dns-prefetch-control"),
+        header::X_DNS_PREFETCH_CONTROL,
         SECURITY_HEADERS.x_dns_prefetch_control.clone(),
     );
     headers.insert(
@@ -121,7 +133,7 @@ pub async fn security_headers(request: Request, next: Next) -> Response {
         SECURITY_HEADERS.x_download_options.clone(),
     );
     headers.insert(
-        HeaderName::from_static("x-frame-options"),
+        header::X_FRAME_OPTIONS,
         SECURITY_HEADERS.x_frame_options.clone(),
     );
     headers.insert(
@@ -129,7 +141,7 @@ pub async fn security_headers(request: Request, next: Next) -> Response {
         SECURITY_HEADERS.x_permitted_cross_domain_policies.clone(),
     );
     headers.insert(
-        HeaderName::from_static("x-xss-protection"),
+        header::X_XSS_PROTECTION,
         SECURITY_HEADERS.x_xss_protection.clone(),
     );
     response
@@ -160,10 +172,10 @@ pub async fn logger(
             tracing::event!(
                 target:"REQUEST",
                 tracing::Level::INFO,
+                status = response.status().as_str(),
                 %method,
                 path,
                 version,
-                status = response.status().as_str(),
                 ip = addr.ip().to_string(),
                 user_agent,
                 ?latency,
@@ -173,10 +185,10 @@ pub async fn logger(
             tracing::event!(
                 target:"REQUEST",
                 tracing::Level::WARN,
+                status = response.status().as_str(),
                 %method,
                 path,
                 version,
-                status = response.status().as_str(),
                 ip = addr.ip().to_string(),
                 user_agent,
                 ?latency,
@@ -186,10 +198,10 @@ pub async fn logger(
             tracing::event!(
                 target:"REQUEST",
                 tracing::Level::ERROR,
+                status = response.status().as_str(),
                 %method,
                 path,
                 version,
-                status = response.status().as_str(),
                 ip = addr.ip().to_string(),
                 user_agent,
                 ?latency,
