@@ -1,6 +1,0 @@
-pnpm*
-yarn*
-**/*.svg
-dist/
-dev-dist/
-client/

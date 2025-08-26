@@ -1,0 +1,90 @@
+{
+   "name": "moviedb-client-app",
+   "version": "1.0.0",
+   "browserslist": {
+      "production": [
+         "last 2 version",
+         "> 1%",
+         "dead"
+      ],
+      "development": [
+         "last 1 version",
+         "not dead"
+      ]
+   },
+   "scripts": {
+      "dev": "vite --host --port 3000 --mode development",
+      "preview": "vite preview --port 3000 --mode development",
+      "build": "vite build --mode production",
+      "build:dev": "vite build --mode development",
+      "lint:check": "eslint .",
+      "lint:fix": "eslint . --fix",
+      "format:check": "prettier --check \"./**/*.{md,js,json,ts,tsx,html}\"",
+      "format:fix": "prettier --write \"./**/*.{md,js,json,ts,tsx,html}\""
+   },
+   "engines": {
+      "bun": ">=1.2"
+   },
+   "dependencies": {
+      "@emotion/react": "^11.7.1",
+      "@hookform/resolvers": "^2.8.8",
+      "@popperjs/core": "^2.11.2",
+      "axios": "^1.6.0",
+      "filepond": "^4.30.3",
+      "filepond-plugin-file-encode": "^2.1.10",
+      "filepond-plugin-file-poster": "^2.5.1",
+      "filepond-plugin-file-validate-size": "^2.2.5",
+      "filepond-plugin-file-validate-type": "^1.2.6",
+      "filepond-plugin-image-exif-orientation": "^1.0.11",
+      "filepond-plugin-image-preview": "^4.6.10",
+      "framer-motion": "^5.6.0",
+      "immer": "^9.0.16",
+      "query-string": "^7.0.1",
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "react-filepond": "^7.1.1",
+      "react-hook-form": "^7.25.3",
+      "react-loader-spinner": "^4.0.0",
+      "react-popper": "^2.2.5",
+      "react-query": "^3.34.7",
+      "react-router-dom": "^6.4.3",
+      "react-toastify": "^8.1.0",
+      "rooks": "^7.4.1",
+      "zod": "^3.22.3",
+      "zustand": "v3.6.6"
+   },
+   "devDependencies": {
+      "@babel/core": "^7.16.5",
+      "@emotion/eslint-plugin": "^11.10.0",
+      "@eslint/create-config": "^0.4.1",
+      "@hookform/devtools": "^4.0.2",
+      "@react-types/shared": "^3.15.0",
+      "@swc/core": "^1.3.11",
+      "@tailwindcss/forms": "^0.4.0",
+      "@types/node": "^16.11.11",
+      "@types/react": "^17.0.37",
+      "@types/react-dom": "^17.0.11",
+      "@typescript-eslint/eslint-plugin": "^5.42.0",
+      "@typescript-eslint/parser": "^5.42.0",
+      "@vitejs/plugin-legacy": "^4.1.1",
+      "@vitejs/plugin-react-swc": "^3.3.2",
+      "autoprefixer": "^10.4.0",
+      "cssnano": "^5.0.12",
+      "eslint": "^8.26.0",
+      "eslint-plugin-react": "^7.31.10",
+      "postcss": "^8.4.31",
+      "prettier": "^3.0.0",
+      "rollup": "^3.2.5",
+      "sass": "^1.45.2",
+      "tailwindcss": "^3.0.0",
+      "terser": "^5.15.1",
+      "typescript": "^4.8.4",
+      "vite": "^4.5.2",
+      "vite-plugin-pwa": "^0.16.4",
+      "vite-plugin-terminal": "^1.1.0",
+      "workbox-core": "^6.5.4",
+      "workbox-precaching": "^6.5.4",
+      "workbox-routing": "^6.5.4",
+      "workbox-window": "^7.0.0"
+   }
+}

@@ -1,7 +1,7 @@
 {
-   "name": "mern-movie",
+   "name": "moviedb",
    "version": "1.0.0",
-   "description": "A MERN stack movie website/application",
+   "description": "A simple API and website to preform basic CRUD operations on a movie database.",
    "author": "Kevin Silvester",
    "repository": {
       "type": "git",
@@ -9,16 +9,11 @@
    },
    "homepage": "https://github.com/KevinSilvester/mern-movie.git",
    "license": "MIT",
-   "workspaces": [
-      "frontend",
-      "backend",
-      "packages/*"
-   ],
+   "workspaces": ["client-app"],
    "engines": {
-      "node": ">=16.4.0",
-      "pnpm": ">=8"
+      "bun": ">=1.2"
    },
-   "packageManager": "pnpm@8.6.9",
+   "packageManager": "bun@1.2.20",
    "keywords": [
       "crud",
       "express",
@@ -28,22 +23,5 @@
       "vite",
       "monorepo",
       "turborepo"
-   ],
-   "scripts": {
-      "build": "turbo run build",
-      "build:frontend": "turbo run build --filter=\"./frontend\"",
-      "build:backend": "turbo run build --filter=\"./backend\"",
-      "dev": "turbo run dev --parallel",
-      "lint:check": "turbo run lint:check",
-      "lint:fix": "turbo run lint:fix",
-      "format:check": "turbo run format:check",
-      "format:fix": "turbo run format:fix",
-      "start": "turbo run start",
-      "start:frontend": "turbo run start --filter=\"./frontend\"",
-      "start:backend": "turbo run start --filter=\"./backend\""
-   },
-   "devDependencies": {
-      "prettier": "^3.0.0",
-      "turbo": "^1.10.9"
-   }
+   ]
 }

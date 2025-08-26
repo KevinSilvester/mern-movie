@@ -1,0 +1,19 @@
+# Build server
+FROM lukemathwalker/cargo-chef:latest-rust-1.89.0-alpine AS server_base
+WORKDIR /app
+
+FROM server_base AS server_prepare
+COPY . .
+RUN cargo chef prepare --recipe-path recipe.json
+
+FROM server_base AS server_build
+COPY --from=server_prepare /app/recipe.json recipe.json
+RUN cargo chef cook --release --package moviedb-api-server --recipe-path recipe.json
+COPY . .
+RUN cargo build --release --package moviedb-api-server
+
+FROM alpine:latest AS final
+WORKDIR /app
+COPY --from=server_build /app/target/release/moviedb-api-server ./server
+EXPOSE 3001/tcp
+ENTRYPOINT ["./server", "--log-level=info", "--log-format=json"]

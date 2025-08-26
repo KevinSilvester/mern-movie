@@ -1,0 +1,11 @@
+.git/
+.github/
+target/
+node_modules/
+
+backend-v1/
+backend-v2/server/target/
+
+frontend/client/dist/
+frontend/client/node_modules/
+frontend/server/target

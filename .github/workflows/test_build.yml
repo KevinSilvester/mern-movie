@@ -15,38 +15,35 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Install Node
-        uses: actions/setup-node@v3
+        
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
         with:
-          node-version: 16.19.x
-
-      - uses: pnpm/action-setup@v2
-        name: Install pnpm
-        id: pnpm-install
-        with:
-          version: 8
-          run_install: false
-
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        name: Setup pnpm cache
-        with:
-          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build Backend
-        run: pnpm build:backend
+          bun-version: 1.2.20
           
-      - name: Build Frontend
-        run: pnpm build:frontend
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Setup Rust cache
+        uses: Swatinem/rust-cache@v2
+
+      - name: Test Build - Client App
+        run: |
+          bun install
+          bun run -F moviedb-client-app lint:check
+          bun run -F moviedb-client-app format:check
+          bun run -F moviedb-client-app build
+
+      - name: Test Build - Client Server
+        run: |
+          cargo fmt --package moviedb-client-server -- --check
+          cargo clippy --package moviedb-client-server -- -D warnings
+          cargo build --package moviedb-client-server
+
+      - name: Test Build - API Server
+        run: |
+          cargo fmt --package moviedb-api-server -- --check
+          cargo clippy --package moviedb-api-server -- -D warnings
+          cargo build --package moviedb-api-server
+          cargo test --package moviedb-api-server
+

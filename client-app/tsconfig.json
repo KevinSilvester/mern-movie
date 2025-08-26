@@ -1,0 +1,33 @@
+{
+   "compilerOptions": {
+      "target": "es2016",
+      "lib": ["DOM", "DOM.Iterable", "ESNext", "WebWorker"],
+      "baseUrl": "src",
+      "paths": {
+         "@assets/*": ["assets/*"],
+         "@comp/*": ["components/*"],
+         "@hooks/*": ["hooks/*"],
+         "@interface/*": ["interface/*"],
+         "@layout/*": ["layout/*"],
+         "@lib/*": ["lib/*"],
+         "@pages/*": ["pages/*"],
+         "@routes/*": ["routes/*"],
+         "@scss/*": ["scss/*"]
+      },
+      "types": ["vite-plugin-pwa", "vite-plugin-pwa/client", "vite-plugin-terminal/client"],
+      "module": "ES2022",
+      "jsx": "react-jsx",
+      "jsxImportSource": "@emotion/react",
+      "allowJs": false,
+      "allowSyntheticDefaultImports": true,
+      "declaration": true,
+      "declarationMap": true,
+      "esModuleInterop": true,
+      "forceConsistentCasingInFileNames": true,
+      "isolatedModules": true,
+      "moduleResolution": "node",
+      "skipLibCheck": true,
+      "strict": true
+   },
+   "exclude": ["node_modules"]
+}

@@ -1,0 +1,37 @@
+# Build client
+FROM oven/bun:1-alpine AS client_base
+WORKDIR /app
+
+FROM client_base AS client_install
+COPY ./package.json ./bun.lock ./
+COPY ./client-app/package.json ./client-app/package.json
+RUN bun install --frozen-lockfile
+
+FROM client_base AS client_build
+COPY --from=client_install /app/node_modules node_modules
+COPY ./ .
+RUN NODE_ENV=production bun run -F moviedb-client-app build
+
+
+# Build server
+FROM lukemathwalker/cargo-chef:latest-rust-1.89.0-alpine AS server_base
+WORKDIR /app
+
+FROM server_base AS server_prepare
+COPY . .
+RUN cargo chef prepare --recipe-path recipe.json
+
+FROM server_base AS server_build
+COPY --from=server_prepare /app/recipe.json recipe.json
+RUN cargo chef cook --release --package moviedb-client-server --recipe-path recipe.json
+COPY . .
+RUN cargo build --release --package moviedb-client-server
+
+
+# Final image that combines the client and server builds
+FROM alpine:latest AS final
+WORKDIR /app
+COPY --from=client_build /app/client-app/dist ./static/
+COPY --from=server_build /app/target/release/moviedb-client-server ./server
+EXPOSE 3001/tcp
+ENTRYPOINT ["./server", "--log-level=info", "--log-format=json", "static"]
