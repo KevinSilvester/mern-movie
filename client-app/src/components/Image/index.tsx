@@ -1,8 +1,8 @@
 /** @jsxRuntime classic */
 /** @jsx jsx */
 /** @jsxFrag */
-import type React from 'react'
-import { useState } from 'react'
+
+import React, { useState } from 'react'
 import { css, jsx } from '@emotion/react'
 import Warning from '@comp/Warning'
 import { loader } from '@lib/styles'
@@ -21,7 +21,6 @@ const Image: React.FC<Props> = ({ title, src, fallback }) => {
    return (
       <>
          {error && <Warning />}
-         {console.log(src)}
          <img
             src={src}
             alt={title}
