@@ -7,7 +7,7 @@ use axum::middleware::Next;
 use axum::response::Response;
 
 #[derive(Debug)]
-pub struct SecurityHeaders {
+pub struct ResponseHeaders {
     pub access_control_allow_origin: HeaderValue,
     pub access_control_allow_methods: HeaderValue,
     pub content_security_policy: HeaderValue,
@@ -25,7 +25,7 @@ pub struct SecurityHeaders {
     pub x_xss_protection: HeaderValue,
 }
 
-impl SecurityHeaders {
+impl ResponseHeaders {
     const CSP_MAP: &'static [(&'static str, &'static str)] = &[
         ("default-src", "'self'"),
         ("script-src", "'self' 'unsafe-inline'"),
@@ -56,7 +56,7 @@ impl SecurityHeaders {
     }
 }
 
-impl Default for SecurityHeaders {
+impl Default for ResponseHeaders {
     fn default() -> Self {
         Self {
             access_control_allow_origin: HeaderValue::from_static("*"),
@@ -78,71 +78,71 @@ impl Default for SecurityHeaders {
     }
 }
 
-static SECURITY_HEADERS: LazyLock<SecurityHeaders> = LazyLock::new(SecurityHeaders::default);
+static RESPONSE_HEADERS: LazyLock<ResponseHeaders> = LazyLock::new(ResponseHeaders::default);
 
-pub async fn security_headers(request: Request, next: Next) -> Response {
+pub async fn response_headers(request: Request, next: Next) -> Response {
     let mut response = next.run(request).await;
     let headers = response.headers_mut();
 
     headers.insert(
         header::ACCESS_CONTROL_ALLOW_ORIGIN,
-        SECURITY_HEADERS.access_control_allow_origin.clone(),
+        RESPONSE_HEADERS.access_control_allow_origin.clone(),
     );
     headers.insert(
         header::ACCESS_CONTROL_ALLOW_METHODS,
-        SECURITY_HEADERS.access_control_allow_methods.clone(),
+        RESPONSE_HEADERS.access_control_allow_methods.clone(),
     );
     headers.insert(
         header::CONTENT_SECURITY_POLICY,
-        SECURITY_HEADERS.content_security_policy.clone(),
+        RESPONSE_HEADERS.content_security_policy.clone(),
     );
     headers.insert(
         HeaderName::from_static("clear-site-data"),
-        SECURITY_HEADERS.clear_site_data.clone(),
+        RESPONSE_HEADERS.clear_site_data.clone(),
     );
     headers.insert(
         HeaderName::from_static("cross-origin-opener-policy"),
-        SECURITY_HEADERS.cross_origin_opener_policy.clone(),
+        RESPONSE_HEADERS.cross_origin_opener_policy.clone(),
     );
     headers.insert(
         HeaderName::from_static("cross-origin-resource-policy"),
-        SECURITY_HEADERS.cross_origin_resource_policy.clone(),
+        RESPONSE_HEADERS.cross_origin_resource_policy.clone(),
     );
     headers.insert(
         HeaderName::from_static("origin-agent-cluster"),
-        SECURITY_HEADERS.origin_agent_cluster.clone(),
+        RESPONSE_HEADERS.origin_agent_cluster.clone(),
     );
     headers.insert(
         header::REFERRER_POLICY,
-        SECURITY_HEADERS.referrer_policy.clone(),
+        RESPONSE_HEADERS.referrer_policy.clone(),
     );
     headers.insert(
         header::STRICT_TRANSPORT_SECURITY,
-        SECURITY_HEADERS.strict_transport_security.clone(),
+        RESPONSE_HEADERS.strict_transport_security.clone(),
     );
     headers.insert(
         header::X_CONTENT_TYPE_OPTIONS,
-        SECURITY_HEADERS.x_content_type_options.clone(),
+        RESPONSE_HEADERS.x_content_type_options.clone(),
     );
     headers.insert(
         header::X_DNS_PREFETCH_CONTROL,
-        SECURITY_HEADERS.x_dns_prefetch_control.clone(),
+        RESPONSE_HEADERS.x_dns_prefetch_control.clone(),
     );
     headers.insert(
         HeaderName::from_static("x-download-options"),
-        SECURITY_HEADERS.x_download_options.clone(),
+        RESPONSE_HEADERS.x_download_options.clone(),
     );
     headers.insert(
         header::X_FRAME_OPTIONS,
-        SECURITY_HEADERS.x_frame_options.clone(),
+        RESPONSE_HEADERS.x_frame_options.clone(),
     );
     headers.insert(
         HeaderName::from_static("x-permitted-cross-domain-policies"),
-        SECURITY_HEADERS.x_permitted_cross_domain_policies.clone(),
+        RESPONSE_HEADERS.x_permitted_cross_domain_policies.clone(),
     );
     headers.insert(
         header::X_XSS_PROTECTION,
-        SECURITY_HEADERS.x_xss_protection.clone(),
+        RESPONSE_HEADERS.x_xss_protection.clone(),
     );
     response
 }

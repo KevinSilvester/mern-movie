@@ -72,7 +72,7 @@ async fn main() -> anyhow::Result<()> {
         )
         .layer(RequestBodyLimitLayer::new(20 << 20))
         .layer(from_fn(middleware::logger))
-        .layer(from_fn(middleware::security_headers));
+        .layer(from_fn(middleware::response_headers));
 
     log::info!("Server staring on address: http://{}", args.socket_addr());
 
