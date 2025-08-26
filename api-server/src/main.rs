@@ -5,8 +5,8 @@ use std::time::Duration;
 
 use moviedb_api_server::cli::{Args, LogFormat};
 use moviedb_api_server::middleware;
-use moviedb_api_server::{error, routes};
 use moviedb_api_server::state::AppState;
+use moviedb_api_server::{error, routes};
 
 use axum::Router;
 use axum::error_handling::HandleErrorLayer;
