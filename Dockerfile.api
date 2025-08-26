@@ -16,4 +16,4 @@ FROM alpine:latest AS final
 WORKDIR /app
 COPY --from=server_build /app/target/release/moviedb-api-server ./server
 EXPOSE 3001/tcp
-ENTRYPOINT ["./server", "--log-level=info", "--log-format=json"]
+ENTRYPOINT ["./server", "--log-level=info", "--log-format=plain"]
