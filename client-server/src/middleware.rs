@@ -67,7 +67,9 @@ impl Default for ResponseHeaders {
             cross_origin_resource_policy: HeaderValue::from_static("same-origin"),
             origin_agent_cluster: HeaderValue::from_static("?1"),
             referrer_policy: HeaderValue::from_static("no-referrer"),
-            strict_transport_security: HeaderValue::from_static("max-age=15552000; includeSubDomains"),
+            strict_transport_security: HeaderValue::from_static(
+                "max-age=15552000; includeSubDomains",
+            ),
             x_content_type_options: HeaderValue::from_static("nosniff"),
             x_dns_prefetch_control: HeaderValue::from_static("off"),
             x_download_options: HeaderValue::from_static("noopen"),
