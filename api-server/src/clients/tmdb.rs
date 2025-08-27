@@ -180,15 +180,19 @@ impl TMDBClient {
             .build()?;
 
         let (search_cache, img_cache, movie_cache) = Self::cache_intialize().await;
-
-        Ok(Self {
+        let tmdb_client = Self {
             client,
             api_url,
             img_url,
             search_cache,
             img_cache,
             movie_cache,
-        })
+        };
+
+        #[cfg(feature = "tmdb-cache-file")]
+        tmdb_client.populate_caches().await;
+
+        Ok(tmdb_client)
     }
 
     pub async fn ping(&self) -> anyhow::Result<()> {
@@ -355,40 +359,6 @@ impl TMDBClient {
         Ok(Some((bytes, mime_type.clone(), TMDBImageCacheStatus::Miss)))
     }
 
-    #[cfg(feature = "tmdb-cache-file")]
-    async fn cache_intialize() -> (TMDBSearchCache, TMDBImageCache, TMDBMovieCache) {
-        let movie_cache = Cache::builder()
-            .max_capacity(TMDB_MOVIE_CACHE_SIZE)
-            .time_to_idle(Duration::from_secs(60 * 60 * 24 * 30)) // 30 days
-            .build();
-        let img_cache = Cache::builder()
-            .max_capacity(TMDB_IMG_CACHE_SIZE)
-            .time_to_live(Duration::from_secs(60 * 60 * 24 * 7)) // 7 days
-            .build();
-        let search_cache = Cache::builder()
-            .max_capacity(TMDB_SEARCH_CACHE_SIZE)
-            .time_to_live(Duration::from_secs(60 * 60 * 24 * 7)) // 7 days
-            .build();
-
-        let searches = TMDB_FILE_CACHE.lock().await.searches.clone();
-        for (key, value) in searches.into_iter() {
-            search_cache.insert(key, value).await;
-        }
-
-        let images = TMDB_FILE_CACHE.lock().await.images.clone();
-        for (key, value) in images.into_iter() {
-            img_cache.insert(key, value).await;
-        }
-
-        let movies = TMDB_FILE_CACHE.lock().await.movies.clone();
-        for (key, value) in movies.into_iter() {
-            movie_cache.insert(key, value).await;
-        }
-
-        (search_cache, img_cache, movie_cache)
-    }
-
-    #[cfg(not(feature = "tmdb-cache-file"))]
     async fn cache_intialize() -> (TMDBSearchCache, TMDBImageCache, TMDBMovieCache) {
         (
             Cache::builder()
@@ -401,9 +371,25 @@ impl TMDBClient {
                 .build(),
             Cache::builder()
                 .max_capacity(TMDB_MOVIE_CACHE_SIZE)
-                .time_to_idle(Duration::from_secs(60 * 60 * 24 * 30)) // 30 days
+                .time_to_live(Duration::from_secs(60 * 60 * 24 * 15)) // 30 days
                 .build(),
         )
+    }
+
+    #[cfg(feature = "tmdb-cache-file")]
+    async fn populate_caches(&self) {
+        let searches = TMDB_FILE_CACHE.lock().await.searches.clone();
+        for (key, value) in searches.into_iter() {
+            self.search_cache.insert(key, value).await;
+        }
+        let images = TMDB_FILE_CACHE.lock().await.images.clone();
+        for (key, value) in images.into_iter() {
+            self.img_cache.insert(key, value).await;
+        }
+        let movies = TMDB_FILE_CACHE.lock().await.movies.clone();
+        for (key, value) in movies.into_iter() {
+            self.movie_cache.insert(key, value).await;
+        }
     }
 
     #[cfg(feature = "tmdb-cache-file")]
