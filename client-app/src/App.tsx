@@ -1,12 +1,9 @@
-import { useRegisterSW } from 'virtual:pwa-register/react'
-
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import Loader from '@comp/Loader'
-import { notifyInfo, notifyPWA } from '@lib/toaster'
 import ErrorPage from '@routes/ErrorPage'
 import HomePage, { homeLoader } from '@routes/HomePage'
 
@@ -52,52 +49,6 @@ const router = createBrowserRouter([
 ])
 
 const App = () => {
-   const [updateNow, setUpdateNow] = useState<boolean | undefined>(undefined)
-
-   const {
-      offlineReady: [offlineReady, setOfflineReady],
-      needRefresh: [needRefresh, setNeedRefresh],
-      updateServiceWorker
-   } = useRegisterSW({
-      onRegisteredSW(swUrl: any, swReg: any) {
-         console.log(`[Service Worker]: Started at ${swUrl}`)
-         if (swReg) {
-            // prettier-ignore
-            setInterval(
-               () => {
-                  console.log('[Service Worker]: Checking for updates')
-                  swReg.update()
-               },
-               60 * 60 * 12 * 1000,
-            )
-         }
-      },
-      onRegisterError(error) {
-         console.log('[Service Worker]: Registration Error ', error)
-      }
-   })
-
-   useEffect(() => {
-      if (offlineReady && !needRefresh) {
-         notifyInfo('[Service Worker]: App ready to work offline')
-      }
-
-      if (offlineReady && needRefresh) {
-         const toastId = notifyPWA(setUpdateNow)
-
-         if (updateNow !== undefined) {
-            toast.dismiss(toastId)
-
-            if (updateNow) {
-               updateServiceWorker(true)
-            } else {
-               setOfflineReady(false)
-               setNeedRefresh(false)
-            }
-         }
-      }
-   }, [updateNow, offlineReady, needRefresh])
-
    return (
       <QueryClientProvider client={queryClient}>
          <Suspense fallback={<Loader />}>
