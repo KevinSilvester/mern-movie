@@ -10,7 +10,7 @@ use bson::Uuid;
 use serde_json::json;
 use validator::Validate;
 
-use crate::data::{MovieDTO, MovieModel, MovieQueryDTO, MovieResetDTO};
+use crate::data::{MOVIE_RESET, MovieDTO, MovieModel, MovieQueryDTO};
 use crate::utils;
 use crate::{error::ApiError, state::AppState};
 
@@ -41,34 +41,25 @@ async fn health_check() -> Response {
         .into_response()
 }
 
-async fn reset(
-    State(state): State<Arc<AppState>>,
-    Json(payload): Json<Vec<MovieResetDTO>>,
-) -> Result<Response, ApiError> {
+async fn reset(State(state): State<Arc<AppState>>) -> Result<Response, ApiError> {
     log::trace!(">>>===Resetting movies ===<<<");
-
-    payload.validate()?;
 
     let mut movies = vec![];
 
-    for movie in payload {
+    for movie in MOVIE_RESET {
         log::debug!("Resetting movie: {} ({})", movie.title, movie.year);
-        let movie_tmdb = state
-            .tmdb
-            .get_details(&movie.title, movie.year.parse::<u32>().unwrap_or(0))
-            .await?;
+        let movie_tmdb = state.tmdb.get_details(movie.title, movie.year).await?;
         let movie_model = MovieModel::new(Uuid::new(), movie.into(), movie_tmdb, false);
         movies.push(movie_model);
     }
 
-    std::fs::write("file.json", serde_json::to_string_pretty(&movies).unwrap()).unwrap();
+    let uploaded_posters_ids = state.db.movies.get_uploaded_posters_ids().await?;
+
+    for movie_id in uploaded_posters_ids {
+        state.r2.delete_object(&movie_id.to_string()).await?;
+    }
 
     state.db.movies.reset_collection(&movies).await?;
-    state
-        .db
-        .movies
-        .list_movies(None, None, None, None.into(), None.into())
-        .await?;
 
     log::trace!(">>>===Movies reset ===<<<");
     Ok((

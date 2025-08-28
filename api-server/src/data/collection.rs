@@ -1,8 +1,8 @@
 use bson::{Uuid, doc};
 use futures::StreamExt;
-use mongodb::Collection;
+use mongodb::{Collection, Cursor};
 
-use crate::data::{MovieDTO, MovieTMDB, MovieTitleDTO, MovieTitleModel};
+use crate::data::{MovieDTO, MovieIdModel, MovieTMDB, MovieTitleDTO, MovieTitleModel};
 
 use super::MovieModel;
 
@@ -175,19 +175,14 @@ impl MovieCollection {
             }
         });
 
-        let mut cursor = self.collection.aggregate(pipeline).await?;
+        let mut cursor: Cursor<MovieTitleModel> =
+            self.collection.aggregate(pipeline).await?.with_type();
         let mut movies: Vec<MovieTitleDTO> = vec![];
 
-        while let Some(result) = cursor.next().await {
-            if result.is_err() {
-                log::error!("Error in aggregation cursor: {:?}", result);
-                return Err(anyhow::anyhow!("Error in aggregation cursor"));
-            }
-
-            let movie = bson::from_document::<MovieTitleModel>(result.unwrap());
+        while let Some(movie) = cursor.next().await {
             if movie.is_err() {
-                log::error!("Error deserializing movie document: {:?}", movie);
-                return Err(anyhow::anyhow!("Error deserializing movie document"));
+                log::error!("Error in aggregation cursor: {:?}", movie);
+                return Err(anyhow::anyhow!("Error in aggregation cursor"));
             }
 
             movies.push(movie.unwrap().into());
@@ -214,6 +209,32 @@ impl MovieCollection {
 
         log::trace!("Years found");
         Ok(years)
+    }
+
+    pub async fn get_uploaded_posters_ids(&self) -> anyhow::Result<Vec<Uuid>> {
+        log::trace!("Getting list of movie ids with uploaded posters");
+
+        let filter = doc! { "poster_uploaded": true };
+        let projection = doc! { "_id": 1 };
+
+        let mut cursor: Cursor<MovieIdModel> = self
+            .collection
+            .find(filter)
+            .projection(projection)
+            .await?
+            .with_type();
+        let mut ids: Vec<Uuid> = vec![];
+
+        while let Some(result) = cursor.next().await {
+            if result.is_err() {
+                log::error!("Error in cursor: {:?}", result);
+                return Err(anyhow::anyhow!("Error in cursor"));
+            }
+            let movie = result.unwrap();
+            ids.push(movie.id);
+        }
+        log::trace!("Movie ids with uploaded posters found");
+        Ok(ids)
     }
 
     pub async fn update_movie(&self, movie: MovieModel) -> anyhow::Result<()> {

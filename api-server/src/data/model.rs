@@ -126,3 +126,9 @@ impl From<MovieTitleModel> for MovieTitleDTO {
         }
     }
 }
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct MovieIdModel {
+    #[serde(rename = "_id")]
+    pub id: Uuid,
+}
