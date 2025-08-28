@@ -11,7 +11,6 @@ pub struct ResponseHeaders {
     pub access_control_allow_origin: HeaderValue,
     pub access_control_allow_methods: HeaderValue,
     pub content_security_policy: HeaderValue,
-    pub clear_site_data: HeaderValue,
     pub cross_origin_opener_policy: HeaderValue,
     pub cross_origin_resource_policy: HeaderValue,
     pub origin_agent_cluster: HeaderValue,
@@ -39,6 +38,7 @@ impl ResponseHeaders {
         ("object-src", "'self'"),
         ("media-src", "'self'"),
         ("frame-src", "'self' https://www.youtube.com"),
+        ("worker-src", "'self' blob:"),
         ("frame-ancestors", "'self'"),
         ("base-uri", "'self'"),
         ("block-all-mixed-content", ""),
@@ -62,7 +62,6 @@ impl Default for ResponseHeaders {
             access_control_allow_origin: HeaderValue::from_static("*"),
             access_control_allow_methods: HeaderValue::from_static("GET, HEAD"),
             content_security_policy: HeaderValue::from_str(&Self::csp()).unwrap(),
-            clear_site_data: HeaderValue::from_static("\"\""),
             cross_origin_opener_policy: HeaderValue::from_static("same-origin"),
             cross_origin_resource_policy: HeaderValue::from_static("same-origin"),
             origin_agent_cluster: HeaderValue::from_static("?1"),
@@ -97,10 +96,6 @@ pub async fn response_headers(request: Request, next: Next) -> Response {
     headers.insert(
         header::CONTENT_SECURITY_POLICY,
         RESPONSE_HEADERS.content_security_policy.clone(),
-    );
-    headers.insert(
-        HeaderName::from_static("clear-site-data"),
-        RESPONSE_HEADERS.clear_site_data.clone(),
     );
     headers.insert(
         HeaderName::from_static("cross-origin-opener-policy"),
