@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use axum::http::{header, Method};
+use axum::http::{Method, header};
 use axum::{
     extract::{Request, State},
     middleware::Next,
@@ -51,10 +51,10 @@ pub async fn auth(
         Ok(_) => (),
         Err(_) => {
             log::trace!("auth middleware finished with too many requests");
-            return Err(ApiError::TooManyRequests(
-                "Too many resets today (；′⌒`)".to_string(),
-            )
-            .into_response());
+            return Err(
+                ApiError::TooManyRequests("Too many resets today (；′⌒`)".to_string())
+                    .into_response(),
+            );
         }
     };
 
