@@ -5,6 +5,8 @@ client-server/target/
 
 api-server/target/
 api-server/.env
+api-server/cache/*
+!api-server/cache/.gitkeep
 
 target/
 node_modules/

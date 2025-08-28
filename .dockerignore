@@ -3,9 +3,7 @@
 target/
 node_modules/
 
-backend-v1/
-backend-v2/server/target/
+api-server/cache/
 
-frontend/client/dist/
-frontend/client/node_modules/
-frontend/server/target
+client-app/dist/
+client-app/node_modules/
