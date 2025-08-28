@@ -8,7 +8,6 @@ import FilePondPluginFilePoster from 'filepond-plugin-file-poster'
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 import axios from 'axios'
 import 'filepond/dist/filepond.min.css'
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
@@ -24,7 +23,6 @@ declare module 'filepond' {
 
 registerPlugin(
    FilePondPluginImageExifOrientation,
-   FilePondPluginImagePreview,
    FilePondPluginFileEncode,
    FilePondPluginFileValidateSize,
    FilePondPluginFileValidateType,
