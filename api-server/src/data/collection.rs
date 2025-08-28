@@ -58,7 +58,6 @@ impl MovieCollection {
     pub async fn reset_collection(&self, movies: &Vec<MovieModel>) -> anyhow::Result<()> {
         log::trace!("Resetting movie collection");
         self.collection.delete_many(doc! {}).await?;
-        log::debug!("Movies to insert: {}", movies.len());
         self.collection.insert_many(movies).await?;
         log::trace!("Movie collection reset");
         Ok(())

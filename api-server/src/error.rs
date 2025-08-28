@@ -19,6 +19,12 @@ pub enum ApiError {
 
     #[error("Validation error: {0}")]
     ValidationError(validator::ValidationErrors),
+
+    #[error("Invalid credentials: {0}")]
+    Unauthorized(String),
+
+    #[error("Too many requests: {0}")]
+    TooManyRequests(String),
 }
 
 impl From<anyhow::Error> for ApiError {
@@ -58,6 +64,8 @@ impl IntoResponse for ApiError {
             Self::NotFound(err) => Self::not_found(err),
             Self::InternalServerError(err) => Self::internal_server_error(err),
             Self::ValidationError(err) => Self::validation_error(err),
+            Self::Unauthorized(err) => Self::unauthorized(err),
+            Self::TooManyRequests(err) => Self::too_many_requests(err),
         }
     }
 }
@@ -70,7 +78,7 @@ impl ApiError {
                 "status": "error",
                 "error": {
                     "type": "BAD_REQUEST",
-                    "details": message
+                    "message": message
                 }
             })),
         )
@@ -84,7 +92,7 @@ impl ApiError {
                 "status": "error",
                 "error": {
                     "type": "NOT_FOUND",
-                    "details": message
+                    "message": message
                 }
             })),
         )
@@ -126,7 +134,7 @@ impl ApiError {
                 "status": "error",
                 "error": {
                     "type": "VALIDATION_ERROR",
-                    "details": error_details
+                    "message": error_details
                 }
             })),
         )
@@ -141,7 +149,35 @@ impl ApiError {
                 "status": "error",
                 "error": {
                     "type": "INTERNAL_SERVER_ERROR",
-                    "details": "An error occured"
+                    "message": "An error occured"
+                }
+            })),
+        )
+            .into_response()
+    }
+
+    fn unauthorized(message: String) -> Response {
+        (
+            StatusCode::UNAUTHORIZED,
+            Json(json!({
+                "status": "error",
+                "error": {
+                    "type": "UNAUTHORIZED",
+                    "message": message
+                }
+            })),
+        )
+            .into_response()
+    }
+
+    fn too_many_requests(message: String) -> Response {
+        (
+            StatusCode::TOO_MANY_REQUESTS,
+            Json(json!({
+                "status": "error",
+                "error": {
+                    "type": "TOO_MANY_REQUESTS",
+                    "message": message
                 }
             })),
         )
@@ -158,7 +194,7 @@ pub async fn handle_timeout(err: Box<dyn std::error::Error + Send + Sync>) -> im
                 "status": "error",
                 "error": {
                     "type": "REQUEST_TIMEOUT",
-                    "details": "Request took too long"
+                    "message": "Request took too long"
                 }
             })),
         );
@@ -171,7 +207,7 @@ pub async fn handle_timeout(err: Box<dyn std::error::Error + Send + Sync>) -> im
             "status": "error",
             "error": {
                 "type": "INTERNAL_SERVER_ERROR",
-                "details": "An error occured"
+                "message": "An error occured"
             }
         })),
     )

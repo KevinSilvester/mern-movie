@@ -12,7 +12,7 @@ use axum::Router;
 use axum::error_handling::HandleErrorLayer;
 use axum::extract::Json;
 use axum::http::{Method, StatusCode, Uri, header};
-use axum::middleware::from_fn;
+use axum::middleware::{from_fn, from_fn_with_state};
 use axum::response::IntoResponse;
 use clap::Parser;
 use mimalloc::MiMalloc;
@@ -95,8 +95,9 @@ async fn main() -> anyhow::Result<()> {
         // the `Clone` trait
         // .layer(RateLimitLayer::new(100, Duration::from_secs(60)))
         .layer(RequestBodyLimitLayer::new(20 << 20))
-        .layer(from_fn(middleware::logger))
+        .layer(from_fn_with_state(state.clone(), middleware::auth))
         .layer(from_fn(middleware::response_headers))
+        .layer(from_fn(middleware::logger))
         .with_state(state);
 
     log::info!("Server staring on address: http://{}", args.socket_addr());
@@ -117,7 +118,7 @@ async fn fallback(uri: Uri) -> impl IntoResponse {
             "status": "error",
             "error": {
                 "type": "NOT_FOUND",
-                "details": message
+                "message": message
             }
         })),
     )

@@ -10,7 +10,7 @@ use bson::Uuid;
 use serde_json::json;
 use validator::Validate;
 
-use crate::data::{MOVIE_RESET, MovieDTO, MovieModel, MovieQueryDTO};
+use crate::data::{MOVIE_RESET, MovieDTO, MovieModel, MovieQuery};
 use crate::utils;
 use crate::{error::ApiError, state::AppState};
 
@@ -61,12 +61,16 @@ async fn reset(State(state): State<Arc<AppState>>) -> Result<Response, ApiError>
 
     state.db.movies.reset_collection(&movies).await?;
 
+    let remaining = state.reset_quota.lock().remaining();
+
     log::trace!(">>>===Movies reset ===<<<");
     Ok((
         StatusCode::OK,
         Json(json!({
             "success": true,
-            "data": { "message": "Database Reset! ( •̀ ω •́ )✧" }
+            "data": {
+                "message": format!("{remaining} resets remaining for today! ( •̀ ω •́ )✧")
+            }
         })),
     )
         .into_response())
@@ -142,11 +146,11 @@ async fn create_movie(
 
 async fn list_movies(
     State(state): State<Arc<AppState>>,
-    OptionalQuery(query): OptionalQuery<MovieQueryDTO>,
+    OptionalQuery(query): OptionalQuery<MovieQuery>,
 ) -> Result<Response, ApiError> {
     log::trace!(">>>=== Listing movies ===<<<");
 
-    let payload = query.unwrap_or(MovieQueryDTO::default());
+    let payload = query.unwrap_or(MovieQuery::default());
     payload.validate()?;
 
     let movies = state

@@ -82,7 +82,7 @@ pub struct MovieDTO {
 }
 
 #[derive(Debug, Default, Deserialize, Validate)]
-pub struct MovieQueryDTO {
+pub struct MovieQuery {
     pub title: Option<String>,
 
     #[validate(custom(
