@@ -1,5 +1,6 @@
 import type { QueryClient } from 'react-query'
 import type { Params } from 'react-router-dom'
+import type { ApiResponseError, ApiResponseSuccess } from '@lib/types'
 import { useEffect, useMemo, useState } from 'react'
 import { useQuery } from 'react-query'
 import { Link, useLoaderData, useLocation } from 'react-router-dom'
@@ -7,6 +8,7 @@ import { useDebounce } from 'rooks'
 import queryString from 'query-string'
 import shallow from 'zustand/shallow'
 import { AnimatePresence, motion } from 'framer-motion'
+import { AxiosError } from 'axios'
 import produce from 'immer'
 import BackToTop from '@comp/BackToTop'
 import Card from '@comp/Card'
@@ -22,7 +24,7 @@ import useSearchParams from '@hooks/useSearchParams'
 import useStore from '@hooks/useStore'
 import { getAllMovies, resetDB } from '@lib/api'
 import theme from '@lib/theme'
-import { notifyError, notifySuccess } from '@lib/toaster'
+import { notifyLoading, updateLoading } from '@lib/toaster'
 
 export interface TQueryParams {
    title?: string
@@ -59,7 +61,7 @@ export const homeLoader =
    async ({ request }: TLoaderParam) => {
       const url = new URL(request.url)
       const params: TQueryParams = queryString.parse(url.search, {
-         arrayFormat: 'bracket',
+         arrayFormat: 'none',
          parseNumbers: true
       })
       if (!queryClient.getQueryData(['movies'])) {
@@ -109,7 +111,7 @@ const HomePage: React.FC = () => {
    const debounceSearch = useDebounce(refetch, 300)
 
    const watchScroll = () => {
-      setScrollOffset(getScroll())
+      setScrollOffset(location.pathname, getScroll())
    }
 
    useEffect(() => {
@@ -119,7 +121,9 @@ const HomePage: React.FC = () => {
       params.sort_by && setSortBy(params.sort_by)
       params.sort_order && setSortOrder(params.sort_order)
 
-      document.addEventListener('scroll', watchScroll)
+      setTimeout(() => {
+         document.addEventListener('scroll', watchScroll)
+      }, 100)
 
       return () => {
          document.removeEventListener('scroll', watchScroll)
@@ -127,10 +131,14 @@ const HomePage: React.FC = () => {
    }, [])
 
    useEffect(() => {
-      if (!isFetching && (scrollOffset.x !== 0 || scrollOffset.y !== 0)) {
+      const pos = scrollOffset[location.pathname]
+      if (!pos) {
+         return
+      }
+      if (!isFetching && (pos.x !== 0 || pos.y !== 0)) {
          window.scrollTo({
-            left: scrollOffset.x,
-            top: scrollOffset.y,
+            left: pos.x,
+            top: pos.y,
             behavior: 'smooth'
          })
       }
@@ -143,17 +151,29 @@ const HomePage: React.FC = () => {
    }
 
    const handleCloseModal = async (proceed: boolean) => {
-      setOpenModal(false)
-      if (!proceed) return
-      setIsResetting(true)
-      const res = await resetDB()
-      setIsResetting(false)
+      try {
+         setOpenModal(false)
+         if (!proceed) {
+            return
+         }
 
-      if (res.success) {
+         setIsResetting(true)
+         notifyLoading('Resetting Database... ༼ つ ◕_◕ ༽つ', { toastId: 'reset' })
+
+         const res = (await resetDB()) as ApiResponseSuccess<undefined>
+
+         setIsResetting(false)
          await resetSearch()
-         notifySuccess(res.data.message)
-      } else {
-         notifyError('Rest Failed! ⊙﹏⊙∥')
+         updateLoading('reset', res.data.message, true)
+      } catch (error) {
+         if (error instanceof AxiosError) {
+            const res = error.response?.data as ApiResponseError
+            console.error(res)
+            res.error.type === 'TOO_MANY_REQUESTS'
+               ? updateLoading('reset', res.error.message, false)
+               : updateLoading('reset', 'Rest Failed! ⊙﹏⊙∥', false)
+            setIsResetting(false)
+         }
       }
    }
 

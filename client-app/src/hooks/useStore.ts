@@ -14,10 +14,12 @@ interface Store {
    setSortOrder: (query?: 'asc' | 'desc') => void
    resetSearch: () => void
    scrollOffset: {
-      x: number
-      y: number
+      [locale: string]: {
+         x: number
+         y: number
+      }
    }
-   setScrollOffset: ({ x, y }: { x: number; y: number }) => void
+   setScrollOffset: (location: string, { x, y }: { x: number; y: number }) => void
 }
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -58,10 +60,13 @@ const useStore = create<Store>(
             sortOrder: undefined
          })),
 
-      scrollOffset: { x: 0, y: 0 },
-      setScrollOffset: ({ x, y }) =>
-         set(_state => ({
-            scrollOffset: { x, y }
+      scrollOffset: {},
+      setScrollOffset: (location, { x, y }) =>
+         set(state => ({
+            scrollOffset: {
+               ...state.scrollOffset,
+               [location]: { x, y }
+            }
          }))
    }))
 )

@@ -14,14 +14,14 @@ type ParsedParams = {
 
 function qsParse(param: string) {
    return queryString.parse(param, {
-      arrayFormat: 'bracket',
+      arrayFormat: 'none',
       parseNumbers: true
    }) as ParsedParams
 }
 
 function qsStringify(param: ParsedParams) {
    return queryString.stringify(param, {
-      arrayFormat: 'bracket',
+      arrayFormat: 'none',
       skipNull: true
    })
 }
