@@ -35,7 +35,9 @@ const PageContent: React.FC<{ movie?: Movie; isFetched: boolean }> = ({ movie, i
             <span className='text-xl font-bold dark:text-custom-white-100'>Genres</span>
             {isFetched ? (
                <div className='flex justify-start gap-1 flex-wrap'>
-                  {movie?.genres.map((genre, index) => <Pill key={index + genre}>{genre}</Pill>)}
+                  {movie?.genres.map((genre, index) => (
+                     <Pill key={index + genre}>{genre}</Pill>
+                  ))}
                </div>
             ) : (
                <TextSkeleton className='w-4/5 h-5' />
@@ -45,7 +47,9 @@ const PageContent: React.FC<{ movie?: Movie; isFetched: boolean }> = ({ movie, i
             <span className='text-xl font-bold dark:text-custom-white-100'>Actors</span>
             {isFetched ? (
                <div className='flex justify-start gap-1 flex-wrap'>
-                  {movie?.actors.map((actor, index) => <Pill key={index + actor}>{actor}</Pill>)}
+                  {movie?.actors.map((actor, index) => (
+                     <Pill key={index + actor}>{actor}</Pill>
+                  ))}
                </div>
             ) : (
                <TextSkeleton className='w-4/5 h-5' />
@@ -55,7 +59,9 @@ const PageContent: React.FC<{ movie?: Movie; isFetched: boolean }> = ({ movie, i
             <span className='text-xl font-bold dark:text-custom-white-100'>Director</span>
             {isFetched ? (
                <div className='flex justify-start gap-1 flex-wrap'>
-                  {movie?.directors.map((director, index) => <Pill key={index + director}>{director}</Pill>)}
+                  {movie?.directors.map((director, index) => (
+                     <Pill key={index + director}>{director}</Pill>
+                  ))}
                </div>
             ) : (
                <TextSkeleton className='w-2/5 h-5' />
@@ -66,6 +72,34 @@ const PageContent: React.FC<{ movie?: Movie; isFetched: boolean }> = ({ movie, i
             {isFetched ? (
                <div className='flex justify-start gap-1 flex-wrap'>
                   <Pill>{runtime}</Pill>
+               </div>
+            ) : (
+               <TextSkeleton className='w-1/5 h-5' />
+            )}
+         </section>
+         <section aria-label='Runtime Section' className='mt-3'>
+            <span className='text-xl font-bold dark:text-custom-white-100'>Budget</span>
+            {isFetched ? (
+               <div className='flex justify-start gap-1 flex-wrap'>
+                  <Pill>
+                     {movie?.tmdb.found
+                        ? movie?.tmdb.budget?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                        : 'N/A'}
+                  </Pill>
+               </div>
+            ) : (
+               <TextSkeleton className='w-1/5 h-5' />
+            )}
+         </section>
+         <section aria-label='Runtime Section' className='mt-3'>
+            <span className='text-xl font-bold dark:text-custom-white-100'>Revenue</span>
+            {isFetched ? (
+               <div className='flex justify-start gap-1 flex-wrap'>
+                  <Pill>
+                     {movie?.tmdb.found
+                        ? movie?.tmdb.revenue?.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+                        : 'N/A'}
+                  </Pill>
                </div>
             ) : (
                <TextSkeleton className='w-1/5 h-5' />
