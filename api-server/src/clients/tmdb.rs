@@ -225,7 +225,7 @@ impl TMDBClient {
             .append_pair("language", "en-US")
             .append_pair("include_adult", "false")
             .append_pair("query", title)
-            .append_pair("primary_release_year", &year.to_string());
+            .append_pair("year", &year.to_string());
 
         let response = self.client.get(url).send().await?;
 
