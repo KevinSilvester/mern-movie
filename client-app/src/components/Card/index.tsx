@@ -26,7 +26,7 @@ const Card: React.FC<{ movie: MovieTitle }> = ({ movie }) => {
             <img
                src={
                   movie.poster_uploaded
-                     ? `https://mern-movie-posters.kevins.site/${movie._id}`
+                     ? `https://moviedb-posters.kevins.site/${movie._id}`
                      : nullThenUndefined(movie.tmdb.poster_path)
                }
                alt={movie.title}

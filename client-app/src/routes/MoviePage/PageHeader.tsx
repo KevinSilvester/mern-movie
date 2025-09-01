@@ -88,7 +88,7 @@ const PageHeader: React.FC<{ movie?: Movie; isFetched: boolean }> = ({ movie, is
                      title={movie?.title as string}
                      src={
                         movie?.poster_uploaded
-                           ? `https://mern-movie-posters.kevins.site/${movie._id}`
+                           ? `https://moviedb-posters.kevins.site/${movie._id}`
                            : nullThenUndefined(movie?.tmdb.poster_path || null)
                      }
                      fallback={FALLBACK_POSTER}

@@ -88,7 +88,7 @@ const EditPage: React.FC = () => {
             directors: [...(movie?.directors as string[])],
             runtime: movie?.runtime as number,
             poster_uploaded: movie.poster_uploaded,
-            poster_string: movie.poster_uploaded ? `https://mern-movie-posters.kevins.site/${movie._id}` : tmdbPoster
+            poster_string: movie.poster_uploaded ? `https://moviedb-posters.kevins.site/${movie._id}` : tmdbPoster
          })
       }
    }, [res])

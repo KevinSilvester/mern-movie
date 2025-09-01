@@ -7,7 +7,7 @@ import queryString from 'query-string'
 export const API_URL = import.meta.env.VITE_API_URL as string
 
 export const API = axios.create({ baseURL: API_URL })
-export const FALLBACK_POSTER = 'https://mern-movie-posters.kevins.site/no-image-placeholder.png'
+export const FALLBACK_POSTER = 'https://moviedb-posters.kevins.site/no-image-placeholder.png'
 
 export const getAllMovies = async (paramObj: TQueryParams) => {
    const searchParams = queryString.stringify(paramObj, {

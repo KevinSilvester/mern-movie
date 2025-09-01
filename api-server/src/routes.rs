@@ -201,7 +201,7 @@ async fn update_movie(
 
     match &payload.poster_string {
         Some(s) if (s.starts_with("http") && s.ends_with("/tmdb-poster")) => {}
-        Some(s) if s.starts_with("https://mern-movie-posters.kevins.site/") => {}
+        Some(s) if s.starts_with("https://moviedb-posters.kevins.site/") => {}
         Some(s) if s.starts_with("data:image/") => {
             let (img_bytes, img_mime_type) = utils::parse_data_url(s)?;
             state
