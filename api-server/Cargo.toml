@@ -5,30 +5,30 @@ edition = { workspace = true }
 
 [dependencies]
 anyhow = { workspace = true }
-aws-config = { version = "1.8.5", features = ["behavior-version-latest"] }
-aws-sdk-s3 = { version = "1.103.0", features = ["behavior-version-latest"] }
+aws-config = { version = "1.8.6", features = ["behavior-version-latest"] }
+aws-sdk-s3 = { version = "1.106.0", features = ["behavior-version-latest"] }
 axum = { workspace = true }
 axum-client-ip = { workspace = true }
 axum-extra = { version = "0.10.1", features = ["query"] }
 base64 = "0.22.1"
 bincode = { version = "2.0.1", features = ["serde"], optional = true }
 bson = { version = "2.15.0", features = ["chrono-0_4"] }
-chrono = { version = "0.4.41", features = ["serde"] }
+chrono = { version = "0.4.42", features = ["serde"] }
 clap = { workspace = true, features = ["derive", "env"] }
 dotenv = "0.15.0"
 futures = "0.3.31"
 log = { workspace = true }
-mimalloc = { workspace = true, features = ["secure"] }
+mimalloc = { workspace = true }
 moka = { version = "0.12.10", features = ["future"] }
-mongodb = "3.2.4"
+mongodb = "3.3.0"
 parking_lot = "0.12.4"
 reqwest = { version = "0.12.23", default-features = false, features = [
    "json",
    "rustls-tls",
 ] }
-serde = { version = "1.0.219", features = ["derive"] }
-serde_json = "1.0.142"
-thiserror = "2.0.15"
+serde = { version = "1.0.226", features = ["derive"] }
+serde_json = "1.0.145"
+thiserror = "2.0.16"
 tokio = { workspace = true, features = [
    "net",
    "rt-multi-thread",
@@ -53,7 +53,7 @@ tracing-subscriber = { workspace = true, features = [
    "time",
    "json",
 ] }
-url = "2.5.4"
+url = "2.5.7"
 validator = { version = "0.20.0", features = ["derive"] }
 
 [features]
