@@ -14,12 +14,12 @@ use axum::extract::Json;
 use axum::http::{Method, StatusCode, Uri, header};
 use axum::middleware::{from_fn, from_fn_with_state};
 use axum::response::IntoResponse;
+use axum_client_ip::ClientIpSource;
 use clap::Parser;
 use mimalloc::MiMalloc;
 use serde_json::json;
 use tokio::net::TcpListener;
 use tower::ServiceBuilder;
-// use tower::limit::RateLimitLayer;
 use tower_http::catch_panic::CatchPanicLayer;
 use tower_http::compression::CompressionLayer;
 use tower_http::cors::{Any, CorsLayer};
@@ -91,13 +91,11 @@ async fn main() -> anyhow::Result<()> {
                 .layer(HandleErrorLayer::new(error::handle_timeout))
                 .timeout(Duration::from_secs(60)),
         )
-        // can't compile as the inner `RateLimit` struct doesn't implement
-        // the `Clone` trait
-        // .layer(RateLimitLayer::new(100, Duration::from_secs(60)))
-        .layer(RequestBodyLimitLayer::new(20 << 20))
+        .layer(RequestBodyLimitLayer::new(6 << 20))
         .layer(from_fn_with_state(state.clone(), middleware::auth))
         .layer(from_fn(middleware::response_headers))
         .layer(from_fn(middleware::logger))
+        .layer(ClientIpSource::from(args.ip_source.clone()).into_extension())
         .with_state(state);
 
     log::info!("Server staring on address: http://{}", args.socket_addr());

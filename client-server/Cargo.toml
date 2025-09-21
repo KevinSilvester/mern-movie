@@ -6,11 +6,12 @@ edition = { workspace = true }
 [dependencies]
 anyhow = { workspace = true }
 axum = { workspace = true }
+axum-client-ip = { workspace = true }
 clap = { workspace = true, features = ["derive", "env"] }
 log = { workspace = true }
 mimalloc = { workspace = true, features = ["secure"] }
 tokio = { workspace = true, features = ["net", "rt-multi-thread", "macros"] }
-tower = { workspace = true, features = ["limit", "timeout"] }
+tower = { workspace = true, features = ["timeout"] }
 tower-http = { workspace = true, features = [
    "add-extension",
    "catch-panic",
@@ -18,7 +19,6 @@ tower-http = { workspace = true, features = [
    "decompression-full",
    "compression-full",
    "fs",
-   "limit",
    "trace",
 ] }
 tracing = { workspace = true }

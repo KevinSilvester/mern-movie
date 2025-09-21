@@ -34,4 +34,4 @@ WORKDIR /app
 COPY --from=client_build /app/client-app/dist ./static/
 COPY --from=server_build /app/target/release/moviedb-client-server ./server
 EXPOSE 3001/tcp
-ENTRYPOINT ["./server", "--log-level=info", "--log-format=plain", "static"]
+ENTRYPOINT ["./server", "--log-level=info", "--log-format=plain", "--ip-source=cf-connecting-ip", "static"]

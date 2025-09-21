@@ -1,10 +1,11 @@
 use std::sync::LazyLock;
-use std::{net::SocketAddr, time::Instant};
+use std::time::Instant;
 
-use axum::extract::{ConnectInfo, Request};
+use axum::extract::Request;
 use axum::http::{HeaderName, HeaderValue, header};
 use axum::middleware::Next;
 use axum::response::Response;
+use axum_client_ip::ClientIp;
 
 #[derive(Debug)]
 pub struct ResponseHeaders {
@@ -144,11 +145,7 @@ pub async fn response_headers(request: Request, next: Next) -> Response {
     response
 }
 
-pub async fn logger(
-    ConnectInfo(addr): ConnectInfo<SocketAddr>,
-    request: Request,
-    next: Next,
-) -> Response {
+pub async fn logger(ClientIp(ip): ClientIp, request: Request, next: Next) -> Response {
     // Start timing the request
     let start = Instant::now();
 
@@ -169,11 +166,11 @@ pub async fn logger(
             tracing::event!(
                 target:"REQUEST",
                 tracing::Level::INFO,
+                %ip,
                 status = response.status().as_str(),
                 %method,
                 path,
                 version,
-                ip = addr.ip().to_string(),
                 user_agent,
                 ?latency,
             );
@@ -182,11 +179,11 @@ pub async fn logger(
             tracing::event!(
                 target:"REQUEST",
                 tracing::Level::WARN,
+                %ip,
                 status = response.status().as_str(),
                 %method,
                 path,
                 version,
-                ip = addr.ip().to_string(),
                 user_agent,
                 ?latency,
             );
@@ -195,11 +192,11 @@ pub async fn logger(
             tracing::event!(
                 target:"REQUEST",
                 tracing::Level::ERROR,
+                %ip,
                 status = response.status().as_str(),
                 %method,
                 path,
                 version,
-                ip = addr.ip().to_string(),
                 user_agent,
                 ?latency,
             );

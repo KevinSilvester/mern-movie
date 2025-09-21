@@ -10,7 +10,7 @@ use axum::error_handling::HandleErrorLayer;
 use axum::http::{Method, StatusCode, Uri};
 use axum::middleware::from_fn;
 use axum::response::IntoResponse;
-use axum::routing::get_service;
+use axum_client_ip::ClientIpSource;
 use clap::Parser;
 use mimalloc::MiMalloc;
 use tokio::net::TcpListener;
@@ -19,7 +19,6 @@ use tower_http::catch_panic::CatchPanicLayer;
 use tower_http::compression::CompressionLayer;
 use tower_http::cors::CorsLayer;
 use tower_http::decompression::DecompressionLayer;
-use tower_http::limit::RequestBodyLimitLayer;
 use tower_http::services::ServeDir;
 use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
@@ -59,8 +58,7 @@ async fn main() -> anyhow::Result<()> {
 
     let app = Router::new()
         .fallback(fallback)
-        .fallback_service(ServeDir::new(args.static_dir.clone()))
-        .nest_service("/a", get_service(ServeDir::new(args.static_dir.clone())))
+        .fallback_service(ServeDir::new(&args.static_dir))
         .layer(CorsLayer::new().allow_methods([Method::GET, Method::HEAD]))
         .layer(CompressionLayer::new())
         .layer(DecompressionLayer::new())
@@ -70,9 +68,9 @@ async fn main() -> anyhow::Result<()> {
                 .layer(HandleErrorLayer::new(handle_timeout))
                 .timeout(Duration::from_secs(5)),
         )
-        .layer(RequestBodyLimitLayer::new(20 << 20))
         .layer(from_fn(middleware::logger))
-        .layer(from_fn(middleware::response_headers));
+        .layer(from_fn(middleware::response_headers))
+        .layer(ClientIpSource::from(args.ip_source.clone()).into_extension());
 
     log::info!("Server staring on address: http://{}", args.socket_addr());
 

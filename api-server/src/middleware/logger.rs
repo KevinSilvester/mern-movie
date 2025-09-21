@@ -1,14 +1,11 @@
-use std::{net::SocketAddr, time::Instant};
+use std::time::Instant;
 
-use axum::extract::{ConnectInfo, Request};
+use axum::extract::Request;
 use axum::middleware::Next;
 use axum::response::Response;
+use axum_client_ip::ClientIp;
 
-pub async fn logger(
-    ConnectInfo(addr): ConnectInfo<SocketAddr>,
-    request: Request,
-    next: Next,
-) -> Response {
+pub async fn logger(ClientIp(ip): ClientIp, request: Request, next: Next) -> Response {
     // Start timing the request
     let start = Instant::now();
 
@@ -29,11 +26,11 @@ pub async fn logger(
             tracing::event!(
                 target:"REQUEST",
                 tracing::Level::INFO,
+                %ip,
                 status = response.status().as_str(),
                 %method,
                 path,
                 version,
-                ip = addr.ip().to_string(),
                 user_agent,
                 ?latency,
             );
@@ -42,11 +39,11 @@ pub async fn logger(
             tracing::event!(
                 target:"REQUEST",
                 tracing::Level::WARN,
+                %ip,
                 status = response.status().as_str(),
                 %method,
                 path,
                 version,
-                ip = addr.ip().to_string(),
                 user_agent,
                 ?latency,
             );
@@ -55,11 +52,11 @@ pub async fn logger(
             tracing::event!(
                 target:"REQUEST",
                 tracing::Level::ERROR,
+                %ip,
                 status = response.status().as_str(),
                 %method,
                 path,
                 version,
-                ip = addr.ip().to_string(),
                 user_agent,
                 ?latency,
             );
