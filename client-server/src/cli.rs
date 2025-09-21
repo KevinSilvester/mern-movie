@@ -109,7 +109,7 @@ pub struct Args {
         verbatim_doc_comment
     )]
     pub port: u16,
-    
+
     /// The client IP source to log.
     #[clap(long, default_value_t, value_enum, verbatim_doc_comment)]
     pub ip_source: SupportedClientIpSource,
