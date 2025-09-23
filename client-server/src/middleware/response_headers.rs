@@ -7,16 +7,22 @@ use axum::response::Response;
 
 const CSP_MAP: &[(&str, &str)] = &[
     ("default-src", "'self'"),
-    ("script-src", "'self'"),
+    ("script-src", "'self' 'unsafe-inline'"),
     ("script-src-attr", "'none'"),
-    ("style-src", "'self'"),
+    (
+        "style-src",
+        "'self' https://fonts.googleapis.com 'unsafe-inline'",
+    ),
     ("img-src", "'self' data: blob: *"),
+    ("connect-src", "'self' * data:"),
     ("object-src", "'self'"),
     ("media-src", "'self'"),
-    ("frame-src", "'self'"),
+    ("frame-src", "'self' https://www.youtube.com"),
+    ("worker-src", "'self' blob:"),
     ("frame-ancestors", "'self'"),
     ("base-uri", "'self'"),
     ("block-all-mixed-content", ""),
+    ("font-src", "'self' https://fonts.gstatic.com"),
     ("form-action", "'self'"),
     ("upgrade-insecure-requests", ""),
 ];
@@ -32,19 +38,11 @@ fn csp() -> String {
 static HEADER_MAP: LazyLock<HeaderMap> = LazyLock::new(|| {
     let mut headers = HeaderMap::new();
     headers.insert(
-        header::ACCESS_CONTROL_ALLOW_HEADERS,
-        HeaderValue::from_static("Content-Type, Authorization"),
-    );
-    headers.insert(
         header::ACCESS_CONTROL_ALLOW_METHODS,
-        HeaderValue::from_static("GET, POST, PUT, DELETE, OPTIONS"),
+        HeaderValue::from_static("GET, HEAD"),
     );
     headers.insert(
         header::ACCESS_CONTROL_ALLOW_ORIGIN,
-        HeaderValue::from_static("*"),
-    );
-    headers.insert(
-        header::ACCESS_CONTROL_EXPOSE_HEADERS,
         HeaderValue::from_static("*"),
     );
     headers.insert(
@@ -87,7 +85,6 @@ static HEADER_MAP: LazyLock<HeaderMap> = LazyLock::new(|| {
         header::X_FRAME_OPTIONS,
         HeaderValue::from_static("SAMEORIGIN"),
     );
-
     headers.insert(
         HeaderName::from_static("x-permitted-cross-domain-policies"),
         HeaderValue::from_static("none"),
