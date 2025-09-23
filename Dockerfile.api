@@ -1,5 +1,5 @@
 # Build server
-FROM lukemathwalker/cargo-chef:latest-rust-1.89.0-alpine AS server_base
+FROM lukemathwalker/cargo-chef:latest-rust-1.90.0-alpine AS server_base
 WORKDIR /app
 
 FROM server_base AS server_prepare
