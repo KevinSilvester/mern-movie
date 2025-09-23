@@ -9,7 +9,7 @@ axum = { workspace = true }
 axum-client-ip = { workspace = true }
 clap = { workspace = true, features = ["derive", "env"] }
 log = { workspace = true }
-mimalloc = { workspace = true }
+# mimalloc = { workspace = true }
 tokio = { workspace = true, features = ["net", "rt-multi-thread", "macros"] }
 tower = { workspace = true, features = ["timeout"] }
 tower-http = { workspace = true, features = [

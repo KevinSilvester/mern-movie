@@ -2592,7 +2592,6 @@ dependencies = [
  "axum-client-ip",
  "clap",
  "log",
- "mimalloc",
  "tokio",
  "tower",
  "tower-http",

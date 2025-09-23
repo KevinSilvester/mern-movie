@@ -12,7 +12,7 @@ use axum::middleware::from_fn;
 use axum::response::IntoResponse;
 use axum_client_ip::ClientIpSource;
 use clap::Parser;
-use mimalloc::MiMalloc;
+// use mimalloc::MiMalloc;
 use tokio::net::TcpListener;
 use tower::ServiceBuilder;
 use tower_http::catch_panic::CatchPanicLayer;
@@ -24,8 +24,9 @@ use tracing_subscriber::layer::SubscriberExt;
 use tracing_subscriber::util::SubscriberInitExt;
 use tracing_subscriber::{EnvFilter, fmt};
 
-#[global_allocator]
-static GLOBAL: MiMalloc = MiMalloc;
+// Disabled as MiMalloc isn't releasing memory with ServeDir
+// #[global_allocator]
+// static GLOBAL: MiMalloc = MiMalloc;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -58,7 +59,12 @@ async fn main() -> anyhow::Result<()> {
 
     let app = Router::new()
         .fallback(fallback)
-        .fallback_service(ServeDir::new(&args.static_dir))
+        .fallback_service(
+            ServeDir::new(&args.static_dir)
+                .precompressed_br()
+                .precompressed_zstd()
+                .precompressed_gzip(),
+        )
         .layer(CorsLayer::new().allow_methods([Method::GET, Method::HEAD]))
         .layer(CompressionLayer::new())
         .layer(DecompressionLayer::new())
