@@ -1,0 +1,19 @@
+services:
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    container_name: moviedb-client
+    restart: always
+    ports:
+      - "3001:3001"
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    container_name: moviedb-server
+    restart: always
+    ports:
+      - "3001:3001"
+    env_file: ./api-server/.env
