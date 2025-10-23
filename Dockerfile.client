@@ -9,12 +9,13 @@ RUN bun install --frozen-lockfile
 
 FROM client_base AS client_build
 COPY --from=client_install /app/node_modules node_modules
+COPY --from=client_install /app/client-app/node_modules client-app/node_modules
 COPY ./ .
 RUN NODE_ENV=production bun run -F moviedb-client-app build
 RUN apk add --no-cache zstd brotli gzip
-RUN cd client-app/dist && zstd -k -19 ./index.html ./assets/* 
-RUN cd client-app/dist && brotli -k -q 11 ./index.html ./assets/* 
-RUN cd client-app/dist && gzip -k -9 ./index.html ./assets/*
+RUN cd client-app/dist && zstd -k -19 ./index.html ./assets/*.svg ./assets/*.js ./assets/*.css
+RUN cd client-app/dist && brotli -k -q 11 ./index.html ./assets/*.svg ./assets/*.js ./assets/*.css
+RUN cd client-app/dist && gzip -k -9 ./index.html ./assets/*.svg ./assets/*.js ./assets/*.css
 
 # Build server
 FROM lukemathwalker/cargo-chef:latest-rust-1.90.0-alpine AS server_base
