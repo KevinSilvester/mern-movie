@@ -49,7 +49,5 @@ export const updateLoading = (id: React.ReactText, message: string, success: boo
       type: success ? toast.TYPE.SUCCESS : toast.TYPE.ERROR,
       isLoading: false,
       autoClose: autoClose || 3500,
-      className: `!rounded-md shadow-md !mb-1 lg:!mb-2 !h-14 !min-h-0 !bg-${success ? 'green' : 'red'}-50 !text-${
-         success ? 'green' : 'red'
-      }-400`
+      className: `!rounded-md shadow-md !mb-1 lg:!mb-2 !h-14 !min-h-0 !bg-${success ? 'green' : 'red'}-50 !text-${success ? 'green' : 'red'}-400`
    })
