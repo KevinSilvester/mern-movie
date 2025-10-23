@@ -10,6 +10,10 @@ const CSP_MAP: &[(&str, &str)] = &[
     ("script-src", "'self' 'unsafe-inline'"),
     ("script-src-attr", "'none'"),
     (
+        "script-src-elem",
+        "'self' https://static.cloudflareinsights.com 'unsafe-inline'",
+    ),
+    (
         "style-src",
         "'self' https://fonts.googleapis.com 'unsafe-inline'",
     ),
